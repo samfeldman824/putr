@@ -1,0 +1,60 @@
+
+.leaderboard-container {
+    display: flex;
+    flex-direction: column;  
+    background-color: #fff;
+    border: 1vh solid #ddd;
+    padding: 1vh;
+    margin: 1vh;
+    box-shadow: 0 0 1vh rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+
+.leaderboard-table tr:nth-child(even) {
+    background-color: lightgrey;
+}
+
+.flag-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 6vw; */
+}
+
+.player-flag {
+    width: 5vw;
+    margin: 1%;
+    padding: 1vh;
+}
+
+.player-putr {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.player-net {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.player-name {
+    font-size: 2rem;
+    text-align: center;
+}
+
+#table-header th {
+    background-color: #007BFF;
+    color: #fff;
+    font-weight: bold;
+    padding: 2vh;
+    text-align: center;
+}
+
+body {
+    background-color: #f0f0f0;
+}
