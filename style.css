@@ -2,7 +2,7 @@
 .leaderboard-container {
     display: flex;
     flex-direction: column;  
-    background-color: #fff;
+    
     border: 1vh solid #ddd;
     padding: 1vh;
     margin: 1vh;
@@ -12,11 +12,26 @@
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    margin: 1%;
     
 }
 
-.leaderboard-table tr:nth-child(even) {
+.leaderboard-table tbody tr:nth-child(even) {
     background-color: lightgrey;
+}
+
+.leaderboard-table tbody tr:nth-child(odd) {
+    background-color: white;
+}
+
+.Leaderboard-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 .flag-container {
@@ -28,8 +43,10 @@
 
 .player-flag {
     width: 5vw;
-    margin: 1%;
-    padding: 1vh;
+    margin: 1.5%;
+    /* border: 0.2vh solid black; */
+    box-shadow: 0 0 0.2vh 0.2vh rgba(243, 243, 243, 0.5);
+    
 }
 
 .player-putr {
