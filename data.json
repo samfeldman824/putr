@@ -2,7 +2,7 @@
     {
       "flag": "flags/hong-kong.png",
       "name": "Chun Lam",
-      "putr": 13.01,
+      "putr": 13.11,
       "net": 0.00
     },
     {
@@ -32,7 +32,7 @@
     {
       "flag": "flags/mexico.png",
       "name": "Noah Hernandez",
-      "putr": 11.80,
+      "putr": 11.99,
       "net": 0.00
     },
     {
@@ -40,6 +40,49 @@
       "name": "Zander Bravo",
       "putr": 11.50,
       "net": 0.00
+    },
+
+    {
+        "flag": "flags/france.png",
+        "name": "Nico Laffont",
+        "putr": 10.00,
+        "net": 0.00
+    },
+
+    {
+        "flag": "flags/taiwan.png",
+        "name": "James Lian",
+        "putr": 8.00,
+        "net": 0.00
+    },
+
+    {
+        "flag": "flags/puerto-rico.png",
+        "name": "George Bader",
+        "putr": 11.90,
+        "net": 0.00
+    },
+
+    {
+        "flag": "flags/us.png",
+        "name": "Oliver Worth",
+        "putr": 12.32,
+        "net": 0.00
+    },
+
+    {
+        "flag": "flags/russia.png",
+        "name": "Tim Dhurinskiy",
+        "putr": 12.10,
+        "net": 0.00
+    },
+    
+    {
+        "flag": "flags/ukraine.png",
+        "name": "Alex Finkelstein",
+        "putr": 8.00,
+        "net": 0.00
     }
+
   ]
   

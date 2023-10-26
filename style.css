@@ -2,7 +2,6 @@
 .leaderboard-container {
     display: flex;
     flex-direction: column;  
-    
     border: 1vh solid #ddd;
     padding: 1vh;
     margin: 1vh;
@@ -16,6 +15,7 @@
     margin: 1%;
     
 }
+
 
 .leaderboard-table tbody tr:nth-child(even) {
     background-color: lightgrey;
@@ -45,7 +45,7 @@
     width: 5vw;
     margin: 1.5%;
     /* border: 0.2vh solid black; */
-    box-shadow: 0 0 0.2vh 0.2vh rgba(243, 243, 243, 0.5);
+    /* box-shadow: 0 0 0.2vh 0.2vh rgba(243, 243, 243, 0.5); */
     
 }
 
