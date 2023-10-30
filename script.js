@@ -16,7 +16,7 @@ function populateTable() {
           tableBody.appendChild(row);
         });
 
-        sortTableByPutr()
+        sortTableByNet()
 
       })
       .catch((error) => {
@@ -32,6 +32,28 @@ function sortTableByPutr() {
     rows.sort((a, b) => {
       const aValue = parseFloat(a.querySelector('.player-putr').textContent);
       const bValue = parseFloat(b.querySelector('.player-putr').textContent);
+      return bValue - aValue; // Sort in descending order
+    });
+  
+    // Clear the table
+    while (tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
+    }
+  
+    // Re-add the sorted rows
+    rows.forEach((row) => {
+      tbody.appendChild(row);
+    });
+  }
+
+  function sortTableByNet() {
+    const table = document.getElementById("leaderboard-table");
+    const tbody = table.getElementsByTagName('tbody')[0];
+    const rows = Array.from(tbody.getElementsByTagName('tr'));
+  
+    rows.sort((a, b) => {
+      const aValue = parseFloat(a.querySelector('.player-net').textContent);
+      const bValue = parseFloat(b.querySelector('.player-net').textContent);
       return bValue - aValue; // Sort in descending order
     });
   
