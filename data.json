@@ -1,88 +1,116 @@
 [
-    {
-      "flag": "flags/hong-kong.png",
-      "name": "Chun Lam",
-      "putr": 13.23,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/israel.png",
-      "name": "Sam Feldman",
-      "putr": 12.88,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/south-africa.png",
-      "name": "Ross Cornelissen",
-      "putr": 12.34,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/south-korea.png",
-      "name": "Brian Chong",
-      "putr": 12.56,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/taiwan.png",
-      "name": "Alex Koong",
-      "putr": 12.31,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/mexico.png",
-      "name": "Noah Hernandez",
-      "putr": 11.99,
-      "net": 0.00
-    },
-    {
-      "flag": "flags/puerto-rico.png",
-      "name": "Zander Bravo",
-      "putr": 12.18,
-      "net": 0.00
-    },
-
-    {
-        "flag": "flags/france.png",
-        "name": "Nico Laffont",
-        "putr": 10.00,
-        "net": 0.00
-    },
-
-    {
-        "flag": "flags/taiwan.png",
-        "name": "James Lian",
-        "putr": 8.00,
-        "net": 0.00
-    },
-
-    {
-        "flag": "flags/puerto-rico.png",
-        "name": "George Bader",
-        "putr": 11.90,
-        "net": 0.00
-    },
-
-    {
-        "flag": "flags/us.png",
-        "name": "Oliver Worth",
-        "putr": 12.32,
-        "net": 0.00
-    },
-
-    {
-        "flag": "flags/russia.png",
-        "name": "Tim Dzhurinskiy",
-        "putr": 12.34,
-        "net": 0.00
-    },
-    
-    {
-        "flag": "flags/ukraine.png",
-        "name": "Alex Finkelstein",
-        "putr": 8.00,
-        "net": 0.00
-    }
-
-  ]
-  
+  {
+    "flag": "flags/hong-kong.png",
+    "name": "Chun Lam",
+    "putr": 13.23,
+    "net": 272.3699999999999,
+    "player_id": "-6-yYmPWx-",
+    "player_nicknames": [
+      "Chun"
+    ]
+  },
+  {
+    "flag": "flags/israel.png",
+    "name": "Sam Feldman",
+    "putr": 12.88,
+    "net": 140.34,
+    "player_id": "ug0-CrzeER",
+    "player_nicknames": [
+      "cito",
+      "slipperycito"
+    ]
+  },
+  {
+    "flag": "flags/south-africa.png",
+    "name": "Ross Cornelissen",
+    "putr": 12.34,
+    "net": 22.009999999999998,
+    "player_id": "",
+    "player_nicknames": [
+      "Rosstafarian",
+      "Ross",
+      "Rosstafarian 2"
+    ]
+  },
+  {
+    "flag": "flags/south-korea.png",
+    "name": "Brian Chong",
+    "putr": 12.56,
+    "net": 77.9,
+    "player_id": "",
+    "player_nicknames": [
+      "chong",
+      "Chong"
+    ]
+  },
+  {
+    "flag": "flags/taiwan.png",
+    "name": "Alex Koong",
+    "putr": 12.31,
+    "net": -77.07999999999998,
+    "player_id": "",
+    "player_nicknames": [
+      "Koong"
+    ]
+  },
+  {
+    "flag": "flags/mexico.png",
+    "name": "Noah Hernandez",
+    "putr": 11.99,
+    "net": -84.02,
+    "player_id": "",
+    "player_nicknames": [
+      "noah"
+    ]
+  },
+  {
+    "flag": "flags/puerto-rico.png",
+    "name": "Zander Bravo",
+    "putr": 12.18,
+    "net": -351.93000000000006,
+    "player_id": "",
+    "player_nicknames": [
+      "ODgoofyahhhh",
+      "ODgoofyahhh"
+    ]
+  },
+  {
+    "flag": "flags/taiwan.png",
+    "name": "James Lian",
+    "putr": 8,
+    "net": -5,
+    "player_id": "",
+    "player_nicknames": [
+      "james"
+    ]
+  },
+  {
+    "flag": "flags/puerto-rico.png",
+    "name": "George Bader",
+    "putr": 11.9,
+    "net": 0,
+    "player_id": "",
+    "player_nicknames": []
+  },
+  {
+    "flag": "flags/us.png",
+    "name": "Oliver Worth",
+    "putr": 12.32,
+    "net": -12.309999999999999,
+    "player_id": "",
+    "player_nicknames": [
+      "Oliver",
+      "Oliver Worth"
+    ]
+  },
+  {
+    "flag": "flags/russia.png",
+    "name": "Tim Dzhurinskiy",
+    "putr": 12.34,
+    "net": 41.6,
+    "player_id": "",
+    "player_nicknames": [
+      "Tim"
+    ]
+  }
+]
