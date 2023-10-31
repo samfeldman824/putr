@@ -3,7 +3,7 @@
     "flag": "flags/hong-kong.png",
     "name": "Chun Lam",
     "putr": 13.23,
-    "net": 272.3699999999999,
+    "net": 244.00999999999988,
     "player_id": "-6-yYmPWx-",
     "player_nicknames": [
       "Chun"
@@ -13,7 +13,7 @@
     "flag": "flags/israel.png",
     "name": "Sam Feldman",
     "putr": 12.88,
-    "net": 140.34,
+    "net": 180.15,
     "player_id": "ug0-CrzeER",
     "player_nicknames": [
       "cito",
@@ -24,7 +24,7 @@
     "flag": "flags/south-africa.png",
     "name": "Ross Cornelissen",
     "putr": 12.34,
-    "net": 22.009999999999998,
+    "net": 41.659999999999998,
     "player_id": "",
     "player_nicknames": [
       "Rosstafarian",
@@ -36,7 +36,7 @@
     "flag": "flags/south-korea.png",
     "name": "Brian Chong",
     "putr": 12.56,
-    "net": 77.9,
+    "net": 60.10000000000001,
     "player_id": "",
     "player_nicknames": [
       "chong",
@@ -47,7 +47,7 @@
     "flag": "flags/taiwan.png",
     "name": "Alex Koong",
     "putr": 12.31,
-    "net": -77.07999999999998,
+    "net": -45.30999999999999,
     "player_id": "",
     "player_nicknames": [
       "Koong"
@@ -57,7 +57,7 @@
     "flag": "flags/mexico.png",
     "name": "Noah Hernandez",
     "putr": 11.99,
-    "net": -84.02,
+    "net": -133.53,
     "player_id": "",
     "player_nicknames": [
       "noah"
@@ -67,7 +67,7 @@
     "flag": "flags/puerto-rico.png",
     "name": "Zander Bravo",
     "putr": 12.18,
-    "net": -351.93000000000006,
+    "net": -371.93000000000006,
     "player_id": "",
     "player_nicknames": [
       "ODgoofyahhhh",
@@ -96,7 +96,7 @@
     "flag": "flags/us.png",
     "name": "Oliver Worth",
     "putr": 12.32,
-    "net": -12.309999999999999,
+    "net": -8.909999999999998,
     "player_id": "",
     "player_nicknames": [
       "Oliver",
@@ -107,7 +107,7 @@
     "flag": "flags/russia.png",
     "name": "Tim Dzhurinskiy",
     "putr": 12.34,
-    "net": 41.6,
+    "net": 62.64,
     "player_id": "",
     "player_nicknames": [
       "Tim"
