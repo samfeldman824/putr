@@ -72,3 +72,4 @@ function sortTableByPutr() {
   window.addEventListener("load", () => {
     populateTable()
   });
+
