@@ -7,7 +7,8 @@
     "player_id": "-6-yYmPWx-",
     "player_nicknames": [
       "Chun"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/israel.png",
@@ -18,7 +19,8 @@
     "player_nicknames": [
       "cito",
       "slipperycito"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/south-africa.png",
@@ -30,7 +32,8 @@
       "Rosstafarian",
       "Ross",
       "Rosstafarian 2"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/south-korea.png",
@@ -41,7 +44,8 @@
     "player_nicknames": [
       "chong",
       "Chong"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/taiwan.png",
@@ -51,7 +55,8 @@
     "player_id": "",
     "player_nicknames": [
       "Koong"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/mexico.png",
@@ -61,7 +66,8 @@
     "player_id": "",
     "player_nicknames": [
       "noah"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/puerto-rico.png",
@@ -72,7 +78,8 @@
     "player_nicknames": [
       "ODgoofyahhhh",
       "ODgoofyahhh"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/taiwan.png",
@@ -82,7 +89,8 @@
     "player_id": "",
     "player_nicknames": [
       "james"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/puerto-rico.png",
@@ -90,7 +98,8 @@
     "putr": 11.11,
     "net": 0,
     "player_id": "",
-    "player_nicknames": []
+    "player_nicknames": [],
+    "games_played": []
   },
   {
     "flag": "flags/us.png",
@@ -101,7 +110,8 @@
     "player_nicknames": [
       "Oliver",
       "Oliver Worth"
-    ]
+    ],
+    "games_played": []
   },
   {
     "flag": "flags/russia.png",
@@ -111,6 +121,7 @@
     "player_id": "",
     "player_nicknames": [
       "Tim"
-    ]
+    ],
+    "games_played": []
   }
 ]
