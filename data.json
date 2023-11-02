@@ -3,7 +3,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 13.15,
-        "net": 276.3,
+        "net": 308.09000000000003,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -41,14 +41,15 @@
             "10_7(1)",
             "11_1",
             "9_26",
-            "9_29"
+            "9_29",
+            "11_2"
         ]
     },
     {
         "flag": "flags/israel.png",
         "name": "Sam Feldman",
         "putr": 12.93,
-        "net": 251.32,
+        "net": 258.62,
         "player_id": "ug0-CrzeER",
         "player_nicknames": [
             "cito",
@@ -76,7 +77,8 @@
             "10_31(1)",
             "10_7(2)",
             "11_1",
-            "9_29"
+            "9_29",
+            "11_2"
         ]
     },
     {
@@ -109,7 +111,7 @@
         "flag": "flags/south-korea.png",
         "name": "Brian Chong",
         "putr": 12.42,
-        "net": 20.099999999999998,
+        "net": 58.61,
         "player_id": "",
         "player_nicknames": [
             "chong",
@@ -134,14 +136,15 @@
             "10_30(1)",
             "11_1",
             "9_26",
-            "9_29"
+            "9_29",
+            "11_2"
         ]
     },
     {
         "flag": "flags/taiwan.png",
         "name": "Alex Koong",
         "putr": 12.19,
-        "net": -0.3400000000000105,
+        "net": -50.34000000000001,
         "player_id": "",
         "player_nicknames": [
             "Koong"
@@ -178,7 +181,8 @@
             "10_7(2)",
             "11_1",
             "9_26",
-            "9_29"
+            "9_29",
+            "11_2"
         ]
     },
     {
@@ -212,7 +216,7 @@
         "flag": "flags/puerto-rico.png",
         "name": "Zander Bravo",
         "putr": 11.21,
-        "net": -360.38000000000005,
+        "net": -390.38000000000005,
         "player_id": "",
         "player_nicknames": [
             "ODgoofyahhhh",
@@ -240,7 +244,8 @@
             "10_31(1)",
             "10_7(1)",
             "11_1",
-            "9_26"
+            "9_26",
+            "11_2"
         ]
     },
     {
@@ -276,7 +281,7 @@
         "flag": "flags/us.png",
         "name": "Oliver Worth",
         "putr": 11.82,
-        "net": -18.91,
+        "net": 3.4899999999999984,
         "player_id": "",
         "player_nicknames": [
             "Oliver",
@@ -288,14 +293,15 @@
             "10_25",
             "10_30",
             "10_31(1)",
-            "10_7(1)"
+            "10_7(1)",
+            "11_2"
         ]
     },
     {
         "flag": "flags/russia.png",
         "name": "Tim Dzhurinskiy",
         "putr": 11.83,
-        "net": 47.53999999999999,
+        "net": 27.539999999999992,
         "player_id": "",
         "player_nicknames": [
             "Tim"
@@ -309,7 +315,8 @@
             "10_31(1)",
             "10_7",
             "10_7(1)",
-            "11_1"
+            "11_1",
+            "11_2"
         ]
     }
 ]
