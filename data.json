@@ -1,127 +1,315 @@
 [
-  {
-    "flag": "flags/hong-kong.png",
-    "name": "Chun Lam",
-    "putr": 13.15,
-    "net": 244.00999999999988,
-    "player_id": "-6-yYmPWx-",
-    "player_nicknames": [
-      "Chun"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/israel.png",
-    "name": "Sam Feldman",
-    "putr": 12.93,
-    "net": 180.15,
-    "player_id": "ug0-CrzeER",
-    "player_nicknames": [
-      "cito",
-      "slipperycito"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/south-africa.png",
-    "name": "Ross Cornelissen",
-    "putr": 12.04,
-    "net": 41.659999999999998,
-    "player_id": "",
-    "player_nicknames": [
-      "Rosstafarian",
-      "Ross",
-      "Rosstafarian 2"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/south-korea.png",
-    "name": "Brian Chong",
-    "putr": 12.16,
-    "net": 60.10000000000001,
-    "player_id": "",
-    "player_nicknames": [
-      "chong",
-      "Chong"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/taiwan.png",
-    "name": "Alex Koong",
-    "putr": 11.99,
-    "net": -45.30999999999999,
-    "player_id": "",
-    "player_nicknames": [
-      "Koong"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/mexico.png",
-    "name": "Noah Hernandez",
-    "putr": 11.39,
-    "net": -133.53,
-    "player_id": "",
-    "player_nicknames": [
-      "noah"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/puerto-rico.png",
-    "name": "Zander Bravo",
-    "putr": 10.01,
-    "net": -371.93000000000006,
-    "player_id": "",
-    "player_nicknames": [
-      "ODgoofyahhhh",
-      "ODgoofyahhh"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/taiwan.png",
-    "name": "James Lian",
-    "putr": 10.17,
-    "net": -5,
-    "player_id": "",
-    "player_nicknames": [
-      "james"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/puerto-rico.png",
-    "name": "George Bader",
-    "putr": 11.11,
-    "net": 0,
-    "player_id": "",
-    "player_nicknames": [],
-    "games_played": []
-  },
-  {
-    "flag": "flags/us.png",
-    "name": "Oliver Worth",
-    "putr": 11.82,
-    "net": -8.909999999999998,
-    "player_id": "",
-    "player_nicknames": [
-      "Oliver",
-      "Oliver Worth"
-    ],
-    "games_played": []
-  },
-  {
-    "flag": "flags/russia.png",
-    "name": "Tim Dzhurinskiy",
-    "putr": 12.18,
-    "net": 62.64,
-    "player_id": "",
-    "player_nicknames": [
-      "Tim"
-    ],
-    "games_played": []
-  }
+    {
+        "flag": "flags/hong-kong.png",
+        "name": "Chun Lam",
+        "putr": 13.15,
+        "net": 276.3,
+        "player_id": "-6-yYmPWx-",
+        "player_nicknames": [
+            "Chun",
+            "chun",
+            "hun",
+            "Chun1"
+        ],
+        "games_played": [
+            "10_10",
+            "10_11",
+            "10_12(1)",
+            "10_15",
+            "10_16",
+            "10_17",
+            "10_17(1)",
+            "10_19",
+            "10_19(1)",
+            "10_19(2)",
+            "10_2",
+            "10_21",
+            "10_22",
+            "10_24",
+            "10_24(1)",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_27",
+            "10_30",
+            "10_30",
+            "10_30(1)",
+            "10_31(1)",
+            "10_31(3)",
+            "10_7",
+            "10_7(1)",
+            "11_1",
+            "9_26",
+            "9_29"
+        ]
+    },
+    {
+        "flag": "flags/israel.png",
+        "name": "Sam Feldman",
+        "putr": 12.93,
+        "net": 251.32,
+        "player_id": "ug0-CrzeER",
+        "player_nicknames": [
+            "cito",
+            "slipperycito"
+        ],
+        "games_played": [
+            "10_10",
+            "10_11",
+            "10_12",
+            "10_15",
+            "10_19",
+            "10_19(1)",
+            "10_21",
+            "10_24",
+            "10_24(1)",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_27",
+            "10_28",
+            "10_30",
+            "10_30(1)",
+            "10_31",
+            "10_31(1)",
+            "10_7(2)",
+            "11_1",
+            "9_29"
+        ]
+    },
+    {
+        "flag": "flags/south-africa.png",
+        "name": "Ross Cornelissen",
+        "putr": 11.76,
+        "net": 50.809999999999995,
+        "player_id": "",
+        "player_nicknames": [
+            "Rosstafarian",
+            "Ross",
+            "Rosstafarian 2"
+        ],
+        "games_played": [
+            "10_2",
+            "10_22",
+            "10_24",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_26(2)",
+            "10_30(1)",
+            "10_31(1)",
+            "10_7(1)",
+            "9_29"
+        ]
+    },
+    {
+        "flag": "flags/south-korea.png",
+        "name": "Brian Chong",
+        "putr": 12.42,
+        "net": 20.099999999999998,
+        "player_id": "",
+        "player_nicknames": [
+            "chong",
+            "Chong"
+        ],
+        "games_played": [
+            "10_11",
+            "10_12(1)",
+            "10_15",
+            "10_16",
+            "10_18",
+            "10_19(2)",
+            "10_2",
+            "10_21",
+            "10_24",
+            "10_24(1)",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_27",
+            "10_30(1)",
+            "11_1",
+            "9_26",
+            "9_29"
+        ]
+    },
+    {
+        "flag": "flags/taiwan.png",
+        "name": "Alex Koong",
+        "putr": 12.19,
+        "net": -0.3400000000000105,
+        "player_id": "",
+        "player_nicknames": [
+            "Koong"
+        ],
+        "games_played": [
+            "10_10",
+            "10_11",
+            "10_12",
+            "10_12(1)",
+            "10_16",
+            "10_17",
+            "10_17(1)",
+            "10_18",
+            "10_19",
+            "10_19(1)",
+            "10_19(2)",
+            "10_2",
+            "10_21",
+            "10_22",
+            "10_24",
+            "10_24(1)",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_27",
+            "10_28",
+            "10_30",
+            "10_30(1)",
+            "10_31(1)",
+            "10_31(3)",
+            "10_7",
+            "10_7(1)",
+            "10_7(2)",
+            "11_1",
+            "9_26",
+            "9_29"
+        ]
+    },
+    {
+        "flag": "flags/mexico.png",
+        "name": "Noah Hernandez",
+        "putr": 11.39,
+        "net": -185.51999999999998,
+        "player_id": "",
+        "player_nicknames": [
+            "noah",
+            "nnoah",
+            "noa",
+            "noahahahahahah"
+        ],
+        "games_played": [
+            "10_11",
+            "10_15",
+            "10_16",
+            "10_17(1)",
+            "10_2",
+            "10_22",
+            "10_25",
+            "10_30",
+            "10_30(1)",
+            "10_31(1)",
+            "11_1",
+            "9_26"
+        ]
+    },
+    {
+        "flag": "flags/puerto-rico.png",
+        "name": "Zander Bravo",
+        "putr": 11.21,
+        "net": -360.38000000000005,
+        "player_id": "",
+        "player_nicknames": [
+            "ODgoofyahhhh",
+            "ODgoofyahhh"
+        ],
+        "games_played": [
+            "10_10",
+            "10_11",
+            "10_12(1)",
+            "10_15",
+            "10_16",
+            "10_17(1)",
+            "10_18",
+            "10_19(2)",
+            "10_2",
+            "10_22",
+            "10_22",
+            "10_24(1)",
+            "10_25",
+            "10_26",
+            "10_26(1)",
+            "10_26(2)",
+            "10_30",
+            "10_31",
+            "10_31(1)",
+            "10_7(1)",
+            "11_1",
+            "9_26"
+        ]
+    },
+    {
+        "flag": "flags/taiwan.png",
+        "name": "James Lian",
+        "putr": 8.57,
+        "net": -5.0,
+        "player_id": "",
+        "player_nicknames": [
+            "james",
+            "James"
+        ],
+        "games_played": [
+            "10_18",
+            "10_19(1)"
+        ]
+    },
+    {
+        "flag": "flags/puerto-rico.png",
+        "name": "George Bader",
+        "putr": 11.11,
+        "net": -4.01,
+        "player_id": "",
+        "player_nicknames": [
+            "Bader"
+        ],
+        "games_played": [
+            "10_15",
+            "9_26"
+        ]
+    },
+    {
+        "flag": "flags/us.png",
+        "name": "Oliver Worth",
+        "putr": 11.82,
+        "net": -18.91,
+        "player_id": "",
+        "player_nicknames": [
+            "Oliver",
+            "Oliver Worth"
+        ],
+        "games_played": [
+            "10_10",
+            "10_24(1)",
+            "10_25",
+            "10_30",
+            "10_31(1)",
+            "10_7(1)"
+        ]
+    },
+    {
+        "flag": "flags/russia.png",
+        "name": "Tim Dzhurinskiy",
+        "putr": 11.83,
+        "net": 47.53999999999999,
+        "player_id": "",
+        "player_nicknames": [
+            "Tim"
+        ],
+        "games_played": [
+            "10_19(1)",
+            "10_19(2)",
+            "10_2",
+            "10_30(1)",
+            "10_31",
+            "10_31(1)",
+            "10_7",
+            "10_7(1)",
+            "11_1"
+        ]
+    }
 ]
