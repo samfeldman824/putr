@@ -324,5 +324,19 @@
             "11_1",
             "11_2"
         ]
+    },
+    {
+        "flag": "flags/china.png",
+        "name": "Matthew Mu",
+        "putr": 12.62,
+        "net": 0,
+        "player_id": "",
+        "player_nicknames": [
+            "Mu",
+            "Muu",
+            "Muu"
+        ],
+        "games_played": [
+        ]
     }
 ]
