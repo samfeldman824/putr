@@ -3,7 +3,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 13.15,
-        "net": 316.46000000000004,
+        "net": 251.06000000000003,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -42,6 +42,8 @@
             "10_7(1)",
             "11_1",
             "11_2",
+            "11_2(1)",
+            "11_4",
             "9_26",
             "9_29"
         ]
@@ -50,7 +52,7 @@
         "flag": "flags/israel.png",
         "name": "Sam Feldman",
         "putr": 12.93,
-        "net": 260.35,
+        "net": 293.68000000000006,
         "player_id": "ug0-CrzeER",
         "player_nicknames": [
             "cito",
@@ -80,7 +82,9 @@
             "10_7(2)",
             "11_1",
             "11_2",
+            "11_2(1)",
             "11_3",
+            "11_4",
             "9_29"
         ]
     },
@@ -88,7 +92,7 @@
         "flag": "flags/south-africa.png",
         "name": "Ross Cornelissen",
         "putr": 11.76,
-        "net": 50.85999999999999,
+        "net": 48.559999999999995,
         "player_id": "",
         "player_nicknames": [
             "Rosstafarian",
@@ -108,6 +112,7 @@
             "10_31(1)",
             "10_7(1)",
             "11_3",
+            "11_4",
             "9_29"
         ]
     },
@@ -329,14 +334,16 @@
         "flag": "flags/china.png",
         "name": "Matthew Mu",
         "putr": 12.62,
-        "net": 0,
+        "net": 7.17,
         "player_id": "",
         "player_nicknames": [
             "Mu",
             "Muu",
-            "Muu"
+            "Muuu"
         ],
         "games_played": [
+            "11_2(1)",
+            "11_4"
         ]
     }
 ]
