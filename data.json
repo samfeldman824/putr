@@ -3,7 +3,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 13.15,
-        "net": 251.06000000000003,
+        "net": 181.06000000000003,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -44,6 +44,7 @@
             "11_2",
             "11_2(1)",
             "11_4",
+            "11_6",
             "9_26",
             "9_29"
         ]
@@ -52,7 +53,7 @@
         "flag": "flags/israel.png",
         "name": "Sam Feldman",
         "putr": 12.93,
-        "net": 293.68000000000006,
+        "net": 298.58000000000004,
         "player_id": "ug0-CrzeER",
         "player_nicknames": [
             "cito",
@@ -85,6 +86,7 @@
             "11_2(1)",
             "11_3",
             "11_4",
+            "11_6",
             "9_29"
         ]
     },
@@ -92,7 +94,7 @@
         "flag": "flags/south-africa.png",
         "name": "Ross Cornelissen",
         "putr": 11.76,
-        "net": 48.559999999999995,
+        "net": 49.44,
         "player_id": "",
         "player_nicknames": [
             "Rosstafarian",
@@ -113,6 +115,7 @@
             "10_7(1)",
             "11_3",
             "11_4",
+            "11_6",
             "9_29"
         ]
     },
@@ -154,7 +157,7 @@
         "flag": "flags/taiwan.png",
         "name": "Alex Koong",
         "putr": 12.19,
-        "net": -50.24000000000001,
+        "net": 3.7199999999999918,
         "player_id": "",
         "player_nicknames": [
             "Koong"
@@ -192,6 +195,7 @@
             "11_1",
             "11_2",
             "11_3",
+            "11_6",
             "9_26",
             "9_29"
         ]
@@ -200,7 +204,7 @@
         "flag": "flags/mexico.png",
         "name": "Noah Hernandez",
         "putr": 11.39,
-        "net": -185.51999999999998,
+        "net": -177.76999999999998,
         "player_id": "",
         "player_nicknames": [
             "noah",
@@ -220,6 +224,7 @@
             "10_30(1)",
             "10_31(1)",
             "11_1",
+            "11_6",
             "9_26"
         ]
     },
@@ -227,7 +232,7 @@
         "flag": "flags/puerto-rico.png",
         "name": "Zander Bravo",
         "putr": 11.21,
-        "net": -390.38000000000005,
+        "net": -387.87000000000006,
         "player_id": "",
         "player_nicknames": [
             "ODgoofyahhhh",
@@ -256,6 +261,7 @@
             "10_7(1)",
             "11_1",
             "11_2",
+            "11_6",
             "9_26"
         ]
     },
