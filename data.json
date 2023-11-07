@@ -4,7 +4,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 13.06,
-        "net": 165.86000000000004,
+        "net": 165.86000000000007,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -51,10 +51,10 @@
             "9_26",
             "9_29"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 74.14,
+        "biggest_loss": -70.0,
+        "highest_net": 351.81,
+        "lowest_net": -190.42000000000002
     },
     {
         "id": 2,
@@ -98,17 +98,17 @@
             "11_7",
             "9_29"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 49.45,
+        "biggest_loss": -56.5,
+        "highest_net": 328.01000000000005,
+        "lowest_net": -8.88
     },
     {
         "id": 3,
         "flag": "flags/south-africa.png",
         "name": "Ross Cornelissen",
         "putr": 11.84,
-        "net": 61.92,
+        "net": 61.919999999999995,
         "player_id": "",
         "player_nicknames": [
             "Rosstafarian",
@@ -134,17 +134,17 @@
             "11_7",
             "9_29"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 23.95,
+        "biggest_loss": -20.0,
+        "highest_net": 61.919999999999995,
+        "lowest_net": -16.76
     },
     {
         "id": 4,
         "flag": "flags/south-korea.png",
         "name": "Brian Chong",
         "putr": 12.42,
-        "net": 47.209999999999994,
+        "net": 47.21,
         "player_id": "",
         "player_nicknames": [
             "chong",
@@ -175,17 +175,17 @@
             "9_26",
             "9_29"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 83.7,
+        "biggest_loss": -63.35,
+        "highest_net": 92.10000000000001,
+        "lowest_net": -43.26
     },
     {
         "id": 5,
         "flag": "flags/taiwan.png",
         "name": "Alex Koong",
         "putr": 12.32,
-        "net": 7.169999999999992,
+        "net": 7.169999999999966,
         "player_id": "",
         "player_nicknames": [
             "Koong"
@@ -228,10 +228,10 @@
             "9_26",
             "9_29"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 53.96,
+        "biggest_loss": -80.0,
+        "highest_net": 166.1,
+        "lowest_net": -167.67000000000002
     },
     {
         "id": 6,
@@ -262,17 +262,17 @@
             "11_7",
             "9_26"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 10.89,
+        "biggest_loss": -60.0,
+        "highest_net": 0.8900000000000006,
+        "lowest_net": -177.89999999999998
     },
     {
         "id": 7,
         "flag": "flags/puerto-rico.png",
         "name": "Zander Bravo",
         "putr": 11.34,
-        "net": -387.87000000000006,
+        "net": -387.87,
         "player_id": "",
         "player_nicknames": [
             "ODgoofyahhhh",
@@ -304,10 +304,10 @@
             "11_6",
             "9_26"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 20.85,
+        "biggest_loss": -42.84,
+        "highest_net": 8.9,
+        "lowest_net": -387.87
     },
     {
         "id": 8,
@@ -325,9 +325,9 @@
             "10_19(1)"
         ],
         "biggest_win": 0,
-        "biggest_loss": 0,
+        "biggest_loss": -5.0,
         "highest_net": 0,
-        "lowest_net": 0
+        "lowest_net": -5.0
     },
     {
         "id": 9,
@@ -344,16 +344,16 @@
             "9_26"
         ],
         "biggest_win": 0,
-        "biggest_loss": 0,
+        "biggest_loss": -2.38,
         "highest_net": 0,
-        "lowest_net": 0
+        "lowest_net": -4.01
     },
     {
         "id": 10,
         "flag": "flags/us.png",
         "name": "Oliver Worth",
         "putr": 11.82,
-        "net": 3.4899999999999984,
+        "net": 3.490000000000002,
         "player_id": "",
         "player_nicknames": [
             "Oliver",
@@ -368,17 +368,17 @@
             "10_7(1)",
             "11_2"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 22.4,
+        "biggest_loss": -19.13,
+        "highest_net": 22.919999999999998,
+        "lowest_net": -18.909999999999997
     },
     {
         "id": 11,
         "flag": "flags/russia.png",
         "name": "Tim Dzhurinskiy",
         "putr": 11.81,
-        "net": 17.539999999999992,
+        "net": 17.540000000000006,
         "player_id": "",
         "player_nicknames": [
             "Tim"
@@ -396,17 +396,17 @@
             "11_2",
             "11_6(1)"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 32.23,
+        "biggest_loss": -20.0,
+        "highest_net": 82.64,
+        "lowest_net": -10.0
     },
     {
         "id": 12,
         "flag": "flags/china.png",
         "name": "Matthew Mu",
         "putr": 12.62,
-        "net": 7.17,
+        "net": 1.7200000000000002,
         "player_id": "",
         "player_nicknames": [
             "Mu",
@@ -414,12 +414,14 @@
             "Muuu"
         ],
         "games_played": [
+            "10_31(1)",
+            "11_1",
             "11_2(1)",
             "11_4"
         ],
-        "biggest_win": 0,
-        "biggest_loss": 0,
-        "highest_net": 0,
-        "lowest_net": 0
+        "biggest_win": 4.55,
+        "biggest_loss": -10.0,
+        "highest_net": 4.55,
+        "lowest_net": -6.279999999999999
     }
 ]

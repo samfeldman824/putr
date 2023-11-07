@@ -11,12 +11,17 @@ const urlParams = new URLSearchParams(window.location.search);
             console.log(player)
 
             if (player) {
-                const profileDiv = document.getElementById("playerProfile");
-                profileDiv.innerHTML = `
-                        <h2>${player.name}</h2>
+                const profileStats = document.getElementById("playerStats");
+                const nameDiv = document.getElementById("playerInfo")
+                nameDiv.innerHTML = `
+              <h1>${player.name}</h1>
+              `  
+                profileStats.innerHTML = `
                         <p>PUTR: ${player.putr.toFixed(2)}</p>
                         <p>Net: ${player.net.toFixed(2)}</p>
                         <p>Games Played: ${player.games_played.length}</p>
+                        <p>Biggest Win: ${player.biggest_win.toFixed(2)}</p>
+                        <p>Biggest Loss: ${player.biggest_loss.toFixed(2)}</p>
                         
                     `;
             }
