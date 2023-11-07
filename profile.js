@@ -22,6 +22,8 @@ const urlParams = new URLSearchParams(window.location.search);
                         <p>Games Played: ${player.games_played.length}</p>
                         <p>Biggest Win: ${player.biggest_win.toFixed(2)}</p>
                         <p>Biggest Loss: ${player.biggest_loss.toFixed(2)}</p>
+                        <p>Highest Net: ${player.highest_net.toFixed(2)}</p>
+                        <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>
                         
                     `;
             }
