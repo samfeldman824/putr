@@ -9,7 +9,9 @@ function populateTable() {
             <td class="flag-container">
               <img src="${item.flag}" class="player-flag"/>
             </td>
-            <td class="player-name">${item.name}</td>
+            <td class="player-name">
+        <a href="profile.html?playerID=${item.id}"('${item.name}')">${item.name}</a>
+      </td>
             <td class="player-putr">${item.putr.toFixed(2)}</td>
             <td class="player-net">${item.net.toFixed(2)}</td>
           `;
