@@ -66,6 +66,12 @@
 
 .player-name a {
     text-decoration: none;
+    color: rgb(0,0,238);
+}
+
+.player-name a:visited {
+    text-decoration: none;
+    color: rgb(0,0,238);
 }
 
 #table-header th {
