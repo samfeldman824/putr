@@ -1,1 +1,6 @@
 .DS_Store
+ledger_json/
+cleaned_json/
+__pycache__/
+flags/flags.txt
+.vscode/
