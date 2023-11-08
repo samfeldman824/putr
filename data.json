@@ -4,7 +4,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 13.06,
-        "net": 151.95999999999998,
+        "net": 180.05999999999997,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -50,7 +50,8 @@
             "11_06",
             "11_06(1)",
             "11_07",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 74.14,
         "biggest_loss": -70.0,
@@ -62,7 +63,7 @@
         "flag": "flags/israel.png",
         "name": "Sam Feldman",
         "putr": 13.02,
-        "net": 350.03000000000003,
+        "net": 344.13000000000005,
         "player_id": "ug0-CrzeER",
         "player_nicknames": [
             "cito",
@@ -98,7 +99,8 @@
             "11_04",
             "11_06",
             "11_07",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 49.45,
         "biggest_loss": -56.5,
@@ -147,7 +149,7 @@
         "flag": "flags/south-korea.png",
         "name": "Brian Chong",
         "putr": 12.42,
-        "net": 69.11000000000001,
+        "net": 29.060000000000016,
         "player_id": "",
         "player_nicknames": [
             "chong",
@@ -177,7 +179,8 @@
             "11_03",
             "11_06(1)",
             "11_07",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 83.7,
         "biggest_loss": -63.35,
@@ -189,7 +192,7 @@
         "flag": "flags/taiwan.png",
         "name": "Alex Koong",
         "putr": 12.32,
-        "net": 5.570000000000013,
+        "net": 40.77000000000002,
         "player_id": "",
         "player_nicknames": [
             "Koong"
@@ -231,7 +234,8 @@
             "11_03",
             "11_06",
             "11_07",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 53.96,
         "biggest_loss": -80.0,
@@ -243,7 +247,7 @@
         "flag": "flags/mexico.png",
         "name": "Noah Hernandez",
         "putr": 11.39,
-        "net": -185.20000000000002,
+        "net": -175.00000000000003,
         "player_id": "",
         "player_nicknames": [
             "noah",
@@ -266,7 +270,8 @@
             "11_01",
             "11_06",
             "11_07",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 10.89,
         "biggest_loss": -60.0,
@@ -278,7 +283,7 @@
         "flag": "flags/puerto-rico.png",
         "name": "Zander Bravo",
         "putr": 11.34,
-        "net": -407.87,
+        "net": -447.87,
         "player_id": "",
         "player_nicknames": [
             "ODgoofyahhhh",
@@ -309,12 +314,13 @@
             "11_01",
             "11_02",
             "11_06",
-            "11_07(1)"
+            "11_07(1)",
+            "11_07(2)"
         ],
         "biggest_win": 20.85,
         "biggest_loss": -42.84,
         "highest_net": 0,
-        "lowest_net": -407.87
+        "lowest_net": -447.87
     },
     {
         "id": 8,
@@ -413,7 +419,7 @@
         "flag": "flags/china.png",
         "name": "Matthew Mu",
         "putr": 12.62,
-        "net": 1.7200000000000002,
+        "net": 14.17,
         "player_id": "",
         "player_nicknames": [
             "Mu",
@@ -424,11 +430,12 @@
             "10_31(1)",
             "11_01",
             "11_02(1)",
-            "11_04"
+            "11_04",
+            "11_07(2)"
         ],
-        "biggest_win": 4.55,
+        "biggest_win": 12.45,
         "biggest_loss": -10.0,
-        "highest_net": 4.55,
+        "highest_net": 14.17,
         "lowest_net": -5.45
     }
 ]
