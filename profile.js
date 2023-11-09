@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
         const playerID = urlParams.get('playerID');
-        console.log("player id is",playerID)
+        // console.log("player id is",playerID)
 
         fetch("data.json")
             .then(response => response.json())
@@ -8,7 +8,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
             // Find the player by ID
             const player = data.find(player => player.id === parseInt(playerID));
-            console.log(player)
+            // console.log(player)
 
             if (player) {
                 const profileStats = document.getElementById("playerStats");
@@ -23,9 +23,12 @@ const urlParams = new URLSearchParams(window.location.search);
                         <p>Biggest Win: ${player.biggest_win.toFixed(2)}</p>
                         <p>Biggest Loss: ${player.biggest_loss.toFixed(2)}</p>
                         <p>Highest Net: ${player.highest_net.toFixed(2)}</p>
-                        <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>
-                        
-                    `;
-            }
+                        <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>`;
+                const netDictionary = player.net_dictionary;
+                const dates = Object.keys(netDictionary);
+                const netValues = Object.values(netDictionary);
+                
 
+            }
+            
             })

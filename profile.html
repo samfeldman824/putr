@@ -5,15 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="profile.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+    
+    
     <title>Profile</title>
 </head>
 <body>
+    
     <div class="profile-container">
         <div id="playerInfo">
 
         </div>
-        <div id="playerStats">
-      </div>
+    <div id="playerStats">
+    
+        
     </div>
+
+    <canvas id="lineChart" width="400" height="300"></canvas>
+    
+
+    <script>
+        const idiz = new URLSearchParams(window.location.search).get('playerID');
+        fetch("data.json")
+        .then(response => response.json())
+        .then(data => {
+        
+        const player = data.find(player => player.id === parseInt(playerID));
+        const netDictionary = player.net_dictionary;
+        const dates = Object.keys(netDictionary);
+        const netValues = Object.values(netDictionary);
+        
+        // Data for the line chart
+        const data1 = {
+            labels: dates,
+            datasets: [{
+                label: 'Net Winnings Chart',
+                data: netValues,
+                borderColor: 'blue',
+                borderWidth: 2,
+                fill: false
+            }]
+        };
+
+        // Configuration for the chart
+        const config = {
+            type: 'line',
+            data: data1,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                    display: true,
+                    text: 'Date'
+                    },
+                        beginAtZero: true
+                    },
+                    
+                    y: {
+                        title: {
+                    display: true,
+                    text: 'Net Winnings ($)'
+                    },
+                        beginAtZero: true
+                    },
+                    
+                }
+            }
+        };
+
+        // Create the chart
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctx, config);
+        })
+        
+    </script>
 </body>
 </html>

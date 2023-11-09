@@ -52,6 +52,7 @@ def add_poker_game(game_data_path: str, dest_path: str, exclude_list=[]):
                 player["biggest_loss"] = min(player["biggest_loss"], net_winnings_by_player[name])
                 player["highest_net"] = max(player["highest_net"], player["net"])
                 player["lowest_net"] = min(player["lowest_net"], player["net"])
+                player["net_dictionary"][day[:5]] = player["net"]
                 players_updated += 1
                 players_updated_list.append(name)
                 
@@ -128,6 +129,7 @@ def reset_net_games_played(json_path: str):
         player["biggest_loss"] = 0
         player["highest_net"] = 0
         player["lowest_net"] = 0
+        player["net_dictionary"] = {}
 
     with open(json_path, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
@@ -159,19 +161,19 @@ def add_fields(json_path: str):
         sys.exit(1)
 
     for player in json_data:
-        player["highest_net"] = 0
-        player["lowest_net"] = 0
+        player["net_dictionary"] = {}
+
 
     with open(json_path, "w") as json_file:
         json.dump(json_data, json_file, indent=4)
 
 
 if __name__ == "__main__":
-    # add_poker_game("ledgers/ledger11_7.csv", "data.json", [])
+    add_poker_game("ledgers/ledger11_08.csv", "data.json", [])
     # unique_nicknames('ledgers')
     # reset_net_games_played('data.json')
     # sort_days_list('data.json')
     # add_all_games('ledgers', 'data.json', ["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
-    # print_winnings_of_game("ledgers/ledger11_6.csv")
+    # print_winnings_of_game("ledgers/ledger11_07(1).csv")
     # add_fields("data.json")
     print("\ndone")
