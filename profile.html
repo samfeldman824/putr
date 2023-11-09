@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
     <script src="profile.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
-    
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Profile</title>
+    
 </head>
 <body>
-    
     
     <div class="profile-container">
         <button><a href="index.html">Home</a></button>
@@ -29,7 +25,6 @@
     
 
     <script>
-        const idiz = new URLSearchParams(window.location.search).get('playerID');
         fetch("data.json")
         .then(response => response.json())
         .then(data => {
