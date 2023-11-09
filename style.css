@@ -101,6 +101,11 @@ button {
     font-size: 2vh;
 }
 
+#lineChart {
+    width: 100%;
+    height: auto;
+}
+
 
 
 
