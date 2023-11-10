@@ -70,7 +70,7 @@ class Poker:
                 print(name, net)
             with open(self.json_path, "w") as json_file:
                 json.dump(json_data, json_file, indent=4)
-            sort_days_list(self.json_path)
+            self.sort_days_list(self.json_path)
         else:
             for name in net_winnings_by_player.keys():
                 if name not in players_updated_list:
@@ -81,7 +81,7 @@ class Poker:
         for file in sorted(os.listdir(self.ledger_folder_pathfolder_path)):
             if file.endswith(".csv"):
                 filepath = f"{self.ledger_folder_path}/{file}"
-                add_poker_game(filepath, exclude_list)
+                self.add_poker_game(filepath, exclude_list)
 
     def print_game_results(self, ledger_path: str):
         if not ledger_path.endswith(".csv"):
