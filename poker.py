@@ -13,7 +13,27 @@ def main():
     # print_winnings_of_game("ledgers/ledger11_07(1).csv")
     # add_fields("data.json")
     poker = Poker("ledgers", "data.json")
-    poker.reset_net_fields()
+    # poker.reset_net_fields()
+    # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
+    # poker.add_poker_game("ledgers/ledger11_10.csv")
+
+
+    # poker.reset_net_fields()
+    if len(sys.argv) > 1:
+
+        # for adding game
+        if sys.argv[1] == "ag":
+            csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
+            poker.add_poker_game(csv_path)
+            
+        # for printing results of game
+        if sys.argv[1] == "pg":
+            csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
+            poker.print_game_results(csv_path)
+
+        
+
+    
     print("\ndone")
 
 class Poker:
@@ -70,7 +90,8 @@ class Poker:
                 print(name, net)
             with open(self.json_path, "w") as json_file:
                 json.dump(json_data, json_file, indent=4)
-            self.sort_days_list(self.json_path)
+            self.sort_days_list()
+            print(f"Poker game on {day} added")
         else:
             for name in net_winnings_by_player.keys():
                 if name not in players_updated_list:
@@ -78,7 +99,7 @@ class Poker:
             print("Not all players known")
 
     def add_all_games(self, exclude_list=[]):
-        for file in sorted(os.listdir(self.ledger_folder_pathfolder_path)):
+        for file in sorted(os.listdir(self.ledger_folder_path)):
             if file.endswith(".csv"):
                 filepath = f"{self.ledger_folder_path}/{file}"
                 self.add_poker_game(filepath, exclude_list)
