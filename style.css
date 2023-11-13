@@ -29,9 +29,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     color: black;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 2.5rem;
+}
+
+#header-text {
+    margin-right: 10vw;
+    margin-left: 9vw;
+}
+
+#brown-logo img, #putr-logo img {
+    width: 10vw;
+    height: auto;
+}
+
+#putr-logo img {
+    width: 14vw;
+    height: auto;
 }
 
 .flag-container {
