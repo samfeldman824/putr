@@ -31,7 +31,9 @@ def main():
             csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
             poker.print_game_results(csv_path)
 
-        
+        if sys.argv[1] == "pgs":
+            poker.print_all_games()
+
 
     
     print("\ndone")
@@ -159,6 +161,11 @@ class Poker:
         with open(self.json_path, "w") as json_file:
             json.dump(json_data, json_file, indent=4)
 
+    def print_all_games(self):
+        for file in sorted(os.listdir(self.ledger_folder_path)):
+            if file.endswith(".csv"): 
+                day = re.search(r"ledger(.*?)\.csv", file).group(1)
+                print(day)
 
 
 if __name__ == "__main__":
