@@ -16,6 +16,7 @@ def main():
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
     # poker.add_poker_game("ledgers/ledger11_10.csv")
+    # poker.add_field()
 
 
     # poker.reset_net_fields()
@@ -69,6 +70,29 @@ class Poker:
         if key not in exclude_list
         }
 
+        def get_extreme_names(amount_dict):
+            min_names = []
+            max_names = []
+            min_amount = float('inf')
+            max_amount = float('-inf')
+
+            for name, amount in amount_dict.items():
+                if amount == max_amount:
+                    max_names.append(name)
+                elif amount > max_amount:
+                    max_names = [name]
+                    max_amount = amount
+
+                if amount == min_amount:
+                    min_names.append(name)
+                elif amount < min_amount:
+                    min_names = [name]
+                    min_amount = amount
+
+            return max_names, min_names
+        
+        up_most, down_most = get_extreme_names(net_winnings_by_player)
+
         players_updated = 0
         players_updated_list = []
 
@@ -83,6 +107,10 @@ class Poker:
                     player["highest_net"] = max(player["highest_net"], player["net"])
                     player["lowest_net"] = min(player["lowest_net"], player["net"])
                     player["net_dictionary"][day[:5]] = player["net"]
+                    if name in up_most:
+                        player["games_up_most"] += 1
+                    if name in down_most:
+                        player["games_down_most"] += 1
                     players_updated += 1
                     players_updated_list.append(name)
                 
@@ -166,6 +194,18 @@ class Poker:
             if file.endswith(".csv"): 
                 day = re.search(r"ledger(.*?)\.csv", file).group(1)
                 print(day)
+
+    def add_field(self):
+        with open(self.json_path, "r") as dest_file:
+            json_data = json.load(dest_file)    
+
+        for player in json_data:
+            player["games_up_most"] = 0
+            player["games_down_most"] = 0
+
+        with open(self.json_path, "w") as json_file:
+            json.dump(json_data, json_file, indent=4)
+                
 
 
 if __name__ == "__main__":
