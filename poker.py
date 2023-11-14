@@ -16,7 +16,7 @@ def main():
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
     # poker.add_poker_game("ledgers/ledger11_10.csv")
-    poker.add_field()
+    # poker.add_field()
 
 
     # poker.reset_net_fields()
@@ -111,9 +111,9 @@ class Poker:
                         player["games_up_most"] += 1
                     if name in down_most:
                         player["games_down_most"] += 1
-                    if player["net"] > 0:
+                    if net_winnings_by_player[name] > 0:
                         player["games_up"] += 1
-                    if player["net"] < 0:
+                    if net_winnings_by_player[name] < 0:
                         player["games_down"] += 1
                     
                     players_updated += 1
@@ -180,6 +180,11 @@ class Poker:
             player["highest_net"] = 0
             player["lowest_net"] = 0
             player["net_dictionary"] = {}
+            player["games_up_most"] = 0
+            player["games_down_most"] = 0
+            player["games_up"] = 0
+            player["games_down"] = 0
+
 
         with open(self.json_path, "w") as json_file:
             json.dump(json_data, json_file, indent=4)
