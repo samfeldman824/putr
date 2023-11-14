@@ -94,8 +94,8 @@
             "11_12": 160.02999999999997,
             "11_13": 224.49999999999997
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 24,
+        "games_down_most": 20
     },
     {
         "id": 2,
@@ -178,8 +178,8 @@
             "11_12": 428.43000000000006,
             "11_13": 428.62000000000006
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 28,
+        "games_down_most": 16
     },
     {
         "id": 3,
@@ -238,8 +238,8 @@
             "11_10": 56.13999999999999,
             "11_13": 36.13999999999999
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 4,
+        "games_down_most": 2
     },
     {
         "id": 4,
@@ -316,8 +316,8 @@
             "11_12": 67.44000000000003,
             "11_13": 76.00000000000003
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 10,
+        "games_down_most": 10
     },
     {
         "id": 5,
@@ -411,8 +411,8 @@
             "11_12": -6.1899999999999835,
             "11_13": -6.619999999999983
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 32,
+        "games_down_most": 18
     },
     {
         "id": 6,
@@ -473,7 +473,7 @@
             "11_13": -195.96000000000004
         },
         "games_up_most": 0,
-        "games_down_most": 0
+        "games_down_most": 8
     },
     {
         "id": 7,
@@ -552,8 +552,8 @@
             "11_12": -486.82,
             "11_13": -498.43
         },
-        "games_up_most": 0,
-        "games_down_most": 0
+        "games_up_most": 2,
+        "games_down_most": 24
     },
     {
         "id": 8,
@@ -640,7 +640,7 @@
             "11_02": 3.490000000000002
         },
         "games_up_most": 0,
-        "games_down_most": 0
+        "games_down_most": 2
     },
     {
         "id": 11,
@@ -682,7 +682,7 @@
             "11_13": 5.989999999999991
         },
         "games_up_most": 0,
-        "games_down_most": 0
+        "games_down_most": 4
     },
     {
         "id": 12,
@@ -718,7 +718,7 @@
             "11_08": -5.83,
             "11_13": -15.46
         },
-        "games_up_most": 0,
+        "games_up_most": 2,
         "games_down_most": 0
     }
 ]
