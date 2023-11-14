@@ -25,7 +25,9 @@ const urlParams = new URLSearchParams(window.location.search);
                         <p>Highest Net: ${player.highest_net.toFixed(2)}</p>
                         <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>
                         <p>Games Up Most: ${player.games_up_most}</p>
-                        <p>Games Down Most: ${player.games_down_most}</p>`;
+                        <p>Games Down Most: ${player.games_down_most}</p>
+                        <p>Games Up: ${player.games_up}</p>
+                        <p>Games Down: ${player.games_down}</p>`;
                         
 
                 const netDictionary = player.net_dictionary;
