@@ -23,7 +23,11 @@ const urlParams = new URLSearchParams(window.location.search);
                         <p>Biggest Win: ${player.biggest_win.toFixed(2)}</p>
                         <p>Biggest Loss: ${player.biggest_loss.toFixed(2)}</p>
                         <p>Highest Net: ${player.highest_net.toFixed(2)}</p>
-                        <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>`;
+                        <p>Lowest Net: ${player.lowest_net.toFixed(2)}</p>
+                        <p>Games Up Most: ${player.games_up_most}</p>
+                        <p>Games Down Most: ${player.games_down_most}</p>`;
+                        
+
                 const netDictionary = player.net_dictionary;
                 const dates = Object.keys(netDictionary);
                 const netValues = Object.values(netDictionary);
