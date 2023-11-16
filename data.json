@@ -4,7 +4,7 @@
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
         "putr": 12.94,
-        "net": 224.65999999999997,
+        "net": 204.65999999999997,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
             "Chun",
@@ -59,7 +59,8 @@
             "11_12",
             "11_13",
             "11_15",
-            "11_16"
+            "11_16",
+            "11_16(1)"
         ],
         "biggest_win": 74.14,
         "biggest_loss": -70.0,
@@ -96,12 +97,12 @@
             "11_12": 160.02999999999997,
             "11_13": 224.49999999999997,
             "11_15": 238.20999999999998,
-            "11_16": 224.65999999999997
+            "11_16": 204.65999999999997
         },
         "games_up_most": 12,
-        "games_down_most": 11,
+        "games_down_most": 12,
         "games_up": 23,
-        "games_down": 24
+        "games_down": 25
     },
     {
         "id": 2,
@@ -262,7 +263,7 @@
         "flag": "flags/south-korea.png",
         "name": "Brian Chong",
         "putr": 12.62,
-        "net": 187.22000000000006,
+        "net": 196.37000000000006,
         "player_id": "",
         "player_nicknames": [
             "chong",
@@ -301,11 +302,12 @@
             "11_12",
             "11_13",
             "11_15",
-            "11_16"
+            "11_16",
+            "11_16(1)"
         ],
         "biggest_win": 117.2,
         "biggest_loss": -63.35,
-        "highest_net": 193.20000000000005,
+        "highest_net": 196.37000000000006,
         "lowest_net": 0,
         "net_dictionary": {
             "09_26": 46.72,
@@ -334,11 +336,11 @@
             "11_12": 67.44000000000003,
             "11_13": 76.00000000000003,
             "11_15": 193.20000000000005,
-            "11_16": 187.22000000000006
+            "11_16": 196.37000000000006
         },
         "games_up_most": 6,
         "games_down_most": 5,
-        "games_up": 20,
+        "games_up": 21,
         "games_down": 13
     },
     {
@@ -346,7 +348,7 @@
         "flag": "flags/taiwan.png",
         "name": "Alex Koong",
         "putr": 12.35,
-        "net": 27.110000000000014,
+        "net": 47.06000000000002,
         "player_id": "",
         "player_nicknames": [
             "Koong"
@@ -397,7 +399,8 @@
             "11_12",
             "11_13",
             "11_15",
-            "11_16"
+            "11_16",
+            "11_16(1)"
         ],
         "biggest_win": 53.96,
         "biggest_loss": -80.0,
@@ -435,11 +438,11 @@
             "11_12": -6.1899999999999835,
             "11_13": -6.619999999999983,
             "11_15": 27.110000000000014,
-            "11_16": 27.110000000000014
+            "11_16": 47.06000000000002
         },
-        "games_up_most": 16,
+        "games_up_most": 17,
         "games_down_most": 9,
-        "games_up": 27,
+        "games_up": 28,
         "games_down": 18
     },
     {
@@ -733,7 +736,7 @@
         "flag": "flags/china.png",
         "name": "Matthew Mu",
         "putr": 12.66,
-        "net": 5.529999999999998,
+        "net": -14.470000000000002,
         "player_id": "",
         "player_nicknames": [
             "Mu",
@@ -748,7 +751,8 @@
             "11_07(2)",
             "11_08",
             "11_13",
-            "11_15"
+            "11_15",
+            "11_16(1)"
         ],
         "biggest_win": 20.99,
         "biggest_loss": -20.0,
@@ -762,38 +766,40 @@
             "11_07": 14.17,
             "11_08": -5.83,
             "11_13": -15.46,
-            "11_15": 5.529999999999998
+            "11_15": 5.529999999999998,
+            "11_16": -14.470000000000002
         },
         "games_up_most": 1,
-        "games_down_most": 0,
+        "games_down_most": 1,
         "games_up": 5,
-        "games_down": 3
+        "games_down": 4
     },
     {
         "id": 13,
         "flag": "flags/india.png",
         "name": "Niraj Komatineni",
         "putr": 12.47,
-        "net": -30.299999999999997,
+        "net": -19.4,
         "player_id": "",
         "player_nicknames": [
             "Niraj"
         ],
         "games_played": [
             "11_15",
-            "11_16"
+            "11_16",
+            "11_16(1)"
         ],
-        "biggest_win": 0.1,
+        "biggest_win": 10.9,
         "biggest_loss": -30.4,
         "highest_net": 0,
         "lowest_net": -30.4,
         "net_dictionary": {
             "11_15": -30.4,
-            "11_16": -30.299999999999997
+            "11_16": -19.4
         },
         "games_up_most": 0,
         "games_down_most": 0,
-        "games_up": 1,
+        "games_up": 2,
         "games_down": 1
     }
 ]
