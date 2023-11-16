@@ -744,5 +744,28 @@
         "games_down_most": 0,
         "games_up": 4,
         "games_down": 3
+    },
+    {
+        "id": 13,
+        "flag": "flags/india.png",
+        "name": "Niraj Komatineni",
+        "putr": 12.58,
+        "net": 0,
+        "player_id": "",
+        "player_nicknames": [
+            "Niraj"
+        ],
+        "games_played": [
+        ],
+        "biggest_win": 0,
+        "biggest_loss": 0,
+        "highest_net": 0,
+        "lowest_net": 0,
+        "net_dictionary": {
+        },
+        "games_up_most": 0,
+        "games_down_most": 0,
+        "games_up": 0,
+        "games_down": 0
     }
 ]
