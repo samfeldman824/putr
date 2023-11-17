@@ -70,7 +70,7 @@ class Poker:
         if key not in exclude_list
         }
 
-        def get_extreme_names(amount_dict):
+        def get_extreme_names(amount_dict: dict):
             min_names = []
             max_names = []
             min_amount = float('inf')
