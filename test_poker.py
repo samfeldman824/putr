@@ -50,7 +50,6 @@ def tem_dir_fixture2():
         # Yield both the poker instance and the paths
         yield poker, new_ledger_path, json_path
 
-
 def test_add_poker_game1(tem_dir_fixture1, capfd):
     poker, ledger_path, json_path = tem_dir_fixture1
 
@@ -93,7 +92,6 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
 
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
-
 
 def test_add_poker_game2(tem_dir_fixture2, capfd):
     poker, ledger_path, json_path = tem_dir_fixture2
@@ -138,7 +136,6 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
-
 def test_add_all_games(tem_dir_fixture1, capfd):
     poker, _, _ = tem_dir_fixture1
 
@@ -146,7 +143,6 @@ def test_add_all_games(tem_dir_fixture1, capfd):
 
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
-    
 
 def test_print_game_results(tem_dir_fixture1, capfd):
 
@@ -236,6 +232,11 @@ def test_ledger_file_not_csv_print(tem_dir_fixture1):
     poker, _, _ = tem_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("testing/mock_ledgers/ledger01_01.txt")
+
+def test_ledger_file_not_exist_print(tem_dir_fixture1):
+    poker, _, _ = tem_dir_fixture1
+    with pytest.raises(FileNotFoundError):
+        poker.print_game_results("fake_ledger01_03.csv")
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
 #     poker, _, _ = tem_dir_fixture1
