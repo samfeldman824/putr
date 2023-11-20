@@ -210,8 +210,8 @@ class Poker:
             json_data = json.load(dest_file)    
 
         for player in json_data:
-            player["games_up"] = 0
-            player["games_down"] = 0
+            # edit line below to add desired field
+            player["mock_field"] = 0
 
         with open(self.json_path, "w") as json_file:
             json.dump(json_data, json_file, indent=4)
