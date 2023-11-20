@@ -3,6 +3,7 @@ import json
 import sys
 import re
 import os
+from poker_utils import get_extreme_names
 
 def main():
     # add_poker_game("ledgers/ledger11_09.csv", "data.json", [])
@@ -58,12 +59,11 @@ class Poker:
         if not ledger_csv_path.endswith(".csv"):
             raise FileNotFoundError("Error: Game data file must be a CSV File")
         
+        # error handling needed
         day = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1]).group(1)
 
-        try:
-            game_data = pd.read_csv(ledger_csv_path)
-        except FileNotFoundError as e:
-            print("File not found", e)
+        # error handling needed
+        game_data = pd.read_csv(ledger_csv_path)
         
         with open(self.json_path, "r") as dest_file:
             json_data = json.load(dest_file)
@@ -77,27 +77,6 @@ class Poker:
         for key, value in net_winnings_by_player.items()
         if key not in exclude_list
         }
-
-        def get_extreme_names(amount_dict: dict):
-            min_names = []
-            max_names = []
-            min_amount = float('inf')
-            max_amount = float('-inf')
-
-            for name, amount in amount_dict.items():
-                if amount == max_amount:
-                    max_names.append(name)
-                elif amount > max_amount:
-                    max_names = [name]
-                    max_amount = amount
-
-                if amount == min_amount:
-                    min_names.append(name)
-                elif amount < min_amount:
-                    min_names = [name]
-                    min_amount = amount
-
-            return max_names, min_names
         
         up_most, down_most = get_extreme_names(net_winnings_by_player)
 
@@ -149,8 +128,7 @@ class Poker:
 
     def print_game_results(self, ledger_path: str):
         if not ledger_path.endswith(".csv"):
-            print("Error: Game ledger file must be a CSV File")
-            sys.exit(1)        
+            raise FileNotFoundError("Error: Game ledger file must be a CSV File")      
         try:
             game_data = pd.read_csv(ledger_path)
 
