@@ -62,6 +62,7 @@ def test_add_poker_game(temp_dir_fixture, capfd):
         assert json_data[1]["games_down"] == 1
         assert json_data[1]["games_up_most"] == 0
         assert json_data[1]["games_down_most"] == 1 
+        assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
 
         assert json_data[2]["net"] == -1.25
         assert json_data[2]["biggest_win"] == 0
@@ -72,9 +73,21 @@ def test_add_poker_game(temp_dir_fixture, capfd):
         assert json_data[2]["games_down"] == 1
         assert json_data[2]["games_up_most"] == 0
         assert json_data[2]["games_down_most"] == 0
+        assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
 
     out, err = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+
+def test_add_all_games(temp_dir_fixture, capfd):
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path)
+
+    poker.add_all_games()
+
+    out, err = capfd.readouterr()
+    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+    
 
 def test_print_game_results(temp_dir_fixture, capfd):
 
@@ -110,6 +123,28 @@ def test_print_all_games(temp_dir_fixture, capfd):
 
     out, err = capfd.readouterr()
     assert "01_01" in out
+
+def test_reset_net_fields(temp_dir_fixture, capfd):
+
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path) 
+
+    poker.reset_net_fields()
+
+    with open(json_path) as json_file:
+        json_data = json.load(json_file)
+        for player_data in json_data:
+            assert player_data["net"] == 0
+            assert player_data["biggest_win"] == 0
+            assert player_data["biggest_loss"] == 0
+            assert player_data["highest_net"] == 0
+            assert player_data["lowest_net"] == 0
+            assert player_data["games_up"] == 0
+            assert player_data["games_down"] == 0
+            assert player_data["games_up_most"] == 0
+            assert player_data["games_down_most"] == 0
+            assert player_data["net_dictionary"] == {}
 
 
 

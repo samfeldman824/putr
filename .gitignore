@@ -4,3 +4,4 @@ cleaned_json/
 __pycache__/
 flags/flags.txt
 .vscode/
+.coverage
