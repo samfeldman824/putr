@@ -31,11 +31,7 @@ def temp_dir_fixture():
         # poker = Poker(new_ledger_path, new_json_path + "/mock1_data.json")
 
         yield tempdir
-        # with open(new_path + "/mock1_data.json") as json_file:
-        #     json_data = json.load(json_file)
-        #     print(json_data)
-        # poker = Poker()
-        # yield poker
+        
 
 def test_add_poker_game(temp_dir_fixture, capfd):
     ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
@@ -80,10 +76,40 @@ def test_add_poker_game(temp_dir_fixture, capfd):
     out, err = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
-    
+def test_print_game_results(temp_dir_fixture, capfd):
 
-    
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path)
 
+    poker.print_game_results(ledger_path + "/ledger01_01.csv")
+
+    out, err = capfd.readouterr()
+    assert out == "Alice: 5.5\nCharlie: -1.25\nBob: -4.25\n"
+    
+def test_unique_nicknames(temp_dir_fixture, capfd):
+
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path)
+
+    poker.print_unique_nicknames()
+
+    out, err = capfd.readouterr()
+    assert "Alice" in out
+    assert "Bob" in out
+    assert "Charlie" in out
+
+def test_print_all_games(temp_dir_fixture, capfd):
+
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path)
+
+    poker.print_all_games()
+
+    out, err = capfd.readouterr()
+    assert "01_01" in out
 
 
 
