@@ -67,7 +67,7 @@ def test_add_poker_game(temp_dir_fixture, capfd):
         assert json_data[2]["games_down_most"] == 0
         assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
 
-    out, err = capfd.readouterr()
+    out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
 def test_add_all_games(temp_dir_fixture, capfd):
@@ -75,7 +75,7 @@ def test_add_all_games(temp_dir_fixture, capfd):
 
     poker.add_all_games()
 
-    out, err = capfd.readouterr()
+    out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
     
 
@@ -85,7 +85,7 @@ def test_print_game_results(temp_dir_fixture, capfd):
 
     poker.print_game_results(ledger_path + "/ledger01_01.csv")
 
-    out, err = capfd.readouterr()
+    out, _ = capfd.readouterr()
     assert out == "Alice: 5.5\nCharlie: -1.25\nBob: -4.25\n"
     
 def test_unique_nicknames(temp_dir_fixture, capfd):
@@ -94,7 +94,7 @@ def test_unique_nicknames(temp_dir_fixture, capfd):
 
     poker.print_unique_nicknames()
 
-    out, err = capfd.readouterr()
+    out, _ = capfd.readouterr()
     assert "Alice" in out
     assert "Bob" in out
     assert "Charlie" in out
@@ -105,7 +105,7 @@ def test_print_all_games(temp_dir_fixture, capfd):
 
     poker.print_all_games()
 
-    out, err = capfd.readouterr()
+    out, _ = capfd.readouterr()
     assert "01_01" in out
 
 def test_reset_net_fields(temp_dir_fixture, capfd):
