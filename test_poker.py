@@ -30,13 +30,18 @@ def temp_dir_fixture():
 
         # poker = Poker(new_ledger_path, new_json_path + "/mock1_data.json")
 
-        yield tempdir
+       # Create the Poker instance
+        json_path = os.path.join(new_json_path, "mock1_data.json")
+        poker = Poker(new_ledger_path, json_path)
+
+        # Yield both the poker instance and the paths
+        yield poker, new_ledger_path, json_path
+
+        # yield tempdir
         
 
 def test_add_poker_game(temp_dir_fixture, capfd):
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, ledger_path, json_path = temp_dir_fixture
 
     poker.add_poker_game(ledger_path + "/ledger01_01.csv")
 
@@ -79,9 +84,7 @@ def test_add_poker_game(temp_dir_fixture, capfd):
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
 def test_add_all_games(temp_dir_fixture, capfd):
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, _, _ = temp_dir_fixture
 
     poker.add_all_games()
 
@@ -91,9 +94,7 @@ def test_add_all_games(temp_dir_fixture, capfd):
 
 def test_print_game_results(temp_dir_fixture, capfd):
 
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, ledger_path, _ = temp_dir_fixture
 
     poker.print_game_results(ledger_path + "/ledger01_01.csv")
 
@@ -102,9 +103,7 @@ def test_print_game_results(temp_dir_fixture, capfd):
     
 def test_unique_nicknames(temp_dir_fixture, capfd):
 
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, _, _ = temp_dir_fixture
 
     poker.print_unique_nicknames()
 
@@ -115,9 +114,7 @@ def test_unique_nicknames(temp_dir_fixture, capfd):
 
 def test_print_all_games(temp_dir_fixture, capfd):
 
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, _, _ = temp_dir_fixture
 
     poker.print_all_games()
 
@@ -126,9 +123,7 @@ def test_print_all_games(temp_dir_fixture, capfd):
 
 def test_reset_net_fields(temp_dir_fixture, capfd):
 
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path) 
+    poker, _, json_path = temp_dir_fixture
 
     poker.reset_net_fields()
 
@@ -148,9 +143,7 @@ def test_reset_net_fields(temp_dir_fixture, capfd):
 
 def test_add_field(temp_dir_fixture, capfd):
 
-    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
-    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
-    poker = Poker(ledger_path, json_path)
+    poker, _, json_path = temp_dir_fixture
 
     poker.add_field()
 
