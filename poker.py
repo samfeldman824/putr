@@ -13,6 +13,7 @@ def main():
     # print_winnings_of_game("ledgers/ledger11_07(1).csv")
     # add_fields("data.json")
     poker = Poker("ledgers", "data.json")
+    # poker.add_poker_game("fake_path.csv")
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
     # poker.add_poker_game("ledgers/ledger11_10.csv")
@@ -41,21 +42,28 @@ def main():
 
 class Poker:
     def __init__(self, ledger_folder_path: str, json_path: str) -> None:
+
         if not os.path.exists(json_path):
             raise FileNotFoundError(f"The specified JSON path does not exist: {json_path}")
-        self.json_path = json_path
+        
+        if not os.path.exists(ledger_folder_path):
+            raise FileNotFoundError(f"The specified ledger folder path does not exist: {ledger_folder_path}")
+        
         self.ledger_folder_path = ledger_folder_path
+        
+        self.json_path = json_path
+        
 
     def add_poker_game(self, ledger_csv_path: str, exclude_list=[]):
         if not ledger_csv_path.endswith(".csv"):
-            print("Error: Game data file must be a CSV File")
-            sys.exit(1)
+            raise FileNotFoundError("Error: Game data file must be a CSV File")
+        
         day = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1]).group(1)
+
         try:
             game_data = pd.read_csv(ledger_csv_path)
         except FileNotFoundError as e:
             print("File not found", e)
-            sys.exit(1)
         
         with open(self.json_path, "r") as dest_file:
             json_data = json.load(dest_file)
