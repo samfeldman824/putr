@@ -146,7 +146,18 @@ def test_reset_net_fields(temp_dir_fixture, capfd):
             assert player_data["games_down_most"] == 0
             assert player_data["net_dictionary"] == {}
 
+def test_add_field(temp_dir_fixture, capfd):
 
+    ledger_path = os.path.join(temp_dir_fixture, "mock_ledgers")
+    json_path = os.path.join(temp_dir_fixture, "mock_jsons/mock1_data.json")
+    poker = Poker(ledger_path, json_path)
+
+    poker.add_field()
+
+    with open(json_path) as json_file:
+        json_data = json.load(json_file)
+        for player_data in json_data:
+            assert player_data["mock_field"] == 0
 
 
 
