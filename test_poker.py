@@ -19,6 +19,9 @@ def tem_dir_fixture1():
         new_ledger_path = os.path.join(tempdir, os.path.basename(original_ledger_path))
         shutil.copytree(original_ledger_path, new_ledger_path)
 
+        # remove ledger01_02.csv
+        os.remove(os.path.join(new_ledger_path, "ledger01_02.csv"))
+
        # Create the Poker instance
         json_path = os.path.join(new_json_path, "mock1_data.json")
         poker = Poker(new_ledger_path, json_path)
@@ -139,7 +142,7 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
 def test_add_all_games(tem_dir_fixture1, capfd):
     poker, _, _ = tem_dir_fixture1
 
-    poker.add_all_games()
+    poker.add_all_games(["Joe"])
 
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
@@ -205,6 +208,14 @@ def test_add_field(tem_dir_fixture1, capfd):
         for player_data in json_data:
             assert player_data["mock_field"] == 0
 
+def test_add_game_print_unknown_names(tem_dir_fixture2, capfd):
+    
+        poker, ledger_path, _ = tem_dir_fixture2
+    
+        poker.add_poker_game(ledger_path + "/ledger01_02.csv")
+    
+        out, _ = capfd.readouterr()
+        assert out == "Joe\nNot all players known\n"
 
 # testing exceptions
 
@@ -221,10 +232,15 @@ def test_ledger_file_not_csv(tem_dir_fixture1):
     with pytest.raises(FileNotFoundError):
         poker.add_poker_game("testing/mock_ledgers/ledger01_01.txt")
 
-def test_ledger_file_not_found(tem_dir_fixture1):
+def test_ledger_file_not_csv_print(tem_dir_fixture1):
     poker, _, _ = tem_dir_fixture1
-    with pytest.raises(ValueError):
-        poker.add_poker_game("fake_ledger.csv")
+    with pytest.raises(FileNotFoundError):
+        poker.print_game_results("testing/mock_ledgers/ledger01_01.txt")
+
+# def test_ledger_file_not_found(tem_dir_fixture1):
+#     poker, _, _ = tem_dir_fixture1
+#     with pytest.raises(ValueError):
+#         poker.add_poker_game("fake_ledger.csv")
     
 
 
