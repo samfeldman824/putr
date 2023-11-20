@@ -128,13 +128,13 @@ class Poker:
 
     def print_game_results(self, ledger_path: str):
         if not ledger_path.endswith(".csv"):
-            raise FileNotFoundError("Error: Game ledger file must be a CSV File")      
-        try:
-            game_data = pd.read_csv(ledger_path)
+            raise FileNotFoundError("Error: Game ledger file must be a CSV File")  
 
-        except FileNotFoundError as e:
-            print("File not found", e)
-            sys.exit(1)
+        if not os.path.exists(ledger_path):
+            raise FileNotFoundError(f"The specified ledger path does not exist: {ledger_path}")    
+        
+        game_data = pd.read_csv(ledger_path)
+
         
         net_winnings_by_player = (game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
         sorted_winnings = dict(
