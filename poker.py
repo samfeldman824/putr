@@ -128,7 +128,7 @@ class Poker:
             player["biggest_loss"] = 0
             player["highest_net"] = 0
             player["lowest_net"] = 0
-            player["net_dictionary"] = {}
+            player["net_dictionary"] = {"01_01": 0}
             player["games_up_most"] = 0
             player["games_down_most"] = 0
             player["games_up"] = 0
