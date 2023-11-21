@@ -1,6 +1,5 @@
 import pandas as pd
 import json
-import sys
 import re
 import os
 from poker_utils import get_extreme_names
