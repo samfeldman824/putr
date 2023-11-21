@@ -191,7 +191,7 @@ def test_reset_net_fields(tem_dir_fixture1, capfd):
             assert player_data["games_down"] == 0
             assert player_data["games_up_most"] == 0
             assert player_data["games_down_most"] == 0
-            assert player_data["net_dictionary"] == {}
+            assert player_data["net_dictionary"] == {"01_01": 0}
 
 def test_add_field(tem_dir_fixture1, capfd):
 
