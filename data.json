@@ -3,7 +3,7 @@
         "id": 1,
         "flag": "flags/hong-kong.png",
         "name": "Chun Lam",
-        "putr": 12.94,
+        "putr": 12.98,
         "net": 325.89999999999986,
         "player_id": "-6-yYmPWx-",
         "player_nicknames": [
@@ -122,7 +122,7 @@
         "id": 2,
         "flag": "flags/israel.png",
         "name": "Sam Feldman",
-        "putr": 13.11,
+        "putr": 13.02,
         "net": 321.99000000000007,
         "player_id": "ug0-CrzeER",
         "player_nicknames": [
@@ -296,7 +296,7 @@
         "id": 4,
         "flag": "flags/south-korea.png",
         "name": "Brian Chong",
-        "putr": 12.78,
+        "putr": 12.95,
         "net": 327.4800000000001,
         "player_id": "",
         "player_nicknames": [
@@ -582,7 +582,7 @@
         "id": 7,
         "flag": "flags/puerto-rico.png",
         "name": "Zander Bravo",
-        "putr": 11.36,
+        "putr": 11.23,
         "net": -552.5799999999999,
         "player_id": "",
         "player_nicknames": [
