@@ -213,6 +213,16 @@ def test_add_game_print_unknown_names(tem_dir_fixture2, capfd):
         out, _ = capfd.readouterr()
         assert out == "Joe\nNot all players known\n"
 
+def test_sort_days_list(tem_dir_fixture1):
+    poker, _, json_path = tem_dir_fixture1
+
+    poker.sort_days_list()
+
+    with open(json_path) as json_file:
+        json_data = json.load(json_file)
+        for player_data in json_data:
+            assert player_data["games_played"] == sorted(player_data["games_played"])
+
 # testing exceptions
 
 def test_json_file_not_found():
