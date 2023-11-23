@@ -1,5 +1,4 @@
 from poker import Poker
-import sys
 import click
 
 def main():
