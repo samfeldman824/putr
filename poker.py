@@ -5,18 +5,22 @@ import os
 from poker_utils import get_min_and_max_names
 
 class Poker:
+
+
     def __init__(self, ledger_folder_path: str, json_path: str) -> None:
 
-        if not os.path.exists(json_path):
-            raise FileNotFoundError(f"The specified JSON path does not exist: {json_path}")
-        
-        if not os.path.exists(ledger_folder_path):
-            raise FileNotFoundError(f"The specified ledger folder path does not exist: {ledger_folder_path}")
+        self._validate_paths(ledger_folder_path, json_path)
         
         self.ledger_folder_path = ledger_folder_path
         
         self.json_path = json_path
-        
+
+    def _validate_paths(self, ledger_folder_path: str, json_path: str) -> None:
+        if not os.path.exists(json_path):
+            raise FileNotFoundError(f"The specified JSON path does not exist: {json_path}")
+        if not os.path.exists(ledger_folder_path):
+            raise FileNotFoundError(f"The specified ledger folder path does not exist: {ledger_folder_path}")
+ 
 
     def add_poker_game(self, ledger_csv_path: str, exclude_list=[]):
         if not ledger_csv_path.endswith(".csv"):
