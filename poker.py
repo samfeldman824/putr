@@ -2,7 +2,7 @@ import pandas as pd
 import json
 import re
 import os
-from poker_utils import get_extreme_names
+from poker_utils import get_min_and_max_names
 
 class Poker:
     def __init__(self, ledger_folder_path: str, json_path: str) -> None:
@@ -41,7 +41,7 @@ class Poker:
         if key not in exclude_list
         }
         
-        up_most, down_most = get_extreme_names(net_winnings_by_player)
+        up_most, down_most = get_min_and_max_names(net_winnings_by_player)
 
         players_updated = 0
         players_updated_list = []
