@@ -20,7 +20,11 @@ class Poker:
             raise FileNotFoundError(f"The specified JSON path does not exist: {json_path}")
         if not os.path.exists(ledger_folder_path):
             raise FileNotFoundError(f"The specified ledger folder path does not exist: {ledger_folder_path}")
- 
+
+    def _load_json_data(self):
+        with open(self.json_path, "r") as json_file:
+            return json.load(json_file)
+
     def _save_json_data(self, data):
         with open(self.json_path, "w") as json_file:
             json.dump(data, json_file, indent=4)
@@ -35,8 +39,7 @@ class Poker:
         # error handling needed
         game_data = pd.read_csv(ledger_csv_path)
         
-        with open(self.json_path, "r") as dest_file:
-            json_data = json.load(dest_file)
+        json_data = self._load_json_data()
 
         net_winnings_by_player = (
         game_data.groupby("player_nickname")["net"].sum() / 100
@@ -123,9 +126,8 @@ class Poker:
         print(list(unique_nicknames))
 
     def reset_net_fields(self):
-        with open(self.json_path, "r") as dest_file:
-            json_data = json.load(dest_file)
-        
+        json_data = self._load_json_data()
+
         for player in json_data:
             player["net"] = 0
             player["games_played"] = []
@@ -143,8 +145,7 @@ class Poker:
         self._save_json_data(json_data)
 
     def sort_days_list(self):
-        with open(self.json_path, "r") as dest_file:
-            json_data = json.load(dest_file)    
+        json_data = self._load_json_data()    
 
         for player in json_data:
             player["games_played"] = sorted(player["games_played"]) 
@@ -158,8 +159,7 @@ class Poker:
                 print(day)
 
     def add_field(self):
-        with open(self.json_path, "r") as dest_file:
-            json_data = json.load(dest_file)    
+        json_data = self._load_json_data()    
 
         for player in json_data:
             # edit line below to add desired field
