@@ -29,17 +29,27 @@ class Poker:
         with open(self.json_path, "w") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def add_poker_game(self, ledger_csv_path: str, exclude_list=[]):
-        if not ledger_csv_path.endswith(".csv"):
-            raise FileNotFoundError("Error: Game data file must be a CSV File")
-        
-        # error handling needed
-        day = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1]).group(1)
+    def _load_game_data(self, ledger_csv_path: str):
+        if not os.path.exists(ledger_csv_path):
+            raise FileNotFoundError(f"The specified ledger path does not exist: {ledger_csv_path}")
 
-        # error handling needed
+        if not ledger_csv_path.endswith(".csv"):
+            raise FileNotFoundError("Error: Game ledger file must be a CSV File")  
+
+        match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
+        if match is None or match.group(1) is None:
+            raise ValueError(f"Unable to extract date from ledger file name: {ledger_csv_path}")
+
         game_data = pd.read_csv(ledger_csv_path)
+        day = match.group(1)
         
+        return game_data, day
+
+    def add_poker_game(self, ledger_csv_path: str, exclude_list=[]):
+    
         json_data = self._load_json_data()
+
+        game_data, day = self._load_game_data(ledger_csv_path)
 
         net_winnings_by_player = (
         game_data.groupby("player_nickname")["net"].sum() / 100
@@ -98,13 +108,8 @@ class Poker:
                 self.add_poker_game(filepath, exclude_list)
 
     def print_game_results(self, ledger_path: str):
-        if not ledger_path.endswith(".csv"):
-            raise FileNotFoundError("Error: Game ledger file must be a CSV File")  
-
-        if not os.path.exists(ledger_path):
-            raise FileNotFoundError(f"The specified ledger path does not exist: {ledger_path}")    
         
-        game_data = pd.read_csv(ledger_path)
+        game_data, _ = self._load_game_data(ledger_path)
 
         
         net_winnings_by_player = (game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
