@@ -1,5 +1,6 @@
 from poker import Poker
 import sys
+import click
 
 def main():
     # add_poker_game("ledgers/ledger11_09.csv", "data.json", [])
@@ -18,24 +19,53 @@ def main():
 
 
     # poker.reset_net_fields()
-    if len(sys.argv) > 1:
+    # if len(sys.argv) > 1:
 
-        # for adding game
-        if sys.argv[1] == "ag":
-            csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
-            poker.add_poker_game(csv_path)
+    #     # for adding game
+    #     if sys.argv[1] == "ag":
+    #         csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
+    #         poker.add_poker_game(csv_path)
             
-        # for printing results of game
-        if sys.argv[1] == "pg":
-            csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
-            poker.print_game_results(csv_path)
+    #     # for printing results of game
+    #     if sys.argv[1] == "pg":
+    #         csv_path = f"{poker.ledger_folder_path}/ledger{sys.argv[2]}.csv"
+    #         poker.print_game_results(csv_path)
 
-        if sys.argv[1] == "pgs":
-            poker.print_all_games()
+    #     if sys.argv[1] == "pgs":
+    #         poker.print_all_games()
 
 
     
-    print("\ndone")
+    # print("\ndone")
+
+@click.group()
+def cli():
+    """Poker Game Management System."""
+    pass
+
+@cli.command()
+@click.argument('ledger_date')
+def pg(ledger_date):
+    """Print the results of a poker game."""
+    poker = Poker("ledgers", "data.json")
+    csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
+    poker.print_game_results(csv_path)
+
+@cli.command()
+def pgs():
+    """Print all games."""
+    poker = Poker("ledgers", "data.json")
+    poker.print_all_games()
+
+@cli.command()
+@click.argument('ledger_date')
+def ag(ledger_date):
+    """Add a poker game."""
+    poker = Poker("ledgers", "data.json")
+    csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
+    poker.add_poker_game(csv_path)
+
 
 if __name__ == "__main__":
     main()
+    cli()
