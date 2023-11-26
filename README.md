@@ -9,3 +9,10 @@ PUTR is a web application for tracking side poker games. It allows users to reco
 - Analyze player performance over time
 - Generate leaderboards and rankings
 
+## Testing
+
+Run the following command in terminal to execute tests
+
+```
+pytest
+```
