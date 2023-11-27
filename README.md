@@ -12,6 +12,10 @@ conda activate putr
 
 # if using pip
 pip install -r requirements.txt
+
+# recommended to use virtual environment
+python -m venv venv
+source venv/bin/activate
 ```
 
 
@@ -24,8 +28,12 @@ pip install -r requirements.txt
 
 ## Testing
 
-Run the following command in terminal to execute tests
+Run the following commands for testing
 
 ```
+# run all tests
 pytest
+
+# run all tests with line coverage
+coverage run -m pytest && coverage report -m
 ```
