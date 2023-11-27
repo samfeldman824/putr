@@ -13,7 +13,7 @@ conda activate putr
 # if using pip
 pip install -r requirements.txt
 
-# recommended to use virtual environment
+# it is recommended to use a virtual environment
 python -m venv venv
 source venv/bin/activate
 ```
