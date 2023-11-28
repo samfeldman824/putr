@@ -2,3 +2,4 @@ click
 coverage
 pandas
 pytest
+venmo-api

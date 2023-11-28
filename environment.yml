@@ -38,3 +38,10 @@ dependencies:
   - wheel=0.41.2=py311hca03da5_0
   - xz=5.4.2=h80987f9_0
   - zlib=1.2.13=h5a0b063_0
+  - pip:
+      - certifi==2023.11.17
+      - charset-normalizer==3.3.2
+      - idna==3.6
+      - requests==2.31.0
+      - urllib3==2.1.0
+      - venmo-api==0.3.1
