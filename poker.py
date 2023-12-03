@@ -308,7 +308,8 @@ class Poker:
         """
         Adds a new field to each player in the JSON data.
 
-        This method iterates over each player in the JSON data and adds a new field called "mock_field" with a default value of 0.
+        This method iterates over each player in the JSON data and adds a new field called
+        "mock_field" with a default value of 0.
 
         Args:
             None
