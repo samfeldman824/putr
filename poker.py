@@ -19,8 +19,8 @@ class Poker:
             None
         """
         self._validate_paths(ledger_folder_path, json_path)
-        self.ledger_folder_path = ledger_folder_path
-        self.json_path = json_path
+        self.ledger_folder_path: str = ledger_folder_path
+        self.json_path: str = json_path
 
     def _validate_paths(self, ledger_folder_path: str, json_path: str) -> None:
         """
@@ -91,7 +91,7 @@ class Poker:
             
             return game_data, day
 
-    def add_poker_game(self, ledger_csv_path: str, exclude_list=[]):
+    def add_poker_game(self, ledger_csv_path: str, exclude_list=[]) -> None:
             """
             Adds a poker game to the ledger.
 
@@ -157,7 +157,7 @@ class Poker:
                         print(f"{name}")
                 print("Not all players known")
 
-    def add_all_games(self, exclude_list=[]):
+    def add_all_games(self, exclude_list=[]) -> None:
         """
         Add all poker games from the ledger folder to the ledger.
 
@@ -169,10 +169,10 @@ class Poker:
         """
         for file in sorted(os.listdir(self.ledger_folder_path)):
             if file.endswith(".csv"):
-                filepath = f"{self.ledger_folder_path}/{file}"
+                filepath: str = f"{self.ledger_folder_path}/{file}"
                 self.add_poker_game(filepath, exclude_list)
 
-    def print_game_results(self, ledger_path: str):
+    def print_game_results(self, ledger_path: str) -> None:
             """
             Prints the game results by player, showing their net winnings.
 
@@ -193,7 +193,7 @@ class Poker:
             for name, net in sorted_winnings.items():
                 print(f"{name}: {net}")
 
-    def print_unique_nicknames(self):
+    def print_unique_nicknames(self) -> None:
             """
             Prints the unique nicknames of players found in the CSV files within the ledger folder.
 
@@ -210,7 +210,7 @@ class Poker:
 
             print(list(unique_nicknames))
 
-    def reset_net_fields(self):
+    def reset_net_fields(self) -> None:
         """
         Resets the net-related fields for each player in the JSON data.
 
@@ -247,7 +247,7 @@ class Poker:
 
         self._save_json_data(json_data)
 
-    def sort_days_list(self):
+    def sort_days_list(self) -> None:
         """
         Sorts the 'games_played' list for each player in the JSON data.
 
@@ -267,7 +267,7 @@ class Poker:
 
         self._save_json_data(json_data)
 
-    def print_all_games(self):
+    def print_all_games(self) -> None:
         """
         Prints the day of each game found in the ledger folder.
 
@@ -285,7 +285,7 @@ class Poker:
                 day = re.search(r"ledger(.*?)\.csv", file).group(1)
                 print(day)
 
-    def add_field(self):
+    def add_field(self) -> None:
         """
         Adds a new field to each player in the JSON data.
 
