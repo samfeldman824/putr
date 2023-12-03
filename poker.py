@@ -23,14 +23,16 @@ class Poker:
 
     def _validate_paths(self, ledger_folder_path: str, json_path: str) -> None:
         """
-        Validates the existence of the specified ledger folder path and JSON path.
+        Validates the existence of the specified ledger folder path and JSON
+        path.
 
         Args:
             ledger_folder_path (str): The path to the ledger folder.
             json_path (str): The path to the JSON file.
 
         Raises:
-            FileNotFoundError: If the specified JSON path or ledger folder path does not exist.
+            FileNotFoundError: If the specified JSON path or ledger folder path
+            does not exist.
         """
         if not os.path.exists(json_path):
             raise FileNotFoundError(
@@ -69,10 +71,12 @@ class Poker:
         Load game data from a CSV file.
 
         Args:
-            ledger_csv_path (str): The path to the CSV file containing the game data.
+            ledger_csv_path (str): The path to the CSV file containing the game
+            data.
 
         Returns:
-            tuple: A tuple containing the loaded game data (pandas DataFrame) and the extracted day (str).
+            tuple: A tuple containing the loaded game data (pandas DataFrame)
+            and the extracted day (str).
 
         Raises:
             FileNotFoundError: If the specified ledger path does not exist.
@@ -104,7 +108,8 @@ class Poker:
 
         Parameters:
         - ledger_csv_path (str): The file path of the ledger CSV.
-        - exclude_list (list): A list of player nicknames to exclude from the game data.
+        - exclude_list (list): A list of player nicknames to exclude from the
+        game data.
 
         Returns:
         None
@@ -172,7 +177,8 @@ class Poker:
         Add all poker games from the ledger folder to the ledger.
 
         Args:
-            exclude_list (list, optional): A list of player nicknames to exclude from adding. Defaults to an empty list.
+            exclude_list (list, optional): A list of player nicknames to
+            exclude from adding. Defaults to an empty list.
 
         Returns:
             None
