@@ -110,6 +110,19 @@ class Poker:
 
     def _calculate_net_winnings(self, game_data: pd.DataFrame,
                                 exclude_list=[]) -> dict:
+        """
+        Calculate the net winnings for each player in the game data.
+
+        Parameters:
+        game_data (pd.DataFrame): The game data containing player information
+            and net winnings.
+        exclude_list (list): A list of player nicknames to exclude from the
+            calculation. Default is an empty list.
+
+        Returns:
+        dict: A dictionary containing the net winnings for each player,
+        excluding those in the exclude_list.
+        """
 
         net_winnings_by_player = (
             game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
@@ -119,6 +132,25 @@ class Poker:
 
     def _update_players(self, json_data: dict, net_winnings_by_player: dict,
                         day: str, up_most: list, down_most: list) -> list:
+        """
+        Updates the players' information based on the provided JSON data and
+        net winnings.
+
+        Args:
+            json_data (dict): The JSON data containing the player information.
+            net_winnings_by_player (dict): A dictionary mapping player names to
+                their net winnings.
+            day (str): The day for which the update is being performed.
+            up_most (list): A list to store the players who have gained the
+                most.
+            down_most (list): A list to store the players who have lost the
+            most.
+
+        Returns:
+            tuple: A tuple containing the number of players updated and a list
+                of the updated players' names.
+        """
+
         players_updated = 0
         players_updated_list = []
 
