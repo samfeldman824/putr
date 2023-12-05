@@ -1,12 +1,15 @@
 def get_min_and_max_names(amount_dict: dict):
     """
-    Returns the names with the maximum and minimum amounts from the given amount_dict.
+    Returns the names with the maximum and minimum amounts from the given
+    amount_dict.
 
     Args:
-        amount_dict (dict): A dictionary containing names as keys and amounts as values.
+        amount_dict (dict): A dictionary containing names as keys and amounts
+        as values.
 
     Returns:
-        tuple: A tuple containing two lists - the names with the maximum amount and the names with the minimum amount.
+        tuple: A tuple containing two lists - the names with the maximum amount
+        and the names with the minimum amount.
     """
     min_names = []
     max_names = []
