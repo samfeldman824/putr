@@ -42,7 +42,8 @@ class Poker:
             )
         if not os.path.exists(ledger_folder_path):
             raise FileNotFoundError(
-                f"The specified ledger folder path does not exist: {ledger_folder_path}"
+                f"""The specified ledger folder
+                path does not exist: {ledger_folder_path}"""
             )
 
     def _load_json_data(self):
@@ -83,7 +84,8 @@ class Poker:
         Raises:
             FileNotFoundError: If the specified ledger path does not exist.
             FileNotFoundError: If the game ledger file is not a CSV file.
-            ValueError: If unable to extract the date from the ledger file name.
+            ValueError: If unable to extract the date from the
+                ledger file name.
         """
         if not os.path.exists(ledger_csv_path):
             raise FileNotFoundError(
@@ -91,12 +93,14 @@ class Poker:
             )
 
         if not ledger_csv_path.endswith(".csv"):
-            raise FileNotFoundError("Error: Game ledger file must be a CSV File")
+            raise FileNotFoundError("""Error: Game ledger
+                                    file must be a CSV File""")
 
         match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
         if match is None or match.group(1) is None:
             raise ValueError(
-                f"Unable to extract date from ledger file name: {ledger_csv_path}"
+                f"""Unable to extract date from ledger
+                    file name: {ledger_csv_path}"""
             )
 
         game_data = pd.read_csv(ledger_csv_path)
@@ -148,8 +152,10 @@ class Poker:
                     player["biggest_loss"] = min(
                         player["biggest_loss"], net_winnings_by_player[name]
                     )
-                    player["highest_net"] = max(player["highest_net"], player["net"])
-                    player["lowest_net"] = min(player["lowest_net"], player["net"])
+                    player["highest_net"] = max(player["highest_net"],
+                                                player["net"])
+                    player["lowest_net"] = min(player["lowest_net"],
+                                               player["net"])
                     player["net_dictionary"][day[:5]] = player["net"]
                     if name in up_most:
                         player["games_up_most"] += 1
@@ -208,7 +214,8 @@ class Poker:
         ).to_dict()
         sorted_winnings = dict(
             sorted(
-                net_winnings_by_player.items(), key=lambda item: item[1], reverse=True
+                net_winnings_by_player.items(),
+                key=lambda item: item[1], reverse=True
             )
         )
         for name, net in sorted_winnings.items():
@@ -216,7 +223,8 @@ class Poker:
 
     def print_unique_nicknames(self) -> None:
         """
-        Prints the unique nicknames of players found in the CSV files within the ledger folder.
+        Prints the unique nicknames of players found in the CSV
+        files within the ledger folder.
 
         Returns:
             None
@@ -272,8 +280,8 @@ class Poker:
         """
         Sorts the 'games_played' list for each player in the JSON data.
 
-        This method loads the JSON data, sorts the 'games_played' list for each player,
-        and then saves the updated JSON data.
+        This method loads the JSON data, sorts the 'games_played'list for each
+        player, and then saves the updated JSON data.
 
         Parameters:
             None
@@ -292,8 +300,9 @@ class Poker:
         """
         Prints the day of each game found in the ledger folder.
 
-        This method iterates over the files in the ledger folder and prints the day of each game
-        by extracting it from the file name. Only files with the ".csv" extension are considered.
+        This method iterates over the files in the ledger folder and prints the
+        day of each game by extracting it from the file name. Only files with
+        the ".csv" extension are considered.
 
         Args:
             self (object): The instance of the class.
@@ -310,8 +319,8 @@ class Poker:
         """
         Adds a new field to each player in the JSON data.
 
-        This method iterates over each player in the JSON data and adds a new field called
-        "mock_field" with a default value of 0.
+        This method iterates over each player in the JSON data and adds a new
+        field called "mock_field" with a default value of 0.
 
         Args:
             None
