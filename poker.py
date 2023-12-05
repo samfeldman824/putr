@@ -46,7 +46,7 @@ class Poker:
                 path does not exist: {ledger_folder_path}"""
             )
 
-    def _load_json_data(self):
+    def _load_json_data(self) -> dict:
         """
         Loads JSON data from the specified file path.
 
@@ -56,7 +56,7 @@ class Poker:
         with open(self.json_path, "r", encoding="utf-8") as json_file:
             return json.load(json_file)
 
-    def _save_json_data(self, data):
+    def _save_json_data(self, data) -> None:
         """
         Save the given data as JSON to the specified file path.
 
@@ -69,7 +69,7 @@ class Poker:
         with open(self.json_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def _load_game_data(self, ledger_csv_path: str):
+    def _load_game_data(self, ledger_csv_path: str) -> tuple:
         """
         Load game data from a CSV file.
 
