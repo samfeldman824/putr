@@ -117,6 +117,43 @@ class Poker:
         return {key: value for key, value in net_winnings_by_player.items()
                 if key not in exclude_list}
 
+    def _update_players(self, json_data: dict, net_winnings_by_player: dict,
+                        day: str, up_most: list, down_most: list) -> list:
+        players_updated = 0
+        players_updated_list = [] 
+
+        for player in json_data:
+            for name in player["player_nicknames"]:
+                if name in net_winnings_by_player:
+                    self._update_individual_player(player, name, net_winnings_by_player,
+                                                   day, up_most, down_most)
+                    players_updated += 1
+                    players_updated_list.append(name)
+        return players_updated, players_updated_list
+
+
+    def _update_individual_player(self, player: dict, name: str,
+                    net_winnings_by_player: dict, day: str, up_most: list,
+        down_most: list) -> None:
+
+        player_net = net_winnings_by_player[name]
+        player["net"] += player_net
+        player["games_played"].append(day)
+        player["biggest_win"] = max(player["biggest_win"], player_net)
+        player["biggest_loss"] = min(player["biggest_loss"], player_net)
+        player["highest_net"] = max(player["highest_net"], player["net"])
+        player["lowest_net"] = min(player["lowest_net"], player["net"])
+        player["net_dictionary"][day[:5]] = player["net"]
+        
+        if name in up_most:
+            player["games_up_most"] += 1
+        if name in down_most:
+            player["games_down_most"] += 1
+        if player_net > 0:
+            player["games_up"] += 1
+        if player_net < 0:
+            player["games_down"] += 1
+        
     def add_poker_game(self, ledger_csv_path: str, exclude_list=[]) -> None:
         """
         Adds a poker game to the ledger.
@@ -136,49 +173,13 @@ class Poker:
 
         net_winnings_by_player = self._calculate_net_winnings(game_data,
                                                               exclude_list)
-        # net_winnings_by_player = (
-        #     game_data.groupby("player_nickname")["net"].sum() / 100
-        # ).to_dict()
-
-        # net_winnings_by_player = {
-        #     key: value
-        #     for key, value in net_winnings_by_player.items()
-        #     if key not in exclude_list
-        # }
 
         up_most, down_most = get_min_and_max_names(net_winnings_by_player)
 
-        players_updated = 0
-        players_updated_list = []
+        players_updated, players_updated_list = self._update_players(json_data,
+                                                                     net_winnings_by_player,
+                                                                     day, up_most, down_most)
 
-        for player in json_data:
-            for name in player["player_nicknames"]:
-                if name in net_winnings_by_player:
-                    # print(name, net_winnings_by_player[name])
-                    player["net"] += net_winnings_by_player[name]
-                    player["games_played"].append(day)
-                    player["biggest_win"] = max(
-                        player["biggest_win"], net_winnings_by_player[name]
-                    )
-                    player["biggest_loss"] = min(
-                        player["biggest_loss"], net_winnings_by_player[name]
-                    )
-                    player["highest_net"] = max(player["highest_net"],
-                                                player["net"])
-                    player["lowest_net"] = min(player["lowest_net"],
-                                               player["net"])
-                    player["net_dictionary"][day[:5]] = player["net"]
-                    if name in up_most:
-                        player["games_up_most"] += 1
-                    if name in down_most:
-                        player["games_down_most"] += 1
-                    if net_winnings_by_player[name] > 0:
-                        player["games_up"] += 1
-                    if net_winnings_by_player[name] < 0:
-                        player["games_down"] += 1
-
-                    players_updated += 1
-                    players_updated_list.append(name)
 
         if players_updated == len(net_winnings_by_player):
             for name, net in net_winnings_by_player.items():
