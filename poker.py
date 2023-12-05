@@ -108,6 +108,15 @@ class Poker:
 
         return game_data, day
 
+    def _calculate_net_winnings(self, game_data: pd.DataFrame,
+                                exclude_list=[]) -> dict:
+
+        net_winnings_by_player = (
+            game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
+
+        return {key: value for key, value in net_winnings_by_player.items()
+                if key not in exclude_list}
+
     def add_poker_game(self, ledger_csv_path: str, exclude_list=[]) -> None:
         """
         Adds a poker game to the ledger.
@@ -125,15 +134,17 @@ class Poker:
 
         game_data, day = self._load_game_data(ledger_csv_path)
 
-        net_winnings_by_player = (
-            game_data.groupby("player_nickname")["net"].sum() / 100
-        ).to_dict()
+        net_winnings_by_player = self._calculate_net_winnings(game_data,
+                                                              exclude_list)
+        # net_winnings_by_player = (
+        #     game_data.groupby("player_nickname")["net"].sum() / 100
+        # ).to_dict()
 
-        net_winnings_by_player = {
-            key: value
-            for key, value in net_winnings_by_player.items()
-            if key not in exclude_list
-        }
+        # net_winnings_by_player = {
+        #     key: value
+        #     for key, value in net_winnings_by_player.items()
+        #     if key not in exclude_list
+        # }
 
         up_most, down_most = get_min_and_max_names(net_winnings_by_player)
 
