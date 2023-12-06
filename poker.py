@@ -69,7 +69,8 @@ class Poker:
         with open(self.json_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def _load_game_data(self, ledger_csv_path: str) -> tuple:
+    def _load_game_data(self,
+                        ledger_csv_path: str) -> tuple[pd.DataFrame, str]:
         """
         Load game data from a CSV file.
 
@@ -109,7 +110,7 @@ class Poker:
         return game_data, day
 
     def _calculate_net_winnings(self, game_data: pd.DataFrame,
-                                exclude_list=[]) -> dict:
+                                exclude_list=[]) -> dict[str, float]:
         """
         Calculate the net winnings for each player in the game data.
 
@@ -166,7 +167,8 @@ class Poker:
         return players_updated, players_updated_list
 
     def _update_individual_player(
-        self, player: dict, name: str, net_winnings_by_player: dict, day: str,
+        self, player: dict, name: str,
+        net_winnings_by_player: dict[str, float], day: str,
             up_most: list, down_most: list) -> None:
 
         player_net = net_winnings_by_player[name]
