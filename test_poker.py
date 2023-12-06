@@ -102,7 +102,9 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         assert json_data[2]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
-    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+    assert out == (
+        "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+        )
 
 
 def test_add_poker_game2(tem_dir_fixture2, capfd):
@@ -149,7 +151,9 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
         assert json_data[2]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
-    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+    assert (
+      out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+    )
 
 
 def test_add_all_games(tem_dir_fixture1, capfd):
@@ -158,7 +162,9 @@ def test_add_all_games(tem_dir_fixture1, capfd):
     poker.add_all_games(["Joe"])
 
     out, _ = capfd.readouterr()
-    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+    assert (
+      out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
+        )
 
 
 def test_print_game_results(tem_dir_fixture1, capfd):
