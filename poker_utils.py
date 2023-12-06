@@ -1,4 +1,4 @@
-def get_min_and_max_names(amount_dict: dict) -> tuple:
+def get_min_and_max_names(amount_dict: dict) -> tuple[list, list]:
     """
     Returns the names with the maximum and minimum amounts from the given
     amount_dict.

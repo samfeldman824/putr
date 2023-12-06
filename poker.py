@@ -103,8 +103,8 @@ class Poker:
                     file name: {ledger_csv_path}"""
             )
 
-        game_data = pd.read_csv(ledger_csv_path)
-        day = match.group(1)
+        game_data: pd.DataFrame = pd.read_csv(ledger_csv_path)
+        day: str = match.group(1)
 
         return game_data, day
 
@@ -124,14 +124,15 @@ class Poker:
         excluding those in the exclude_list.
         """
 
-        net_winnings_by_player = (
+        net_winnings_by_player: dict[str, float] = (
             game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
 
         return {key: value for key, value in net_winnings_by_player.items()
                 if key not in exclude_list}
 
-    def _update_players(self, json_data: dict, net_winnings_by_player: dict,
-                        day: str, up_most: list, down_most: list) -> list:
+    def _update_players(
+        self, json_data: dict, net_winnings_by_player: dict, day: str,
+            up_most: list, down_most: list) -> tuple[int, list]:
         """
         Updates the players' information based on the provided JSON data and
         net winnings.
@@ -151,8 +152,8 @@ class Poker:
                 of the updated players' names.
         """
 
-        players_updated = 0
-        players_updated_list = []
+        players_updated: int = 0
+        players_updated_list: list = []
 
         for player in json_data:
             for name in player["player_nicknames"]:
@@ -177,6 +178,7 @@ class Poker:
         player["lowest_net"] = min(player["lowest_net"], player["net"])
         player["net_dictionary"][day[:5]] = player["net"]
         player["average_net"] = player["net"] / len(player["games_played"])
+
         if name in up_most:
             player["games_up_most"] += 1
         if name in down_most:
