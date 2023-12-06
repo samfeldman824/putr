@@ -56,7 +56,7 @@ class Poker:
         with open(self.json_path, "r", encoding="utf-8") as json_file:
             return json.load(json_file)
 
-    def _save_json_data(self, data) -> None:
+    def _save_json_data(self, data: dict) -> None:
         """
         Save the given data as JSON to the specified file path.
 
@@ -109,8 +109,9 @@ class Poker:
 
         return game_data, day
 
-    def _calculate_net_winnings(self, game_data: pd.DataFrame,
-                                exclude_list=[]) -> dict[str, float]:
+    def _calculate_net_winnings(
+        self, game_data: pd.DataFrame, exclude_list: list[str] = []
+            ) -> dict[str, float]:
         """
         Calculate the net winnings for each player in the game data.
 
@@ -132,8 +133,9 @@ class Poker:
                 if key not in exclude_list}
 
     def _update_players(
-        self, json_data: dict, net_winnings_by_player: dict, day: str,
-            up_most: list, down_most: list) -> tuple[int, list]:
+        self, json_data: list[dict], net_winnings_by_player: dict[str, float],
+            day: str, up_most: list[str], down_most: list[str]
+            ) -> tuple[int, list]:
         """
         Updates the players' information based on the provided JSON data and
         net winnings.
