@@ -161,14 +161,14 @@ class Poker:
         for player in json_data:
             for name in player["player_nicknames"]:
                 if name in net_winnings_by_player:
-                    self._update_individual_player(player, name,
-                                                   net_winnings_by_player,
-                                                   day, up_most, down_most)
+                    self._update_individual_stats(
+                        player, name, net_winnings_by_player,
+                        day, up_most, down_most)
                     players_updated += 1
                     players_updated_list.append(name)
         return players_updated, players_updated_list
 
-    def _update_individual_player(
+    def _update_individual_stats(
         self, player: dict, name: str,
         net_winnings_by_player: dict[str, float], day: str,
             up_most: list, down_most: list) -> None:
