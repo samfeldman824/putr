@@ -67,6 +67,7 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         assert json_data[0]["games_up_most"] == 1
         assert json_data[0]["games_down_most"] == 0
         assert json_data[0]["net_dictionary"] == {"01_01": 5.5}
+        assert json_data[0]["average_net"] == 5.5
 
         assert json_data[1]["net"] == -4.25
         assert json_data[1]["biggest_win"] == 0
@@ -78,6 +79,7 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         assert json_data[1]["games_up_most"] == 0
         assert json_data[1]["games_down_most"] == 1 
         assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
+        assert json_data[1]["average_net"] == -4.25
 
         assert json_data[2]["net"] == -1.25
         assert json_data[2]["biggest_win"] == 0
@@ -89,6 +91,7 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         assert json_data[2]["games_up_most"] == 0
         assert json_data[2]["games_down_most"] == 0
         assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
+        assert json_data[2]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
@@ -110,6 +113,7 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
         assert json_data[0]["games_up_most"] == 2
         assert json_data[0]["games_down_most"] == 1
         assert json_data[0]["net_dictionary"] == {"01_01": 5.5}
+        assert json_data[0]["average_net"] == 5.5
 
         assert json_data[1]["net"] == -4.25 
         assert json_data[1]["biggest_win"] == 20
@@ -121,6 +125,7 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
         assert json_data[1]["games_up_most"] == 1
         assert json_data[1]["games_down_most"] == 2
         assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
+        assert json_data[1]["average_net"] == -4.25
 
         assert json_data[2]["net"] == -1.25
         assert json_data[2]["biggest_win"] == 20
@@ -132,6 +137,8 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
         assert json_data[2]["games_up_most"] == 1
         assert json_data[2]["games_down_most"] == 1
         assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
+        assert json_data[2]["average_net"] == -1.25
+
 
     out, _ = capfd.readouterr()
     assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
@@ -192,6 +199,7 @@ def test_reset_net_fields(tem_dir_fixture1, capfd):
             assert player_data["games_up_most"] == 0
             assert player_data["games_down_most"] == 0
             assert player_data["net_dictionary"] == {"01_01": 0}
+            assert player_data["average_net"] == 0
 
 def test_add_field(tem_dir_fixture1, capfd):
 

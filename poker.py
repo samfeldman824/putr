@@ -176,6 +176,7 @@ class Poker:
         player["highest_net"] = max(player["highest_net"], player["net"])
         player["lowest_net"] = min(player["lowest_net"], player["net"])
         player["net_dictionary"][day[:5]] = player["net"]
+        player["average_net"] = player["net"] / len(player["games_played"])
         if name in up_most:
             player["games_up_most"] += 1
         if name in down_most:
@@ -314,6 +315,7 @@ class Poker:
             player["games_down_most"] = 0
             player["games_up"] = 0
             player["games_down"] = 0
+            player["average_net"] = 0
 
         self._save_json_data(json_data)
 

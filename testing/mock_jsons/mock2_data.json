@@ -16,7 +16,8 @@
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
-        "games_down": 1
+        "games_down": 1,
+        "average_net": 0
     },
     {
         "id": 2,
@@ -35,7 +36,8 @@
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
-        "games_down": 1
+        "games_down": 1,
+        "average_net": 0
     },
     {
         "id": 3,
@@ -54,6 +56,7 @@
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
-        "games_down": 1
+        "games_down": 1,
+        "average_net": 0
     } 
 ]

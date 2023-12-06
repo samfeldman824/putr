@@ -11,8 +11,8 @@ def main():
     # add_fields("data.json")
     poker = Poker("ledgers", "data.json")
     # poker.add_poker_game("fake_path.csv")
-    # poker.reset_net_fields()
-    # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
+    poker.reset_net_fields()
+    poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff", "grant lumkong"])
     # poker.add_poker_game("ledgers/ledger11_10.csv")
     # poker.add_field()
 
