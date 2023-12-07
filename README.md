@@ -8,7 +8,7 @@ Install required packages with commands below
 ```
 # if using conda
 conda env create -f environment.yml
-conda activate putr
+conda activate putr_env
 
 # if using pip
 pip install -r requirements.txt
