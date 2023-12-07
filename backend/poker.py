@@ -4,7 +4,7 @@ import os
 
 import pandas as pd
 
-from poker_utils import get_min_and_max_names
+# from poker_utils import get_min_and_max_names
 
 
 class Poker:
@@ -23,7 +23,8 @@ class Poker:
         self.ledger_folder_path: str = ledger_folder_path
         self.json_path: str = json_path
 
-    def _validate_paths(self, ledger_folder_path: str, json_path: str) -> None:
+    @staticmethod
+    def _validate_paths(ledger_folder_path: str, json_path: str) -> None:
         """
         Validates the existence of the specified ledger folder path and JSON
         path.
@@ -69,8 +70,8 @@ class Poker:
         with open(self.json_path, "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, indent=4)
 
-    def _load_game_data(self,
-                        ledger_csv_path: str) -> tuple[pd.DataFrame, str]:
+    @staticmethod
+    def _load_game_data(ledger_csv_path: str) -> tuple[pd.DataFrame, str]:
         """
         Load game data from a CSV file.
 
@@ -109,8 +110,9 @@ class Poker:
 
         return game_data, day
 
+    @staticmethod
     def _calculate_net_winnings(
-        self, game_data: pd.DataFrame, exclude_list: list[str] = []
+        game_data: pd.DataFrame, exclude_list: list[str] = []
             ) -> dict[str, float]:
         """
         Calculate the net winnings for each player in the game data.
@@ -168,10 +170,10 @@ class Poker:
                     players_updated_list.append(name)
         return players_updated, players_updated_list
 
+    @staticmethod
     def _update_individual_stats(
-        self, player: dict, name: str,
-        net_winnings_by_player: dict[str, float], day: str,
-            up_most: list, down_most: list) -> None:
+        player: dict, name: str, net_winnings_by_player: dict[str, float],
+            day: str, up_most: list, down_most: list) -> None:
 
         player_net = net_winnings_by_player[name]
         player["net"] += player_net
@@ -191,6 +193,40 @@ class Poker:
             player["games_up"] += 1
         if player_net < 0:
             player["games_down"] += 1
+
+    @staticmethod
+    def get_min_and_max_names(amount_dict: dict) -> tuple[list, list]:
+        """
+        Returns the names with the maximum and minimum amounts from the given
+        amount_dict.
+
+        Args:
+            amount_dict (dict): A dictionary containing names as keys and
+            amounts as values.
+
+        Returns:
+            tuple: A tuple containing two lists - the names with the maximum
+            amount and the names with the minimum amount.
+        """
+        min_names = []
+        max_names = []
+        min_amount = float('inf')
+        max_amount = float('-inf')
+
+        for name, amount in amount_dict.items():
+            if amount == max_amount:
+                max_names.append(name)
+            elif amount > max_amount:
+                max_names = [name]
+                max_amount = amount
+
+            if amount == min_amount:
+                min_names.append(name)
+            elif amount < min_amount:
+                min_names = [name]
+                min_amount = amount
+
+        return max_names, min_names
 
     def add_poker_game(self, ledger_csv_path: str, exclude_list=[]) -> None:
         """
@@ -212,7 +248,7 @@ class Poker:
         net_winnings_by_player = self._calculate_net_winnings(game_data,
                                                               exclude_list)
 
-        up_most, down_most = get_min_and_max_names(net_winnings_by_player)
+        up_most, down_most = self.get_min_and_max_names(net_winnings_by_player)
 
         players_updated, players_updated_list = self._update_players(
             json_data, net_winnings_by_player, day, up_most, down_most)
