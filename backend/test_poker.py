@@ -12,13 +12,13 @@ def tem_dir_fixture1():
     with TemporaryDirectory() as tempdir:
 
         # move mock_jsons to tempdir
-        original_json_path = "testing/mock_jsons"
+        original_json_path = "backend/testing/mock_jsons"
         new_json_path = os.path.join(tempdir, os.path.basename(
             original_json_path))
         shutil.copytree(original_json_path, new_json_path)
 
         # move mock_ledgers to tempdir
-        original_ledger_path = "testing/mock_ledgers"
+        original_ledger_path = "backend/testing/mock_ledgers"
         new_ledger_path = os.path.join(tempdir, os.path.basename(
             original_ledger_path))
         shutil.copytree(original_ledger_path, new_ledger_path)
@@ -39,13 +39,13 @@ def tem_dir_fixture2():
     with TemporaryDirectory() as tempdir:
 
         # move mock_jsons to tempdir
-        original_json_path = "testing/mock_jsons"
+        original_json_path = "backend/testing/mock_jsons"
         new_json_path = os.path.join(tempdir, os.path.basename(
             original_json_path))
         shutil.copytree(original_json_path, new_json_path)
 
         # move mock_ledgers to tempdir
-        original_ledger_path = "testing/mock_ledgers"
+        original_ledger_path = "backend/testing/mock_ledgers"
         new_ledger_path = os.path.join(tempdir, os.path.basename(
             original_ledger_path))
         shutil.copytree(original_ledger_path, new_ledger_path)
