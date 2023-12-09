@@ -1,20 +1,20 @@
 const urlParams = new URLSearchParams(window.location.search);
-        const playerID = urlParams.get('playerID');
+        const playerName = decodeURIComponent(urlParams.get('playerName'));
         // console.log("player id is",playerID)
 
         fetch("data.json")
             .then(response => response.json())
             .then(data => {
-
+            data = data[0]
             // Find the player by ID
-            const player = data.find(player => player.id === parseInt(playerID));
+            const player = data[playerName];
             // console.log(player)
 
             if (player) {
                 const profileStats = document.getElementById("playerStats");
                 const nameDiv = document.getElementById("playerInfo")
                 nameDiv.innerHTML = `
-              <h1>${player.name}</h1>
+              <h1>${playerName}</h1>
               `  
                 profileStats.innerHTML = `
                         <p>PUTR: ${player.putr.toFixed(2)}</p>

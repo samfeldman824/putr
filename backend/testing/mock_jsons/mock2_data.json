@@ -1,62 +1,70 @@
 [
     {
+    "Alice": {
         "id": 1,
         "flag": "flags/hong-kong.png",
-        "name": "Alice",
-        "putr": 12.30,
+        "putr": 12.3,
         "net": 0,
         "player_id": "A1",
-        "player_nicknames": ["Alice", "Alice1"],
-        "games_played": [],
         "biggest_win": 20,
         "biggest_loss": -10,
         "highest_net": 10,
         "lowest_net": -10,
-        "net_dictionary": {},
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
         "games_down": 1,
-        "average_net": 0
+        "average_net": 0,
+        "player_nicknames": [
+            "Alice",
+            "Alice1"
+        ],
+        "games_played": [],
+        "net_dictionary": {}
     },
-    {
+    "Bob": {
         "id": 2,
         "flag": "flags/hong-kong.png",
-        "name": "Bob",
-        "putr": 11.40,
+        "putr": 11.4,
         "net": 0,
         "player_id": "A2",
-        "player_nicknames": ["Bob", "Bob1"],
-        "games_played": [],
         "biggest_win": 20,
         "biggest_loss": -10,
         "highest_net": 10,
         "lowest_net": -10,
-        "net_dictionary": {},
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
         "games_down": 1,
-        "average_net": 0
+        "average_net": 0,
+        "player_nicknames": [
+            "Bob",
+            "Bob1"
+        ],
+        "games_played": [],
+        "net_dictionary": {}
     },
-    {
+    "Charlie": {
         "id": 3,
         "flag": "flags/hong-kong.png",
-        "name": "Charlie",
-        "putr": 10.20,
+        "putr": 10.2,
         "net": 0,
         "player_id": "A3",
-        "player_nicknames": ["Charlie", "Charlie1"],
-        "games_played": [],
         "biggest_win": 20,
         "biggest_loss": -10,
         "highest_net": 10,
         "lowest_net": -10,
-        "net_dictionary": {},
         "games_up_most": 1,
         "games_down_most": 1,
         "games_up": 1,
         "games_down": 1,
-        "average_net": 0
-    } 
+        "average_net": 0,
+        "player_nicknames": [
+            "Charlie",
+            "Charlie1"
+        ],
+        "games_played": [],
+        "net_dictionary": {}
+    }
+}
 ]

@@ -65,41 +65,76 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        assert json_data[0]["net"] == 5.5
-        assert json_data[0]["biggest_win"] == 5.5
-        assert json_data[0]["biggest_loss"] == 0
-        assert json_data[0]["highest_net"] == 5.5
-        assert json_data[0]["lowest_net"] == 0
-        assert json_data[0]["games_up"] == 1
-        assert json_data[0]["games_down"] == 0
-        assert json_data[0]["games_up_most"] == 1
-        assert json_data[0]["games_down_most"] == 0
-        assert json_data[0]["net_dictionary"] == {"01_01": 5.5}
-        assert json_data[0]["average_net"] == 5.5
+        assert json_data["Alice"]["net"] == 5.5
+        assert json_data["Alice"]["biggest_win"] == 5.5
+        assert json_data["Alice"]["biggest_loss"] == 0
+        assert json_data["Alice"]["highest_net"] == 5.5
+        assert json_data["Alice"]["lowest_net"] == 0
+        assert json_data["Alice"]["games_up"] == 1
+        assert json_data["Alice"]["games_down"] == 0
+        assert json_data["Alice"]["games_up_most"] == 1
+        assert json_data["Alice"]["games_down_most"] == 0
+        assert json_data["Alice"]["net_dictionary"] == {"01_01": 5.5}
+        assert json_data["Alice"]["average_net"] == 5.5
 
-        assert json_data[1]["net"] == -4.25
-        assert json_data[1]["biggest_win"] == 0
-        assert json_data[1]["biggest_loss"] == -4.25
-        assert json_data[1]["highest_net"] == 0
-        assert json_data[1]["lowest_net"] == -4.25
-        assert json_data[1]["games_up"] == 0
-        assert json_data[1]["games_down"] == 1
-        assert json_data[1]["games_up_most"] == 0
-        assert json_data[1]["games_down_most"] == 1
-        assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
-        assert json_data[1]["average_net"] == -4.25
+        assert json_data["Bob"]["net"] == -4.25
+        assert json_data["Bob"]["biggest_win"] == 0
+        assert json_data["Bob"]["biggest_loss"] == -4.25
+        assert json_data["Bob"]["highest_net"] == 0
+        assert json_data["Bob"]["lowest_net"] == -4.25
+        assert json_data["Bob"]["games_up"] == 0
+        assert json_data["Bob"]["games_down"] == 1
+        assert json_data["Bob"]["games_up_most"] == 0
+        assert json_data["Bob"]["games_down_most"] == 1
+        assert json_data["Bob"]["net_dictionary"] == {"01_01": -4.25}
+        assert json_data["Bob"]["average_net"] == -4.25
 
-        assert json_data[2]["net"] == -1.25
-        assert json_data[2]["biggest_win"] == 0
-        assert json_data[2]["biggest_loss"] == -1.25
-        assert json_data[2]["highest_net"] == 0
-        assert json_data[2]["lowest_net"] == -1.25
-        assert json_data[2]["games_up"] == 0
-        assert json_data[2]["games_down"] == 1
-        assert json_data[2]["games_up_most"] == 0
-        assert json_data[2]["games_down_most"] == 0
-        assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
-        assert json_data[2]["average_net"] == -1.25
+        assert json_data["Charlie"]["net"] == -1.25
+        assert json_data["Charlie"]["biggest_win"] == 0
+        assert json_data["Charlie"]["biggest_loss"] == -1.25
+        assert json_data["Charlie"]["highest_net"] == 0
+        assert json_data["Charlie"]["lowest_net"] == -1.25
+        assert json_data["Charlie"]["games_up"] == 0
+        assert json_data["Charlie"]["games_down"] == 1
+        assert json_data["Charlie"]["games_up_most"] == 0
+        assert json_data["Charlie"]["games_down_most"] == 0
+        assert json_data["Charlie"]["net_dictionary"] == {"01_01": -1.25}
+        assert json_data["Charlie"]["average_net"] == -1.25
+        # assert json_data[0]["net"] == 5.5
+        # assert json_data[0]["biggest_win"] == 5.5
+        # assert json_data[0]["biggest_loss"] == 0
+        # assert json_data[0]["highest_net"] == 5.5
+        # assert json_data[0]["lowest_net"] == 0
+        # assert json_data[0]["games_up"] == 1
+        # assert json_data[0]["games_down"] == 0
+        # assert json_data[0]["games_up_most"] == 1
+        # assert json_data[0]["games_down_most"] == 0
+        # assert json_data[0]["net_dictionary"] == {"01_01": 5.5}
+        # assert json_data[0]["average_net"] == 5.5
+
+        # assert json_data[1]["net"] == -4.25
+        # assert json_data[1]["biggest_win"] == 0
+        # assert json_data[1]["biggest_loss"] == -4.25
+        # assert json_data[1]["highest_net"] == 0
+        # assert json_data[1]["lowest_net"] == -4.25
+        # assert json_data[1]["games_up"] == 0
+        # assert json_data[1]["games_down"] == 1
+        # assert json_data[1]["games_up_most"] == 0
+        # assert json_data[1]["games_down_most"] == 1
+        # assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
+        # assert json_data[1]["average_net"] == -4.25
+
+        # assert json_data[2]["net"] == -1.25
+        # assert json_data[2]["biggest_win"] == 0
+        # assert json_data[2]["biggest_loss"] == -1.25
+        # assert json_data[2]["highest_net"] == 0
+        # assert json_data[2]["lowest_net"] == -1.25
+        # assert json_data[2]["games_up"] == 0
+        # assert json_data[2]["games_down"] == 1
+        # assert json_data[2]["games_up_most"] == 0
+        # assert json_data[2]["games_down_most"] == 0
+        # assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
+        # assert json_data[2]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
     assert out == (
@@ -114,41 +149,41 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        assert json_data[0]["net"] == 5.5
-        assert json_data[0]["biggest_win"] == 20
-        assert json_data[0]["biggest_loss"] == -10
-        assert json_data[0]["highest_net"] == 10
-        assert json_data[0]["lowest_net"] == -10
-        assert json_data[0]["games_up"] == 2
-        assert json_data[0]["games_down"] == 1
-        assert json_data[0]["games_up_most"] == 2
-        assert json_data[0]["games_down_most"] == 1
-        assert json_data[0]["net_dictionary"] == {"01_01": 5.5}
-        assert json_data[0]["average_net"] == 5.5
+        assert json_data["Alice"]["net"] == 5.5
+        assert json_data["Alice"]["biggest_win"] == 20
+        assert json_data["Alice"]["biggest_loss"] == -10
+        assert json_data["Alice"]["highest_net"] == 10
+        assert json_data["Alice"]["lowest_net"] == -10
+        assert json_data["Alice"]["games_up"] == 2
+        assert json_data["Alice"]["games_down"] == 1
+        assert json_data["Alice"]["games_up_most"] == 2
+        assert json_data["Alice"]["games_down_most"] == 1
+        assert json_data["Alice"]["net_dictionary"] == {"01_01": 5.5}
+        assert json_data["Alice"]["average_net"] == 5.5
 
-        assert json_data[1]["net"] == -4.25
-        assert json_data[1]["biggest_win"] == 20
-        assert json_data[1]["biggest_loss"] == -10
-        assert json_data[1]["highest_net"] == 10
-        assert json_data[1]["lowest_net"] == -10
-        assert json_data[1]["games_up"] == 1
-        assert json_data[1]["games_down"] == 2
-        assert json_data[1]["games_up_most"] == 1
-        assert json_data[1]["games_down_most"] == 2
-        assert json_data[1]["net_dictionary"] == {"01_01": -4.25}
-        assert json_data[1]["average_net"] == -4.25
+        assert json_data["Bob"]["net"] == -4.25
+        assert json_data["Bob"]["biggest_win"] == 20
+        assert json_data["Bob"]["biggest_loss"] == -10
+        assert json_data["Bob"]["highest_net"] == 10
+        assert json_data["Bob"]["lowest_net"] == -10
+        assert json_data["Bob"]["games_up"] == 1
+        assert json_data["Bob"]["games_down"] == 2
+        assert json_data["Bob"]["games_up_most"] == 1
+        assert json_data["Bob"]["games_down_most"] == 2
+        assert json_data["Bob"]["net_dictionary"] == {"01_01": -4.25}
+        assert json_data["Bob"]["average_net"] == -4.25
 
-        assert json_data[2]["net"] == -1.25
-        assert json_data[2]["biggest_win"] == 20
-        assert json_data[2]["biggest_loss"] == -10
-        assert json_data[2]["highest_net"] == 10
-        assert json_data[2]["lowest_net"] == -10
-        assert json_data[2]["games_up"] == 1
-        assert json_data[2]["games_down"] == 2
-        assert json_data[2]["games_up_most"] == 1
-        assert json_data[2]["games_down_most"] == 1
-        assert json_data[2]["net_dictionary"] == {"01_01": -1.25}
-        assert json_data[2]["average_net"] == -1.25
+        assert json_data["Charlie"]["net"] == -1.25
+        assert json_data["Charlie"]["biggest_win"] == 20
+        assert json_data["Charlie"]["biggest_loss"] == -10
+        assert json_data["Charlie"]["highest_net"] == 10
+        assert json_data["Charlie"]["lowest_net"] == -10
+        assert json_data["Charlie"]["games_up"] == 1
+        assert json_data["Charlie"]["games_down"] == 2
+        assert json_data["Charlie"]["games_up_most"] == 1
+        assert json_data["Charlie"]["games_down_most"] == 1
+        assert json_data["Charlie"]["net_dictionary"] == {"01_01": -1.25}
+        assert json_data["Charlie"]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
     assert (
@@ -207,18 +242,18 @@ def test_reset_net_fields(tem_dir_fixture1, capfd):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        for player_data in json_data:
-            assert player_data["net"] == 0
-            assert player_data["biggest_win"] == 0
-            assert player_data["biggest_loss"] == 0
-            assert player_data["highest_net"] == 0
-            assert player_data["lowest_net"] == 0
-            assert player_data["games_up"] == 0
-            assert player_data["games_down"] == 0
-            assert player_data["games_up_most"] == 0
-            assert player_data["games_down_most"] == 0
-            assert player_data["net_dictionary"] == {"01_01": 0}
-            assert player_data["average_net"] == 0
+        for player_data in json_data.keys():
+            assert json_data[player_data]["net"] == 0
+            assert json_data[player_data]["biggest_win"] == 0
+            assert json_data[player_data]["biggest_loss"] == 0
+            assert json_data[player_data]["highest_net"] == 0
+            assert json_data[player_data]["lowest_net"] == 0
+            assert json_data[player_data]["games_up"] == 0
+            assert json_data[player_data]["games_down"] == 0
+            assert json_data[player_data]["games_up_most"] == 0
+            assert json_data[player_data]["games_down_most"] == 0
+            assert json_data[player_data]["net_dictionary"] == {"01_01": 0}
+            assert json_data[player_data]["average_net"] == 0
 
 
 def test_add_field(tem_dir_fixture1, capfd):
@@ -229,8 +264,8 @@ def test_add_field(tem_dir_fixture1, capfd):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        for player_data in json_data:
-            assert player_data["mock_field"] == 0
+        for player_data in json_data.keys():
+            assert json_data[player_data]["mock_field"] == 0
 
 
 def test_add_game_print_unknown_names(tem_dir_fixture2, capfd):
@@ -250,9 +285,9 @@ def test_sort_days_list(tem_dir_fixture1):
 
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-        for player_data in json_data:
-            assert player_data["games_played"] == sorted(
-                player_data["games_played"])
+        for player_data in json_data.keys():
+            assert json_data[player_data]["games_played"] == sorted(
+                json_data[player_data]["games_played"])
 
 
 def test_get_min_and_max_names():
@@ -278,6 +313,51 @@ def test_get_min_and_max_names():
     amount_dict = {'John': 100, 'Alice': 100, 'Bob': 100, 'Eve': 100}
     assert Poker.get_min_and_max_names(amount_dict) == (
         ['John', 'Alice', 'Bob', 'Eve'], ['John', 'Alice', 'Bob', 'Eve'])
+
+
+def test_search_for_nickname():
+    # Test case 1: Nickname exists in the player's nicknames
+    json_data = {
+        "player1": {
+            "player_nicknames": ["John", "Johnny"]
+        },
+        "player2": {
+            "player_nicknames": ["Alice", "Ali"]
+        }
+    }
+    nickname = "Johnny"
+    assert Poker._search_for_nickname(json_data, nickname) == (
+        json_data["player1"])
+
+    # Test case 2: Nickname does not exist in any player's nicknames
+    json_data = {
+        "player1": {
+            "player_nicknames": ["John", "Johnny"]
+        },
+        "player2": {
+            "player_nicknames": ["Alice", "Ali"]
+        }
+    }
+    nickname = "Bob"
+    assert Poker._search_for_nickname(json_data, nickname) is None
+
+    # Test case 3: Nickname exists in multiple player's nicknames
+    json_data = {
+        "player1": {
+            "player_nicknames": ["John", "Johnny"]
+        },
+        "player2": {
+            "player_nicknames": ["Alice", "Ali"]
+        },
+        "player3": {
+            "player_nicknames": ["Johnny", "Jon"]
+        }
+    }
+    nickname = "Johnny"
+    assert Poker._search_for_nickname(json_data, nickname) == (
+        json_data["player1"])
+
+
 # testing exceptions
 
 

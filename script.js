@@ -2,22 +2,25 @@ function populateTable() {
     fetch("data.json")
       .then((response) => response.json())
       .then((data) => {
+        data = data[0]
         const tableBody = document.getElementById("table-body");
-        data.forEach((item) => {
+        for (let key in data) {
+          item = data[key]
+          let encodedName = encodeURIComponent(key)
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td class="flag-container">
-              <img src="${item.flag}" class="player-flag"/>
-            </td>
-            <td class="player-name">
-        <a href="profile.html?playerID=${item.id}"('${item.name}')">${item.name}</a>
-      </td>
-            <td class="player-putr">${item.putr.toFixed(2)}</td>
-            <td class="player-net">${item.net.toFixed(2)}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-
+          <td class="flag-container">
+            <img src="${item.flag}" class="player-flag"/>
+          </td>
+          <td class="player-name">
+      <a href="profile.html?playerName=${encodedName}"('${key}')">${key}</a>
+    </td>
+          <td class="player-putr">${item.putr.toFixed(2)}</td>
+          <td class="player-net">${item.net.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+      }
+        
         sortTableByNet()
 
       })

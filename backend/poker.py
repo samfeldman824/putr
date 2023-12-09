@@ -55,7 +55,7 @@ class Poker:
             dict: The loaded JSON data.
         """
         with open(self.json_path, "r", encoding="utf-8") as json_file:
-            return json.load(json_file)
+            return json.load(json_file)[0]
 
     def _save_json_data(self, data: dict) -> None:
         """
@@ -134,6 +134,13 @@ class Poker:
         return {key: value for key, value in net_winnings_by_player.items()
                 if key not in exclude_list}
 
+    @staticmethod
+    def _search_for_nickname(json_data: dict, nickname: str) -> dict:
+        for player in json_data.keys():
+            if nickname in json_data[player]["player_nicknames"]:
+                return json_data[player]
+        return None
+
     def _update_players(
         self, json_data: list[dict], net_winnings_by_player: dict[str, float],
             day: str, up_most: list[str], down_most: list[str]
@@ -160,15 +167,24 @@ class Poker:
         players_updated: int = 0
         players_updated_list: list = []
 
-        for player in json_data:
-            for name in player["player_nicknames"]:
-                if name in net_winnings_by_player:
-                    self._update_individual_stats(
-                        player, name, net_winnings_by_player,
-                        day, up_most, down_most)
-                    players_updated += 1
-                    players_updated_list.append(name)
+        for nickname in net_winnings_by_player.keys():
+            player = self._search_for_nickname(json_data, nickname)
+            if player is not None:
+                self._update_individual_stats(
+                    player, nickname, net_winnings_by_player,
+                    day, up_most, down_most)
+                players_updated += 1
+                players_updated_list.append(nickname)
         return players_updated, players_updated_list
+        # for player in json_data:
+        #     for name in player["player_nicknames"]:
+        #         if name in net_winnings_by_player:
+        #             self._update_individual_stats(
+        #                 player, name, net_winnings_by_player,
+        #                 day, up_most, down_most)
+        #             players_updated += 1
+        #             players_updated_list.append(name)
+        # return players_updated, players_updated_list
 
     @staticmethod
     def _update_individual_stats(
@@ -345,19 +361,19 @@ class Poker:
         """
         json_data = self._load_json_data()
 
-        for player in json_data:
-            player["net"] = 0
-            player["games_played"] = []
-            player["biggest_win"] = 0
-            player["biggest_loss"] = 0
-            player["highest_net"] = 0
-            player["lowest_net"] = 0
-            player["net_dictionary"] = {"01_01": 0}
-            player["games_up_most"] = 0
-            player["games_down_most"] = 0
-            player["games_up"] = 0
-            player["games_down"] = 0
-            player["average_net"] = 0
+        for player in json_data.keys():
+            json_data[player]["net"] = 0
+            json_data[player]["games_played"] = []
+            json_data[player]["biggest_win"] = 0
+            json_data[player]["biggest_loss"] = 0
+            json_data[player]["highest_net"] = 0
+            json_data[player]["lowest_net"] = 0
+            json_data[player]["net_dictionary"] = {"01_01": 0}
+            json_data[player]["games_up_most"] = 0
+            json_data[player]["games_down_most"] = 0
+            json_data[player]["games_up"] = 0
+            json_data[player]["games_down"] = 0
+            json_data[player]["average_net"] = 0
 
         self._save_json_data(json_data)
 
@@ -376,8 +392,9 @@ class Poker:
         """
         json_data = self._load_json_data()
 
-        for player in json_data:
-            player["games_played"] = sorted(player["games_played"])
+        for player in json_data.keys():
+            json_data[player]["games_played"] = sorted(
+                json_data[player]["games_played"])
 
         self._save_json_data(json_data)
 
@@ -415,8 +432,8 @@ class Poker:
         """
         json_data = self._load_json_data()
 
-        for player in json_data:
+        for player in json_data.keys():
             # edit line below to add desired field
-            player["mock_field"] = 0
+            json_data[player]["mock_field"] = 0
 
         self._save_json_data(json_data)

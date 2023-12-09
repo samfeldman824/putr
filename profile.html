@@ -17,7 +17,7 @@
 
         </div>
     <div id="playerStats">
-    
+
         
     </div>
 
@@ -28,8 +28,8 @@
         fetch("data.json")
         .then(response => response.json())
         .then(data => {
-        
-        const player = data.find(player => player.id === parseInt(playerID));
+        data = data[0]
+        const player = data[playerName]
         const netDictionary = player.net_dictionary;
         const dates = Object.keys(netDictionary);
         const netValues = Object.values(netDictionary);

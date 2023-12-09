@@ -1,11 +1,20 @@
 [
     {
+    "Chun Lam": {
         "id": 1,
         "flag": "flags/hong-kong.png",
-        "name": "Chun Lam",
         "putr": 12.98,
         "net": 496.92999999999984,
         "player_id": "-6-yYmPWx-",
+        "biggest_win": 74.14,
+        "biggest_loss": -70.0,
+        "highest_net": 496.92999999999984,
+        "lowest_net": -43.71000000000001,
+        "games_up_most": 17,
+        "games_down_most": 14,
+        "games_up": 36,
+        "games_down": 28,
+        "average_net": 7.764531249999997,
         "player_nicknames": [
             "Chun",
             "chun",
@@ -78,10 +87,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 74.14,
-        "biggest_loss": -70.0,
-        "highest_net": 496.92999999999984,
-        "lowest_net": -43.71000000000001,
         "net_dictionary": {
             "01_01": 0,
             "09_26": -40.0,
@@ -128,20 +133,23 @@
             "11_30": 410.14999999999986,
             "12_04": 438.58999999999986,
             "12_05": 496.92999999999984
-        },
-        "games_up_most": 17,
-        "games_down_most": 14,
-        "games_up": 36,
-        "games_down": 28,
-        "average_net": 7.764531249999997
+        }
     },
-    {
+    "Sam Feldman": {
         "id": 2,
         "flag": "flags/israel.png",
-        "name": "Sam Feldman",
         "putr": 13.02,
         "net": 427.1,
         "player_id": "ug0-CrzeER",
+        "biggest_win": 76.03,
+        "biggest_loss": -60.0,
+        "highest_net": 431.63,
+        "lowest_net": -12.780000000000001,
+        "games_up_most": 18,
+        "games_down_most": 13,
+        "games_up": 33,
+        "games_down": 21,
+        "average_net": 7.90925925925926,
         "player_nicknames": [
             "cito",
             "slipperycito"
@@ -202,10 +210,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 76.03,
-        "biggest_loss": -60.0,
-        "highest_net": 431.63,
-        "lowest_net": -12.780000000000001,
         "net_dictionary": {
             "01_01": 0,
             "09_29": -8.88,
@@ -248,20 +252,23 @@
             "11_29": 431.63,
             "12_04": 428.23,
             "12_05": 427.1
-        },
-        "games_up_most": 18,
-        "games_down_most": 13,
-        "games_up": 33,
-        "games_down": 21,
-        "average_net": 7.90925925925926
+        }
     },
-    {
+    "Ross Cornelissen": {
         "id": 3,
         "flag": "flags/south-africa.png",
-        "name": "Ross Cornelissen",
         "putr": 11.98,
         "net": -32.34,
         "player_id": "",
+        "biggest_win": 23.95,
+        "biggest_loss": -20.0,
+        "highest_net": 61.919999999999995,
+        "lowest_net": -32.34,
+        "games_up_most": 2,
+        "games_down_most": 4,
+        "games_up": 12,
+        "games_down": 13,
+        "average_net": -1.1977777777777778,
         "player_nicknames": [
             "Rosstafarian",
             "Ross",
@@ -296,10 +303,6 @@
             "11_28(1)",
             "11_29(1)"
         ],
-        "biggest_win": 23.95,
-        "biggest_loss": -20.0,
-        "highest_net": 61.919999999999995,
-        "lowest_net": -32.34,
         "net_dictionary": {
             "01_01": 0,
             "09_29": 6.7,
@@ -324,20 +327,23 @@
             "11_27": -2.3400000000000034,
             "11_28": -12.340000000000003,
             "11_29": -32.34
-        },
-        "games_up_most": 2,
-        "games_down_most": 4,
-        "games_up": 12,
-        "games_down": 13,
-        "average_net": -1.1977777777777778
+        }
     },
-    {
+    "Brian Chong": {
         "id": 4,
         "flag": "flags/south-korea.png",
-        "name": "Brian Chong",
         "putr": 12.95,
         "net": 228.13000000000008,
         "player_id": "",
+        "biggest_win": 117.2,
+        "biggest_loss": -63.35,
+        "highest_net": 327.4800000000001,
+        "lowest_net": 0,
+        "games_up_most": 11,
+        "games_down_most": 6,
+        "games_up": 30,
+        "games_down": 19,
+        "average_net": 4.6557142857142875,
         "player_nicknames": [
             "chong",
             "Chong"
@@ -393,10 +399,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 117.2,
-        "biggest_loss": -63.35,
-        "highest_net": 327.4800000000001,
-        "lowest_net": 0,
         "net_dictionary": {
             "01_01": 0,
             "09_26": 46.72,
@@ -438,20 +440,23 @@
             "11_30": 249.48000000000008,
             "12_04": 253.13000000000008,
             "12_05": 228.13000000000008
-        },
-        "games_up_most": 11,
-        "games_down_most": 6,
-        "games_up": 30,
-        "games_down": 19,
-        "average_net": 4.6557142857142875
+        }
     },
-    {
+    "Alex Koong": {
         "id": 5,
         "flag": "flags/taiwan.png",
-        "name": "Alex Koong",
         "putr": 12.35,
         "net": 26.690000000000012,
         "player_id": "",
+        "biggest_win": 53.96,
+        "biggest_loss": -80.0,
+        "highest_net": 152.17000000000002,
+        "lowest_net": -92.61999999999999,
+        "games_up_most": 19,
+        "games_down_most": 12,
+        "games_up": 36,
+        "games_down": 23,
+        "average_net": 0.4448333333333335,
         "player_nicknames": [
             "Koong"
         ],
@@ -517,10 +522,6 @@
             "11_30",
             "12_05"
         ],
-        "biggest_win": 53.96,
-        "biggest_loss": -80.0,
-        "highest_net": 152.17000000000002,
-        "lowest_net": -92.61999999999999,
         "net_dictionary": {
             "01_01": 0,
             "09_26": 36.04,
@@ -565,20 +566,23 @@
             "11_29": 17.84000000000001,
             "11_30": 19.89000000000001,
             "12_05": 26.690000000000012
-        },
-        "games_up_most": 19,
-        "games_down_most": 12,
-        "games_up": 36,
-        "games_down": 23,
-        "average_net": 0.4448333333333335
+        }
     },
-    {
+    "Noah Hernandez": {
         "id": 6,
         "flag": "flags/mexico.png",
-        "name": "Noah Hernandez",
         "putr": 11.37,
         "net": -352.34999999999997,
         "player_id": "",
+        "biggest_win": 26.69,
+        "biggest_loss": -97.9,
+        "highest_net": 0,
+        "lowest_net": -352.34999999999997,
+        "games_up_most": 0,
+        "games_down_most": 8,
+        "games_up": 10,
+        "games_down": 24,
+        "average_net": -10.363235294117645,
         "player_nicknames": [
             "noah",
             "nnoah",
@@ -622,10 +626,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 26.69,
-        "biggest_loss": -97.9,
-        "highest_net": 0,
-        "lowest_net": -352.34999999999997,
         "net_dictionary": {
             "01_01": 0,
             "09_26": -13.92,
@@ -656,20 +656,23 @@
             "11_29": -309.15,
             "12_04": -312.34999999999997,
             "12_05": -352.34999999999997
-        },
-        "games_up_most": 0,
-        "games_down_most": 8,
-        "games_up": 10,
-        "games_down": 24,
-        "average_net": -10.363235294117645
+        }
     },
-    {
+    "Zander Bravo": {
         "id": 7,
         "flag": "flags/puerto-rico.png",
-        "name": "Zander Bravo",
         "putr": 11.23,
         "net": -562.28,
         "player_id": "",
+        "biggest_win": 22.3,
+        "biggest_loss": -42.84,
+        "highest_net": 0,
+        "lowest_net": -562.28,
+        "games_up_most": 2,
+        "games_down_most": 13,
+        "games_up": 6,
+        "games_down": 32,
+        "average_net": -14.796842105263158,
         "player_nicknames": [
             "ODgoofyahhhh",
             "ODgoofyahhh"
@@ -714,10 +717,6 @@
             "11_28(1)",
             "11_29"
         ],
-        "biggest_win": 22.3,
-        "biggest_loss": -42.84,
-        "highest_net": 0,
-        "lowest_net": -562.28,
         "net_dictionary": {
             "01_01": 0,
             "09_26": -20.0,
@@ -752,20 +751,23 @@
             "11_27": -530.28,
             "11_28": -542.28,
             "11_29": -562.28
-        },
-        "games_up_most": 2,
-        "games_down_most": 13,
-        "games_up": 6,
-        "games_down": 32,
-        "average_net": -14.796842105263158
+        }
     },
-    {
+    "James Lian": {
         "id": 8,
         "flag": "flags/taiwan.png",
-        "name": "James Lian",
         "putr": 8.57,
         "net": -5.0,
         "player_id": "",
+        "biggest_win": 0,
+        "biggest_loss": -5.0,
+        "highest_net": 0,
+        "lowest_net": -5.0,
+        "games_up_most": 0,
+        "games_down_most": 0,
+        "games_up": 0,
+        "games_down": 1,
+        "average_net": -2.5,
         "player_nicknames": [
             "james",
             "James"
@@ -774,28 +776,27 @@
             "10_18",
             "10_19(1)"
         ],
-        "biggest_win": 0,
-        "biggest_loss": -5.0,
-        "highest_net": 0,
-        "lowest_net": -5.0,
         "net_dictionary": {
             "01_01": 0,
             "10_18": 0.0,
             "10_19": -5.0
-        },
-        "games_up_most": 0,
-        "games_down_most": 0,
-        "games_up": 0,
-        "games_down": 1,
-        "average_net": -2.5
+        }
     },
-    {
+    "George Bader": {
         "id": 9,
         "flag": "flags/puerto-rico.png",
-        "name": "George Bader",
         "putr": 11.91,
         "net": -8.759999999999998,
         "player_id": "",
+        "biggest_win": 35.25,
+        "biggest_loss": -20.0,
+        "highest_net": 11.240000000000002,
+        "lowest_net": -24.009999999999998,
+        "games_up_most": 0,
+        "games_down_most": 2,
+        "games_up": 1,
+        "games_down": 4,
+        "average_net": -1.7519999999999996,
         "player_nicknames": [
             "Bader"
         ],
@@ -806,30 +807,29 @@
             "11_17",
             "11_21"
         ],
-        "biggest_win": 35.25,
-        "biggest_loss": -20.0,
-        "highest_net": 11.240000000000002,
-        "lowest_net": -24.009999999999998,
         "net_dictionary": {
             "01_01": 0,
             "09_26": -2.38,
             "10_15": -4.01,
             "11_17": 11.240000000000002,
             "11_21": -8.759999999999998
-        },
-        "games_up_most": 0,
-        "games_down_most": 2,
-        "games_up": 1,
-        "games_down": 4,
-        "average_net": -1.7519999999999996
+        }
     },
-    {
+    "Oliver Worth": {
         "id": 10,
         "flag": "flags/us.png",
-        "name": "Oliver Worth",
         "putr": 11.82,
         "net": -21.749999999999996,
         "player_id": "",
+        "biggest_win": 30.09,
+        "biggest_loss": -59.26,
+        "highest_net": 51.88,
+        "lowest_net": -22.379999999999995,
+        "games_up_most": 1,
+        "games_down_most": 2,
+        "games_up": 10,
+        "games_down": 7,
+        "average_net": -1.2794117647058822,
         "player_nicknames": [
             "Oliver",
             "Oliver Worth"
@@ -853,10 +853,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 30.09,
-        "biggest_loss": -59.26,
-        "highest_net": 51.88,
-        "lowest_net": -22.379999999999995,
         "net_dictionary": {
             "01_01": 0,
             "10_07": -19.13,
@@ -876,20 +872,23 @@
             "11_29": -7.3799999999999955,
             "12_04": -22.379999999999995,
             "12_05": -21.749999999999996
-        },
-        "games_up_most": 1,
-        "games_down_most": 2,
-        "games_up": 10,
-        "games_down": 7,
-        "average_net": -1.2794117647058822
+        }
     },
-    {
+    "Tim Dzhurinskiy": {
         "id": 11,
         "flag": "flags/russia.png",
-        "name": "Tim Dzhurinskiy",
         "putr": 11.76,
         "net": -35.22000000000001,
         "player_id": "",
+        "biggest_win": 32.23,
+        "biggest_loss": -21.21,
+        "highest_net": 62.63999999999999,
+        "lowest_net": -35.22000000000001,
+        "games_up_most": 0,
+        "games_down_most": 3,
+        "games_up": 5,
+        "games_down": 9,
+        "average_net": -2.5157142857142865,
         "player_nicknames": [
             "Tim"
         ],
@@ -909,10 +908,6 @@
             "11_15",
             "11_17(1)"
         ],
-        "biggest_win": 32.23,
-        "biggest_loss": -21.21,
-        "highest_net": 62.63999999999999,
-        "lowest_net": -35.22000000000001,
         "net_dictionary": {
             "01_01": 0,
             "10_02": 16.57,
@@ -926,20 +921,23 @@
             "11_13": 5.989999999999991,
             "11_15": -15.22000000000001,
             "11_17": -35.22000000000001
-        },
-        "games_up_most": 0,
-        "games_down_most": 3,
-        "games_up": 5,
-        "games_down": 9,
-        "average_net": -2.5157142857142865
+        }
     },
-    {
+    "Matthew Mu": {
         "id": 12,
         "flag": "flags/china.png",
-        "name": "Matthew Mu",
         "putr": 12.53,
         "net": 31.599999999999994,
         "player_id": "",
+        "biggest_win": 65.71,
+        "biggest_loss": -20.0,
+        "highest_net": 31.599999999999994,
+        "lowest_net": -34.47,
+        "games_up_most": 2,
+        "games_down_most": 2,
+        "games_up": 7,
+        "games_down": 5,
+        "average_net": 2.633333333333333,
         "player_nicknames": [
             "Mu",
             "Muu",
@@ -959,10 +957,6 @@
             "12_04",
             "12_05"
         ],
-        "biggest_win": 65.71,
-        "biggest_loss": -20.0,
-        "highest_net": 31.599999999999994,
-        "lowest_net": -34.47,
         "net_dictionary": {
             "01_01": 0,
             "10_31": 4.55,
@@ -977,20 +971,23 @@
             "11_27": -34.47,
             "12_04": 31.239999999999995,
             "12_05": 31.599999999999994
-        },
-        "games_up_most": 2,
-        "games_down_most": 2,
-        "games_up": 7,
-        "games_down": 5,
-        "average_net": 2.633333333333333
+        }
     },
-    {
+    "Niraj Komatineni": {
         "id": 13,
         "flag": "flags/india.png",
-        "name": "Niraj Komatineni",
         "putr": 12.24,
         "net": -34.71,
         "player_id": "",
+        "biggest_win": 20.55,
+        "biggest_loss": -76.2,
+        "highest_net": 41.49,
+        "lowest_net": -34.71,
+        "games_up_most": 1,
+        "games_down_most": 1,
+        "games_up": 7,
+        "games_down": 2,
+        "average_net": -3.856666666666667,
         "player_nicknames": [
             "Niraj"
         ],
@@ -1005,10 +1002,6 @@
             "11_24",
             "12_04"
         ],
-        "biggest_win": 20.55,
-        "biggest_loss": -76.2,
-        "highest_net": 41.49,
-        "lowest_net": -34.71,
         "net_dictionary": {
             "01_01": 0,
             "11_15": -30.4,
@@ -1019,11 +1012,7 @@
             "11_22": 20.94,
             "11_24": 41.49,
             "12_04": -34.71
-        },
-        "games_up_most": 1,
-        "games_down_most": 1,
-        "games_up": 7,
-        "games_down": 2,
-        "average_net": -3.856666666666667
+        }
     }
+}
 ]
