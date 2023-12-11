@@ -2,7 +2,6 @@ function populateTable() {
     fetch("data.json")
       .then((response) => response.json())
       .then((data) => {
-        data = data[0]
         const tableBody = document.getElementById("table-body");
         for (let key in data) {
           item = data[key]

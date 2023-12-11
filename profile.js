@@ -5,7 +5,6 @@ const urlParams = new URLSearchParams(window.location.search);
         fetch("data.json")
             .then(response => response.json())
             .then(data => {
-            data = data[0]
             // Find the player by ID
             const player = data[playerName];
             // console.log(player)

@@ -55,7 +55,7 @@ class Poker:
             dict: The loaded JSON data.
         """
         with open(self.json_path, "r", encoding="utf-8") as json_file:
-            return json.load(json_file)[0]
+            return json.load(json_file)
 
     def _save_json_data(self, data: dict) -> None:
         """
