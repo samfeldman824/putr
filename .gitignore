@@ -5,3 +5,4 @@ __pycache__/
 flags/flags.txt
 .vscode/
 .coverage
+trash/
