@@ -28,7 +28,6 @@
         fetch("data.json")
         .then(response => response.json())
         .then(data => {
-        data = data[0]
         const player = data[playerName]
         const netDictionary = player.net_dictionary;
         const dates = Object.keys(netDictionary);
