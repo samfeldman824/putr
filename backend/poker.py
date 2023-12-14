@@ -145,7 +145,7 @@ class Poker:
 
     @staticmethod
     def _search_for_nickname(json_data: dict, nickname: str) -> dict:
-        for player in json_data.keys():
+        for player in json_data:
             if nickname in json_data[player]["player_nicknames"]:
                 return json_data[player]
         return None
