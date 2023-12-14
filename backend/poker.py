@@ -135,11 +135,13 @@ class Poker:
         excluding those in the exclude_list.
         """
 
+        filtered_game_data = game_data[~game_data["player_nickname"].isin(
+            exclude_list)]
         net_winnings_by_player: dict[str, float] = (
-            game_data.groupby("player_nickname")["net"].sum() / 100).to_dict()
+            filtered_game_data.groupby(
+                "player_nickname")["net"].sum() / 100).to_dict()
 
-        return {key: value for key, value in net_winnings_by_player.items()
-                if key not in exclude_list}
+        return net_winnings_by_player
 
     @staticmethod
     def _search_for_nickname(json_data: dict, nickname: str) -> dict:
