@@ -57,7 +57,15 @@ def tem_dir_fixture2():
         # Yield both the poker instance and the paths
         yield poker, new_ledger_path, json_path
 
+# Initializes a Poker object with valid ledger_folder_path and json_path.
+def test_valid_paths(tem_dir_fixture1):
+    poker, ledger_folder_path, json_path = tem_dir_fixture1
 
+    assert isinstance(poker, Poker)
+    assert poker.ledger_folder_path == ledger_folder_path
+    assert poker.json_path == json_path
+    
+    
 def test_add_poker_game1(tem_dir_fixture1, capfd):
     poker, ledger_path, json_path = tem_dir_fixture1
 
@@ -389,6 +397,7 @@ def test_ledger_file_not_exist_print(tem_dir_fixture1):
     poker, _, _ = tem_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
+
 
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
