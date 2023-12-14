@@ -176,7 +176,7 @@ class Poker:
         players_updated: int = 0
         players_updated_list: list = []
 
-        for nickname in net_winnings_by_player.keys():
+        for nickname in net_winnings_by_player:
             player = self._search_for_nickname(json_data, nickname)
             if player is not None:
                 self._update_individual_stats(
@@ -185,15 +185,7 @@ class Poker:
                 players_updated += 1
                 players_updated_list.append(nickname)
         return players_updated, players_updated_list
-        # for player in json_data:
-        #     for name in player["player_nicknames"]:
-        #         if name in net_winnings_by_player:
-        #             self._update_individual_stats(
-        #                 player, name, net_winnings_by_player,
-        #                 day, up_most, down_most)
-        #             players_updated += 1
-        #             players_updated_list.append(name)
-        # return players_updated, players_updated_list
+        
 
     @staticmethod
     def _update_individual_stats(
