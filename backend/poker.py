@@ -19,6 +19,13 @@ class Poker:
         Returns:
             None
         """
+        if not isinstance(ledger_folder_path, str):
+            raise TypeError("ledger_folder_path must be a string")
+        if not isinstance(json_path, str):
+            raise TypeError("json_path must be a string")
+        if ledger_folder_path == '' or json_path == '':
+            raise ValueError("""The ledger folder path and JSON path cannot
+                             be empty strings.""")
         self._validate_paths(ledger_folder_path, json_path)
         self.ledger_folder_path: str = ledger_folder_path
         self.json_path: str = json_path
