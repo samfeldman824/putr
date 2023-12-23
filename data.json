@@ -3,17 +3,17 @@
         "id": 1,
         "flag": "flags/hong-kong.png",
         "putr": 12.98,
-        "net": 555.5999999999999,
+        "net": 559.43,
         "player_id": "-6-yYmPWx-",
         "biggest_win": 74.14,
         "biggest_loss": -70.0,
-        "highest_net": 555.5999999999999,
+        "highest_net": 559.43,
         "lowest_net": -43.71000000000001,
         "games_up_most": 19,
         "games_down_most": 14,
-        "games_up": 39,
+        "games_up": 40,
         "games_down": 28,
-        "average_net": 8.292537313432835,
+        "average_net": 8.226911764705882,
         "player_nicknames": [
             "Chun",
             "chun",
@@ -87,7 +87,8 @@
             "12_05",
             "12_08",
             "12_11",
-            "12_20"
+            "12_20",
+            "12_21"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -137,24 +138,25 @@
             "12_05": 496.92999999999984,
             "12_08": 522.1799999999998,
             "12_11": 541.5299999999999,
-            "12_20": 555.5999999999999
+            "12_20": 555.5999999999999,
+            "12_21": 559.43
         }
     },
     "Sam Feldman": {
         "id": 2,
         "flag": "flags/israel.png",
         "putr": 13.02,
-        "net": 378.92,
+        "net": 388.49,
         "player_id": "ug0-CrzeER",
         "biggest_win": 76.03,
         "biggest_loss": -60.0,
         "highest_net": 431.63,
         "lowest_net": -12.780000000000001,
-        "games_up_most": 18,
+        "games_up_most": 19,
         "games_down_most": 16,
-        "games_up": 33,
+        "games_up": 34,
         "games_down": 25,
-        "average_net": 6.533103448275862,
+        "average_net": 6.584576271186441,
         "player_nicknames": [
             "cito",
             "slipperycito"
@@ -217,7 +219,8 @@
             "12_08",
             "12_10",
             "12_10",
-            "12_20"
+            "12_20",
+            "12_21"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -263,7 +266,8 @@
             "12_05": 427.1,
             "12_08": 407.1,
             "12_10": 387.1,
-            "12_20": 378.92
+            "12_20": 378.92,
+            "12_21": 388.49
         }
     },
     "Ross Cornelissen": {
@@ -353,17 +357,17 @@
         "id": 4,
         "flag": "flags/south-korea.png",
         "putr": 12.95,
-        "net": 252.18000000000006,
+        "net": 242.48000000000008,
         "player_id": "",
         "biggest_win": 117.2,
         "biggest_loss": -63.35,
         "highest_net": 327.4800000000001,
         "lowest_net": 0,
         "games_up_most": 13,
-        "games_down_most": 6,
+        "games_down_most": 7,
         "games_up": 34,
-        "games_down": 19,
-        "average_net": 4.758113207547171,
+        "games_down": 20,
+        "average_net": 4.490370370370372,
         "player_nicknames": [
             "chong",
             "Chong"
@@ -421,7 +425,8 @@
             "12_08",
             "12_10",
             "12_10",
-            "12_19"
+            "12_19",
+            "12_21"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -466,14 +471,15 @@
             "12_05": 228.13000000000008,
             "12_08": 234.73000000000008,
             "12_10": 244.13000000000005,
-            "12_19": 252.18000000000006
+            "12_19": 252.18000000000006,
+            "12_21": 242.48000000000008
         }
     },
     "Alex Koong": {
         "id": 5,
         "flag": "flags/taiwan.png",
         "putr": 12.35,
-        "net": 41.44000000000001,
+        "net": 37.74000000000001,
         "player_id": "",
         "biggest_win": 53.96,
         "biggest_loss": -80.0,
@@ -482,8 +488,8 @@
         "games_up_most": 20,
         "games_down_most": 12,
         "games_up": 39,
-        "games_down": 23,
-        "average_net": 0.657777777777778,
+        "games_down": 24,
+        "average_net": 0.5896875000000001,
         "player_nicknames": [
             "Koong"
         ],
@@ -550,7 +556,8 @@
             "12_05",
             "12_10",
             "12_10",
-            "12_19"
+            "12_19",
+            "12_21"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -597,7 +604,8 @@
             "11_30": 19.89000000000001,
             "12_05": 26.690000000000012,
             "12_10": 29.49000000000001,
-            "12_19": 41.44000000000001
+            "12_19": 41.44000000000001,
+            "12_21": 37.74000000000001
         }
     },
     "Noah Hernandez": {
