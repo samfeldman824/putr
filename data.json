@@ -3,17 +3,17 @@
         "id": 1,
         "flag": "flags/hong-kong.png",
         "putr": 12.98,
-        "net": 456.97999999999996,
+        "net": 497.91999999999996,
         "player_id": "-6-yYmPWx-",
         "biggest_win": 74.14,
         "biggest_loss": -70.0,
         "highest_net": 559.43,
         "lowest_net": -43.71000000000001,
-        "games_up_most": 19,
+        "games_up_most": 20,
         "games_down_most": 16,
-        "games_up": 41,
+        "games_up": 42,
         "games_down": 30,
-        "average_net": 6.436338028169014,
+        "average_net": 6.915555555555555,
         "player_nicknames": [
             "Chun",
             "chun",
@@ -91,7 +91,8 @@
             "12_21",
             "01_16",
             "01_23",
-            "01_30"
+            "01_30",
+            "01_31"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -145,14 +146,15 @@
             "12_21": 559.43,
             "01_16": 489.78,
             "01_23": 447.09,
-            "01_30": 456.97999999999996
+            "01_30": 456.97999999999996,
+            "01_31": 497.91999999999996
         }
     },
     "Sam Feldman": {
         "id": 2,
         "flag": "flags/israel.png",
         "putr": 13.02,
-        "net": 496.53,
+        "net": 477.78999999999996,
         "player_id": "ug0-CrzeER",
         "biggest_win": 76.03,
         "biggest_loss": -60.0,
@@ -161,8 +163,8 @@
         "games_up_most": 20,
         "games_down_most": 16,
         "games_up": 37,
-        "games_down": 25,
-        "average_net": 8.008548387096774,
+        "games_down": 26,
+        "average_net": 7.583968253968253,
         "player_nicknames": [
             "cito",
             "slipperycito"
@@ -229,7 +231,8 @@
             "12_21",
             "01_16",
             "01_23",
-            "01_30"
+            "01_30",
+            "01_31"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -279,7 +282,8 @@
             "12_21": 388.49,
             "01_16": 434.02,
             "01_23": 495.38,
-            "01_30": 496.53
+            "01_30": 496.53,
+            "01_31": 477.78999999999996
         }
     },
     "Ross Cornelissen": {
@@ -497,7 +501,7 @@
         "id": 5,
         "flag": "flags/taiwan.png",
         "putr": 12.35,
-        "net": 26.070000000000007,
+        "net": 11.370000000000008,
         "player_id": "",
         "biggest_win": 53.96,
         "biggest_loss": -80.0,
@@ -506,8 +510,8 @@
         "games_up_most": 20,
         "games_down_most": 12,
         "games_up": 40,
-        "games_down": 25,
-        "average_net": 0.39500000000000013,
+        "games_down": 26,
+        "average_net": 0.16970149253731356,
         "player_nicknames": [
             "Koong"
         ],
@@ -577,7 +581,8 @@
             "12_19",
             "12_21",
             "01_16",
-            "01_23"
+            "01_23",
+            "01_31"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -627,7 +632,8 @@
             "12_19": 41.44000000000001,
             "12_21": 37.74000000000001,
             "01_16": 56.07000000000001,
-            "01_23": 26.070000000000007
+            "01_23": 26.070000000000007,
+            "01_31": 11.370000000000008
         }
     },
     "Noah Hernandez": {
@@ -734,7 +740,7 @@
         "id": 7,
         "flag": "flags/puerto-rico.png",
         "putr": 11.23,
-        "net": -612.43,
+        "net": -599.93,
         "player_id": "",
         "biggest_win": 22.3,
         "biggest_loss": -42.84,
@@ -742,9 +748,9 @@
         "lowest_net": -612.43,
         "games_up_most": 2,
         "games_down_most": 13,
-        "games_up": 6,
+        "games_up": 7,
         "games_down": 35,
-        "average_net": -14.93731707317073,
+        "average_net": -14.284047619047618,
         "player_nicknames": [
             "ODgoofyahhhh",
             "ODgoofyahhh"
@@ -790,7 +796,8 @@
             "11_29",
             "01_16",
             "01_23",
-            "01_30"
+            "01_30",
+            "01_31"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -828,7 +835,8 @@
             "11_29": -562.28,
             "01_16": -592.28,
             "01_23": -612.28,
-            "01_30": -612.43
+            "01_30": -612.43,
+            "01_31": -599.93
         }
     },
     "James Lian": {
@@ -1016,17 +1024,17 @@
         "id": 12,
         "flag": "flags/china.png",
         "putr": 12.53,
-        "net": 99.44999999999999,
+        "net": 79.44999999999999,
         "player_id": "",
         "biggest_win": 72.02,
         "biggest_loss": -20.0,
         "highest_net": 99.44999999999999,
         "lowest_net": -34.47,
         "games_up_most": 3,
-        "games_down_most": 3,
+        "games_down_most": 4,
         "games_up": 11,
-        "games_down": 6,
-        "average_net": 5.85,
+        "games_down": 7,
+        "average_net": 4.413888888888888,
         "player_nicknames": [
             "Mu",
             "Muu",
@@ -1049,7 +1057,8 @@
             "12_11",
             "12_20",
             "01_16",
-            "01_30"
+            "01_30",
+            "01_31"
         ],
         "net_dictionary": {
             "01_01": 0,
@@ -1069,7 +1078,8 @@
             "12_11": 35.54999999999999,
             "12_20": 25.54999999999999,
             "01_16": 27.42999999999999,
-            "01_30": 99.44999999999999
+            "01_30": 99.44999999999999,
+            "01_31": 79.44999999999999
         }
     },
     "Niraj Komatineni": {
