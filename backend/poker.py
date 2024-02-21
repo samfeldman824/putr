@@ -199,7 +199,7 @@ class Poker:
         player["biggest_loss"] = min(player["biggest_loss"], player_net)
         player["highest_net"] = max(player["highest_net"], player["net"])
         player["lowest_net"] = min(player["lowest_net"], player["net"])
-        player["net_dictionary"][day[:5]] = player["net"]
+        player["net_dictionary"][day[:8]] = player["net"]
         player["average_net"] = player["net"] / len(player["games_played"])
 
         if name in up_most:
