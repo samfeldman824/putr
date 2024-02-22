@@ -12,10 +12,10 @@ def main():
     # print_winnings_of_game("ledgers/ledger11_07(1).csv")
     # add_fields("data.json")
     # poker = Poker("ledgers", "data.json")
-    # poker.add_poker_game("fake_path.csv")
+    # # # # # poker.add_poker_game("fake_path.csv")
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff",
-    #                      "grant lumkong"])
+    #                      "grant lumkong", "N52MC", "aapexx13", "GRANT LUMKONG"])
     # poker.add_poker_game("ledgers/ledger11_10.csv")
     # poker.add_field()
 
