@@ -12,6 +12,7 @@ def main():
     # print_winnings_of_game("ledgers/ledger11_07(1).csv")
     # add_fields("data.json")
     # poker = Poker("ledgers", "data.json")
+    # poker.print_last_five_games("Sam Feldman", 5)
     # # # # # poker.add_poker_game("fake_path.csv")
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "lukas", "tiff",
@@ -69,6 +70,13 @@ def ag(ledger_date):
     csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
     poker.add_poker_game(csv_path)
 
+@cli.command()
+@click.argument('nickname')
+@click.option('-n', default=5, help="Number of games to print.")
+def plg(nickname, n):
+    """Print the last few games of a player."""
+    poker = Poker("ledgers", "data.json")
+    poker.print_last_games(nickname, int(n))
 
 if __name__ == "__main__":
     main()

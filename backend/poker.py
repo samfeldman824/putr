@@ -438,3 +438,23 @@ class Poker:
             json_data[player]["mock_field"] = 0
 
         self._save_json_data(json_data)
+
+    def print_last_games(self, player_name: str, days = 5) -> None:
+        
+        json_data = self._load_json_data()
+        player_data = json_data[player_name]
+        player_net_dict = player_data["net_dictionary"]
+        reversed_keys = list(reversed(list(player_net_dict.keys())))
+        days = min(days, len(reversed_keys) - 1)
+        print(f"Last {days} games for {player_name}:\n")
+        for i, day in enumerate(reversed_keys):
+            if i == days or i == len(reversed_keys) - 1:
+                break
+            else:
+                current_day_total = player_net_dict[day]
+                prev_day_total = player_net_dict[reversed_keys[i + 1]]
+                print(day, f"{current_day_total:.2f}", f"({current_day_total - prev_day_total:.2f})")
+        print()
+        net_total = player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days - 1]]
+        print(f"Net: {net_total:.2f}")
+        print(f"Average: {net_total / days:.2f}") 
