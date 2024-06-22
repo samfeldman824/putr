@@ -1,0 +1,8 @@
+name: CodeQL analysis
+
+on: [push]
+
+jobs:
+  call-codeQL-analysis:
+    name: CodeQL analysis
+    uses: actions/reusable-workflows/.github/workflows/codeql-analysis.yml@main

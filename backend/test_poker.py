@@ -2,7 +2,6 @@ import pytest
 import shutil
 import os
 import json
-import time
 from tempfile import TemporaryDirectory
 
 from poker import Poker
@@ -59,8 +58,8 @@ def tem_dir_fixture2():
         yield poker, new_ledger_path, json_path
 
 # Initializes a Poker object with valid ledger_folder_path and json_path.
-def test_valid_paths(tem_dir_fixture1):
-    poker, ledger_folder_path, json_path = tem_dir_fixture1
+def test_valid_paths(temdir):
+    poker, ledger_folder_path, json_path = temdir
 
     assert isinstance(poker, Poker)
     assert poker.ledger_folder_path == ledger_folder_path
@@ -365,7 +364,6 @@ def test_search_for_nickname():
     nickname = "Johnny"
     assert Poker._search_for_nickname(json_data, nickname) == (
         json_data["player1"])
-    assert 2 == 1
 
 # testing exceptions
 
