@@ -365,7 +365,7 @@ def test_search_for_nickname():
     nickname = "Johnny"
     assert Poker._search_for_nickname(json_data, nickname) == (
         json_data["player1"])
-
+    assert 2 == 1
 
 # testing exceptions
 
