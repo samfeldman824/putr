@@ -6,3 +6,5 @@ flags/flags.txt
 .vscode/
 .coverage
 trash/
+ignore/
+.pylintrc
