@@ -3,6 +3,7 @@ import click
 
 
 def main():
+    """main function"""
     # add_poker_game("ledgers/ledger11_09.csv", "data.json", [])
     # unique_nicknames('ledgers')
     # reset_net_games_played('data.json')
@@ -37,13 +38,13 @@ def main():
     #         poker.print_all_games()
 
     # print("\ndone")
-    pass
+    print("main function")
 
 
 @click.group()
 def cli():
     """Poker Game Management System."""
-    pass
+    print("Welcome to the Poker Game Management System.")
 
 
 @cli.command()
