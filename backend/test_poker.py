@@ -2,6 +2,7 @@ import pytest
 import shutil
 import os
 import json
+import time
 from tempfile import TemporaryDirectory
 
 from poker import Poker
@@ -398,6 +399,11 @@ def test_ledger_file_not_exist_print(tem_dir_fixture1):
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
 
+def test_sleep():
+    # poker = Poker("testing/mock_ledgers", "testing/mock_jsons/mock1_data.json")
+    # poker.sleep(1)
+    time.sleep(5)
+    assert 1 == 1
 
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
