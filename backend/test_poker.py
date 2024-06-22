@@ -58,8 +58,8 @@ def tem_dir_fixture2():
         yield poker, new_ledger_path, json_path
 
 # Initializes a Poker object with valid ledger_folder_path and json_path.
-def test_valid_paths(temdir):
-    poker, ledger_folder_path, json_path = temdir
+def test_valid_paths(tem_dir_fixture1):
+    poker, ledger_folder_path, json_path = tem_dir_fixture1
 
     assert isinstance(poker, Poker)
     assert poker.ledger_folder_path == ledger_folder_path
