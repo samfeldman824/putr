@@ -437,6 +437,15 @@ def test_ledger_file_not_exist_print(tem_dir_fixture1):
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
 
+def test_poker_argument_type_errors():
+    with pytest.raises(TypeError):
+        poker = Poker(1, "testing/mock_jsons/mock1_data.json")
+    with pytest.raises(TypeError):
+        poker = Poker("testing/mock_ledgers", 1)
+
+def test_poker_argument_value_errors():
+    with pytest.raises(ValueError):
+        poker = Poker("", "testing/mock_jsons/mock1_data.json")
 
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
