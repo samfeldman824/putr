@@ -1,5 +1,8 @@
 # Poker Tracker
 
+[![codecov](https://codecov.io/github/samfeldman824/putr/branch/actions/graph/badge.svg?token=DXNQHZ39YZ)](https://codecov.io/github/samfeldman824/putr)
+
+
 PUTR is a web application for tracking side poker games. It allows users to record game results, track player statistics, and analyze performance over time.
 
 ## Setup
