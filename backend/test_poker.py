@@ -411,13 +411,11 @@ def test_print_last_games(tem_dir_fixture3, capfd):
 def test_json_file_not_found():
     with pytest.raises(FileNotFoundError):
         poker = Poker("testing/mock_ledgers", "fake_path.json")
-        poker.add_poker_game("testing/mock_ledgers/ledger01_01.csv")
 
 
 def test_ledger_folder_not_found():
     with pytest.raises(FileNotFoundError):
         poker = Poker("fake_path", "testing/mock_jsons/mock1_data.json")
-        poker.add_poker_game("testing/mock_ledgers/ledger01_01.csv")
 
 
 def test_ledger_file_not_csv(tem_dir_fixture1):
