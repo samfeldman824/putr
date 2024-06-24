@@ -341,6 +341,21 @@ def test_search_for_nickname():
     nickname = "Johnny"
     assert Poker._search_for_nickname(json_data, nickname) == (json_data["player1"])
 
+def test_print_last_games(tem_dir_fixture3, capfd):
+
+    poker, _, _ = tem_dir_fixture3
+    poker.print_last_games("Charlie", 2)
+    #
+    out, _ = capfd.readouterr()
+    assert out == ('Last 2 games for Charlie:\n\n23_10_20 -10.00'
+                   ' (-12.00)\n23_10_19 2.00 (-8.00)\n\n'
+                   'Net: -12.00\nAverage: -6.00\n')
+    # assert "Last 2 games for James Lian:" in out
+    # assert "23_10_19 -5.00 (-5.00)" in out
+    # assert "0.00 (0.00)" in out
+    # assert "Net: -5.00" in out
+    # assert "Average: -2.50" in out
+
 
 # testing exceptions
 
