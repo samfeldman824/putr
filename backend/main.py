@@ -47,7 +47,7 @@ def cli():
 
 
 @cli.command()
-@click.argument('ledger_date')
+@click.argument("ledger_date")
 def pg(ledger_date):
     """Print the results of a poker game."""
     poker = Poker("ledgers", "data.json")
@@ -63,20 +63,22 @@ def pgs():
 
 
 @cli.command()
-@click.argument('ledger_date')
+@click.argument("ledger_date")
 def ag(ledger_date):
     """Add a poker game."""
     poker = Poker("ledgers", "data.json")
     csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
     poker.add_poker_game(csv_path)
 
+
 @cli.command()
-@click.argument('nickname')
-@click.option('-n', default=5, help="Number of games to print.")
+@click.argument("nickname")
+@click.option("-n", default=5, help="Number of games to print.")
 def plg(nickname, n):
     """Print the last few games of a player."""
     poker = Poker("ledgers", "data.json")
     poker.print_last_games(nickname, int(n))
+
 
 if __name__ == "__main__":
     main()
