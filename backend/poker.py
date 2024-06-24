@@ -23,9 +23,11 @@ class Poker:
             raise TypeError("ledger_folder_path must be a string")
         if not isinstance(json_path, str):
             raise TypeError("json_path must be a string")
-        if ledger_folder_path == '' or json_path == '':
-            raise ValueError("""The ledger folder path and JSON path cannot
-                             be empty strings.""")
+        if ledger_folder_path == "" or json_path == "":
+            raise ValueError(
+                """The ledger folder path and JSON path cannot
+                             be empty strings."""
+            )
         self._validate_paths(ledger_folder_path, json_path)
         self.ledger_folder_path: str = ledger_folder_path
         self.json_path: str = json_path
@@ -102,8 +104,10 @@ class Poker:
             )
 
         if not ledger_csv_path.endswith(".csv"):
-            raise FileNotFoundError("""Error: Game ledger
-                                    file must be a CSV File""")
+            raise FileNotFoundError(
+                """Error: Game ledger
+                                    file must be a CSV File"""
+            )
 
         match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
         if match is None or match.group(1) is None:
@@ -120,7 +124,7 @@ class Poker:
     @staticmethod
     def _calculate_net_winnings(
         game_data: pd.DataFrame, exclude_list: list[str] = []
-            ) -> dict[str, float]:
+    ) -> dict[str, float]:
         """
         Calculate the net winnings for each player in the game data.
 
@@ -135,11 +139,10 @@ class Poker:
         excluding those in the exclude_list.
         """
 
-        filtered_game_data = game_data[~game_data["player_nickname"].isin(
-            exclude_list)]
+        filtered_game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
         net_winnings_by_player: dict[str, float] = (
-            filtered_game_data.groupby(
-                "player_nickname")["net"].sum() / 100).to_dict()
+            filtered_game_data.groupby("player_nickname")["net"].sum() / 100
+        ).to_dict()
 
         return net_winnings_by_player
 
@@ -151,9 +154,13 @@ class Poker:
         return None
 
     def _update_players(
-        self, json_data: list[dict], net_winnings_by_player: dict[str, float],
-            day: str, up_most: list[str], down_most: list[str]
-            ) -> tuple[int, list]:
+        self,
+        json_data: list[dict],
+        net_winnings_by_player: dict[str, float],
+        day: str,
+        up_most: list[str],
+        down_most: list[str],
+    ) -> tuple[int, list]:
         """
         Updates the players' information based on the provided JSON data and
         net winnings.
@@ -180,17 +187,21 @@ class Poker:
             player = self._search_for_nickname(json_data, nickname)
             if player is not None:
                 self._update_individual_stats(
-                    player, nickname, net_winnings_by_player,
-                    day, up_most, down_most)
+                    player, nickname, net_winnings_by_player, day, up_most, down_most
+                )
                 players_updated += 1
                 players_updated_list.append(nickname)
         return players_updated, players_updated_list
-        
 
     @staticmethod
     def _update_individual_stats(
-        player: dict, name: str, net_winnings_by_player: dict[str, float],
-            day: str, up_most: list, down_most: list) -> None:
+        player: dict,
+        name: str,
+        net_winnings_by_player: dict[str, float],
+        day: str,
+        up_most: list,
+        down_most: list,
+    ) -> None:
 
         player_net = net_winnings_by_player[name]
         player["net"] += player_net
@@ -227,8 +238,8 @@ class Poker:
         """
         min_names = []
         max_names = []
-        min_amount = float('inf')
-        max_amount = float('-inf')
+        min_amount = float("inf")
+        max_amount = float("-inf")
 
         for name, amount in amount_dict.items():
             if amount == max_amount:
@@ -262,13 +273,13 @@ class Poker:
 
         game_data, day = self._load_game_data(ledger_csv_path)
 
-        net_winnings_by_player = self._calculate_net_winnings(game_data,
-                                                              exclude_list)
+        net_winnings_by_player = self._calculate_net_winnings(game_data, exclude_list)
 
         up_most, down_most = self.get_min_and_max_names(net_winnings_by_player)
 
         players_updated, players_updated_list = self._update_players(
-            json_data, net_winnings_by_player, day, up_most, down_most)
+            json_data, net_winnings_by_player, day, up_most, down_most
+        )
 
         if players_updated == len(net_winnings_by_player):
             for name, net in net_winnings_by_player.items():
@@ -315,8 +326,7 @@ class Poker:
         ).to_dict()
         sorted_winnings = dict(
             sorted(
-                net_winnings_by_player.items(),
-                key=lambda item: item[1], reverse=True
+                net_winnings_by_player.items(), key=lambda item: item[1], reverse=True
             )
         )
         for name, net in sorted_winnings.items():
@@ -395,7 +405,8 @@ class Poker:
 
         for player in json_data.keys():
             json_data[player]["games_played"] = sorted(
-                json_data[player]["games_played"])
+                json_data[player]["games_played"]
+            )
 
         self._save_json_data(json_data)
 
@@ -439,8 +450,8 @@ class Poker:
 
         self._save_json_data(json_data)
 
-    def print_last_games(self, player_name: str, days = 5) -> None:
-        
+    def print_last_games(self, player_name: str, days=5) -> None:
+
         json_data = self._load_json_data()
         player_data = json_data[player_name]
         player_net_dict = player_data["net_dictionary"]
@@ -453,8 +464,14 @@ class Poker:
             else:
                 current_day_total = player_net_dict[day]
                 prev_day_total = player_net_dict[reversed_keys[i + 1]]
-                print(day, f"{current_day_total:.2f}", f"({current_day_total - prev_day_total:.2f})")
+                print(
+                    day,
+                    f"{current_day_total:.2f}",
+                    f"({current_day_total - prev_day_total:.2f})",
+                )
         print()
-        net_total = player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days - 1]]
+        net_total = (
+            player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days - 1]]
+        )
         print(f"Net: {net_total:.2f}")
-        print(f"Average: {net_total / days:.2f}") 
+        print(f"Average: {net_total / days:.2f}")

@@ -13,14 +13,12 @@ def tem_dir_fixture1():
 
         # move mock_jsons to tempdir
         original_json_path = "backend/testing/mock_jsons"
-        new_json_path = os.path.join(tempdir, os.path.basename(
-            original_json_path))
+        new_json_path = os.path.join(tempdir, os.path.basename(original_json_path))
         shutil.copytree(original_json_path, new_json_path)
 
         # move mock_ledgers to tempdir
         original_ledger_path = "backend/testing/mock_ledgers"
-        new_ledger_path = os.path.join(tempdir, os.path.basename(
-            original_ledger_path))
+        new_ledger_path = os.path.join(tempdir, os.path.basename(original_ledger_path))
         shutil.copytree(original_ledger_path, new_ledger_path)
 
         # remove ledger01_02.csv
@@ -40,14 +38,12 @@ def tem_dir_fixture2():
 
         # move mock_jsons to tempdir
         original_json_path = "backend/testing/mock_jsons"
-        new_json_path = os.path.join(tempdir, os.path.basename(
-            original_json_path))
+        new_json_path = os.path.join(tempdir, os.path.basename(original_json_path))
         shutil.copytree(original_json_path, new_json_path)
 
         # move mock_ledgers to tempdir
         original_ledger_path = "backend/testing/mock_ledgers"
-        new_ledger_path = os.path.join(tempdir, os.path.basename(
-            original_ledger_path))
+        new_ledger_path = os.path.join(tempdir, os.path.basename(original_ledger_path))
         shutil.copytree(original_ledger_path, new_ledger_path)
 
         # Create the Poker instance
@@ -57,6 +53,7 @@ def tem_dir_fixture2():
         # Yield both the poker instance and the paths
         yield poker, new_ledger_path, json_path
 
+
 # Initializes a Poker object with valid ledger_folder_path and json_path.
 def test_valid_paths(tem_dir_fixture1):
     poker, ledger_folder_path, json_path = tem_dir_fixture1
@@ -64,8 +61,8 @@ def test_valid_paths(tem_dir_fixture1):
     assert isinstance(poker, Poker)
     assert poker.ledger_folder_path == ledger_folder_path
     assert poker.json_path == json_path
-    
-    
+
+
 def test_add_poker_game1(tem_dir_fixture1, capfd):
     poker, ledger_path, json_path = tem_dir_fixture1
 
@@ -145,9 +142,7 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         # assert json_data[2]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
-    assert out == (
-        "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
-        )
+    assert out == ("Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n")
 
 
 def test_add_poker_game2(tem_dir_fixture2, capfd):
@@ -194,9 +189,7 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
         assert json_data["Charlie"]["average_net"] == -1.25
 
     out, _ = capfd.readouterr()
-    assert (
-      out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
-    )
+    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
 
 def test_add_all_games(tem_dir_fixture1, capfd):
@@ -205,9 +198,7 @@ def test_add_all_games(tem_dir_fixture1, capfd):
     poker.add_all_games(["Joe"])
 
     out, _ = capfd.readouterr()
-    assert (
-      out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
-        )
+    assert out == "Alice 5.5\nBob -4.25\nCharlie -1.25\nPoker game on 01_01 added\n"
 
 
 def test_print_game_results(tem_dir_fixture1, capfd):
@@ -295,7 +286,8 @@ def test_sort_days_list(tem_dir_fixture1):
         json_data = json.load(json_file)
         for player_data in json_data.keys():
             assert json_data[player_data]["games_played"] == sorted(
-                json_data[player_data]["games_played"])
+                json_data[player_data]["games_played"]
+            )
 
 
 def test_get_min_and_max_names():
@@ -304,66 +296,50 @@ def test_get_min_and_max_names():
     assert Poker.get_min_and_max_names(amount_dict) == ([], [])
 
     # Test case 2: Dictionary with one name and amount
-    amount_dict = {'John': 100}
-    assert Poker.get_min_and_max_names(amount_dict) == (['John'], ['John'])
+    amount_dict = {"John": 100}
+    assert Poker.get_min_and_max_names(amount_dict) == (["John"], ["John"])
 
     # Test case 3: Dictionary with multiple names and amounts
-    amount_dict = {'John': 100, 'Alice': 200, 'Bob': 150, 'Eve': 200}
-    assert Poker.get_min_and_max_names(amount_dict) == (
-        ['Alice', 'Eve'], ['John'])
+    amount_dict = {"John": 100, "Alice": 200, "Bob": 150, "Eve": 200}
+    assert Poker.get_min_and_max_names(amount_dict) == (["Alice", "Eve"], ["John"])
 
     # Test case 4: Dictionary with negative amounts
-    amount_dict = {'John': -100, 'Alice': -200, 'Bob': -150, 'Eve': -200}
-    assert Poker.get_min_and_max_names(amount_dict) == (
-        ['John'], ['Alice', 'Eve'])
+    amount_dict = {"John": -100, "Alice": -200, "Bob": -150, "Eve": -200}
+    assert Poker.get_min_and_max_names(amount_dict) == (["John"], ["Alice", "Eve"])
 
     # Test case 5: Dictionary with equal amounts
-    amount_dict = {'John': 100, 'Alice': 100, 'Bob': 100, 'Eve': 100}
+    amount_dict = {"John": 100, "Alice": 100, "Bob": 100, "Eve": 100}
     assert Poker.get_min_and_max_names(amount_dict) == (
-        ['John', 'Alice', 'Bob', 'Eve'], ['John', 'Alice', 'Bob', 'Eve'])
+        ["John", "Alice", "Bob", "Eve"],
+        ["John", "Alice", "Bob", "Eve"],
+    )
 
 
 def test_search_for_nickname():
     # Test case 1: Nickname exists in the player's nicknames
     json_data = {
-        "player1": {
-            "player_nicknames": ["John", "Johnny"]
-        },
-        "player2": {
-            "player_nicknames": ["Alice", "Ali"]
-        }
+        "player1": {"player_nicknames": ["John", "Johnny"]},
+        "player2": {"player_nicknames": ["Alice", "Ali"]},
     }
     nickname = "Johnny"
-    assert Poker._search_for_nickname(json_data, nickname) == (
-        json_data["player1"])
+    assert Poker._search_for_nickname(json_data, nickname) == (json_data["player1"])
 
     # Test case 2: Nickname does not exist in any player's nicknames
     json_data = {
-        "player1": {
-            "player_nicknames": ["John", "Johnny"]
-        },
-        "player2": {
-            "player_nicknames": ["Alice", "Ali"]
-        }
+        "player1": {"player_nicknames": ["John", "Johnny"]},
+        "player2": {"player_nicknames": ["Alice", "Ali"]},
     }
     nickname = "Bob"
     assert Poker._search_for_nickname(json_data, nickname) is None
 
     # Test case 3: Nickname exists in multiple player's nicknames
     json_data = {
-        "player1": {
-            "player_nicknames": ["John", "Johnny"]
-        },
-        "player2": {
-            "player_nicknames": ["Alice", "Ali"]
-        },
-        "player3": {
-            "player_nicknames": ["Johnny", "Jon"]
-        }
+        "player1": {"player_nicknames": ["John", "Johnny"]},
+        "player2": {"player_nicknames": ["Alice", "Ali"]},
+        "player3": {"player_nicknames": ["Johnny", "Jon"]},
     }
     nickname = "Johnny"
-    assert Poker._search_for_nickname(json_data, nickname) == (
-        json_data["player1"])
+    assert Poker._search_for_nickname(json_data, nickname) == (json_data["player1"])
 
 
 # testing exceptions
@@ -397,7 +373,6 @@ def test_ledger_file_not_exist_print(tem_dir_fixture1):
     poker, _, _ = tem_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
-
 
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
