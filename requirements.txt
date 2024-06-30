@@ -3,4 +3,6 @@ coverage
 pandas
 pytest
 pytest-cov
+flake8
+black
 venmo-api
