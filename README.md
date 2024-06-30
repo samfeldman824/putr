@@ -9,6 +9,7 @@ PUTR is a web application for tracking side poker games. It allows users to reco
 
 Install required packages with commands below
 ```
+
 # if using conda
 conda env create -f environment.yml
 conda activate putr_env
