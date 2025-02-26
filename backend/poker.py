@@ -23,9 +23,10 @@ class Poker:
             raise TypeError("ledger_folder_path must be a string")
         if not isinstance(json_path, str):
             raise TypeError("json_path must be a string")
-        if ledger_folder_path == '' or json_path == '':
-            raise ValueError("""The ledger folder path and JSON path cannot
-                             be empty strings.""")
+        if ledger_folder_path == "" or json_path == "":
+            raise ValueError(
+                "The ledger folder path and JSON path cannot be empty strings."
+            )
         self._validate_paths(ledger_folder_path, json_path)
         self.ledger_folder_path: str = ledger_folder_path
         self.json_path: str = json_path
@@ -102,8 +103,7 @@ class Poker:
             )
 
         if not ledger_csv_path.endswith(".csv"):
-            raise FileNotFoundError("""Error: Game ledger
-                                    file must be a CSV File""")
+            raise FileNotFoundError("Error: Game ledger file must be a CSV File")
 
         match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
         if match is None or match.group(1) is None:
@@ -135,11 +135,10 @@ class Poker:
         excluding those in the exclude_list.
         """
 
-        filtered_game_data = game_data[~game_data["player_nickname"].isin(
-            exclude_list)]
+        filtered_game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
         net_winnings_by_player: dict[str, float] = (
-            filtered_game_data.groupby(
-                "player_nickname")["net"].sum() / 100).to_dict()
+            filtered_game_data.groupby("player_nickname")["net"].sum() / 100
+        ).to_dict()
 
         return net_winnings_by_player
 
@@ -151,9 +150,13 @@ class Poker:
         return None
 
     def _update_players(
-        self, json_data: list[dict], net_winnings_by_player: dict[str, float],
-            day: str, up_most: list[str], down_most: list[str]
-            ) -> tuple[int, list]:
+        self,
+        json_data: list[dict],
+        net_winnings_by_player: dict[str, float],
+        day: str,
+        up_most: list[str],
+        down_most: list[str],
+    ) -> tuple[int, list]:
         """
         Updates the players' information based on the provided JSON data and
         net winnings.
@@ -393,9 +396,8 @@ class Poker:
         """
         json_data = self._load_json_data()
 
-        for player in json_data.keys():
-            json_data[player]["games_played"] = sorted(
-                json_data[player]["games_played"])
+        for player in json_data.values():
+            player["games_played"].sort()
 
         self._save_json_data(json_data)
 
