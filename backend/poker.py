@@ -1,13 +1,15 @@
 import json
-import re
 import os
+import re
 
 import pandas as pd
 
-# from poker_utils import get_min_and_max_names
-
 
 class Poker:
+    """
+    A class to manage poker game data, including loading, updating, and
+    printing game results.
+    """
     def __init__(self, ledger_folder_path: str, json_path: str) -> None:
         """
         Initialize a Poker object.
@@ -20,13 +22,11 @@ class Poker:
             None
         """
         if not isinstance(ledger_folder_path, str):
-            raise TypeError("ledger_folder_path must be a string")
+            raise TypeError('ledger_folder_path must be a string')
         if not isinstance(json_path, str):
-            raise TypeError("json_path must be a string")
+            raise TypeError('json_path must be a string')
         if ledger_folder_path == "" or json_path == "":
-            raise ValueError(
-                "The ledger folder path and JSON path cannot be empty strings."
-            )
+            raise ValueError('The ledger folder path and JSON path cannot be empty strings.')
         self._validate_paths(ledger_folder_path, json_path)
         self.ledger_folder_path: str = ledger_folder_path
         self.json_path: str = json_path
@@ -46,14 +46,9 @@ class Poker:
             does not exist.
         """
         if not os.path.exists(json_path):
-            raise FileNotFoundError(
-                f"The specified JSON path does not exist: {json_path}"
-            )
+            raise FileNotFoundError(f'The specified JSON path does not exist: {json_path}')
         if not os.path.exists(ledger_folder_path):
-            raise FileNotFoundError(
-                f"""The specified ledger folder
-                path does not exist: {ledger_folder_path}"""
-            )
+            raise FileNotFoundError(f'The specified ledger folder path does not exist: {ledger_folder_path}')
 
     def _load_json_data(self) -> dict:
         """
@@ -62,7 +57,7 @@ class Poker:
         Returns:
             dict: The loaded JSON data.
         """
-        with open(self.json_path, "r", encoding="utf-8") as json_file:
+        with open(self.json_path, 'r', encoding='utf-8') as json_file:
             return json.load(json_file)
 
     def _save_json_data(self, data: dict) -> None:
@@ -75,7 +70,7 @@ class Poker:
         Returns:
             None
         """
-        with open(self.json_path, "w", encoding="utf-8") as json_file:
+        with open(self.json_path, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file, indent=4)
 
     @staticmethod
@@ -98,23 +93,18 @@ class Poker:
                 ledger file name.
         """
         if not os.path.exists(ledger_csv_path):
-            raise FileNotFoundError(
-                f"The specified ledger path does not exist: {ledger_csv_path}"
-            )
+            raise FileNotFoundError(f'The specified ledger path does not exist: {ledger_csv_path}')
 
         if not ledger_csv_path.endswith(".csv"):
-            raise FileNotFoundError("Error: Game ledger file must be a CSV File")
+            raise FileNotFoundError('Error: Game ledger file must be a CSV File')
 
         match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
         if match is None or match.group(1) is None:
-            raise ValueError(
-                f"""Unable to extract date from ledger
-                    file name: {ledger_csv_path}"""
-            )
+            raise ValueError(f'Unable to extract date from ledger file name: {ledger_csv_path}')
 
         game_data: pd.DataFrame = pd.read_csv(ledger_csv_path)
         day: str = match.group(1)
-
+        
         return game_data, day
 
     @staticmethod
@@ -135,12 +125,9 @@ class Poker:
         excluding those in the exclude_list.
         """
 
-        filtered_game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
-        net_winnings_by_player: dict[str, float] = (
-            filtered_game_data.groupby("player_nickname")["net"].sum() / 100
-        ).to_dict()
-
-        return net_winnings_by_player
+        game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
+        return game_data.groupby("player_nickname")["net"] \
+            .sum().div(100).to_dict()
 
     @staticmethod
     def _search_for_nickname(json_data: dict, nickname: str) -> dict:
@@ -151,11 +138,8 @@ class Poker:
 
     def _update_players(
         self,
-        json_data: list[dict],
-        net_winnings_by_player: dict[str, float],
-        day: str,
-        up_most: list[str],
-        down_most: list[str],
+        json_data: list[dict], net_winnings_by_player: dict[str, float],
+        day: str, up_most: list[str], down_most: list[str],
     ) -> tuple[int, list]:
         """
         Updates the players' information based on the provided JSON data and
@@ -188,7 +172,6 @@ class Poker:
                 players_updated += 1
                 players_updated_list.append(nickname)
         return players_updated, players_updated_list
-        
 
     @staticmethod
     def _update_individual_stats(
@@ -228,27 +211,14 @@ class Poker:
             tuple: A tuple containing two lists - the names with the maximum
             amount and the names with the minimum amount.
         """
-        min_names = []
-        max_names = []
-        min_amount = float('inf')
-        max_amount = float('-inf')
-
-        for name, amount in amount_dict.items():
-            if amount == max_amount:
-                max_names.append(name)
-            elif amount > max_amount:
-                max_names = [name]
-                max_amount = amount
-
-            if amount == min_amount:
-                min_names.append(name)
-            elif amount < min_amount:
-                min_names = [name]
-                min_amount = amount
-
+        
+        max_amount = max(amount_dict.values(), default=float('inf'))
+        min_amount = min(amount_dict.values(), default=float('-inf'))
+        max_names = [name for name, amount in amount_dict.items() if amount == max_amount]
+        min_names = [name for name, amount in amount_dict.items() if amount == min_amount]
         return max_names, min_names
 
-    def add_poker_game(self, ledger_csv_path: str, exclude_list=[]) -> None:
+    def add_poker_game(self, ledger_csv_path: str, exclude_list=None) -> None:
         """
         Adds a poker game to the ledger.
 
@@ -265,8 +235,7 @@ class Poker:
 
         game_data, day = self._load_game_data(ledger_csv_path)
 
-        net_winnings_by_player = self._calculate_net_winnings(game_data,
-                                                              exclude_list)
+        net_winnings_by_player = self._calculate_net_winnings(game_data, exclude_list)
 
         up_most, down_most = self.get_min_and_max_names(net_winnings_by_player)
 
@@ -277,14 +246,14 @@ class Poker:
             for name, net in net_winnings_by_player.items():
                 print(name, net)
             self._save_json_data(json_data)
-            print(f"Poker game on {day} added")
+            print(f'Poker game on {day} added')
         else:
             for name in net_winnings_by_player.keys():
                 if name not in players_updated_list:
-                    print(f"{name}")
-            print("Not all players known")
+                    print(f'{name}')
+            print('Not all players known')
 
-    def add_all_games(self, exclude_list=[]) -> None:
+    def add_all_games(self, exclude_list=None) -> None:
         """
         Add all poker games from the ledger folder to the ledger.
 
@@ -323,7 +292,7 @@ class Poker:
             )
         )
         for name, net in sorted_winnings.items():
-            print(f"{name}: {net}")
+            print(f'{name}: {net}')
 
     def print_unique_nicknames(self) -> None:
         """
@@ -437,26 +406,36 @@ class Poker:
 
         for player in json_data.keys():
             # edit line below to add desired field
-            json_data[player]["mock_field"] = 0
+            json_data[player]['mock_field'] = 0
 
         self._save_json_data(json_data)
 
-    def print_last_games(self, player_name: str, days = 5) -> None:
-        
+    def print_last_games(self, player_name: str, days=5) -> None:
+        """
+        Prints the last few games for a given player.
+
+        Args:
+            player_name (str): The name of the player.
+            days (int): The number of recent games to print.
+
+        Returns:
+            None
+        """
         json_data = self._load_json_data()
         player_data = json_data[player_name]
         player_net_dict = player_data["net_dictionary"]
         reversed_keys = list(reversed(list(player_net_dict.keys())))
         days = min(days, len(reversed_keys) - 1)
-        print(f"Last {days} games for {player_name}:\n")
+        print(f'Last {days} games for {player_name}:\n')
         for i, day in enumerate(reversed_keys):
-            if i == days or i == len(reversed_keys) - 1:
+            if i in (days, len(reversed_keys) - 1):
                 break
-            else:
-                current_day_total = player_net_dict[day]
-                prev_day_total = player_net_dict[reversed_keys[i + 1]]
-                print(day, f"{current_day_total:.2f}", f"({current_day_total - prev_day_total:.2f})")
+            current_day_total = player_net_dict[day]
+            prev_day_total = player_net_dict[reversed_keys[i + 1]]
+            print(day, f'{current_day_total:.2f}',
+                  f'({current_day_total - prev_day_total:.2f})')
         print()
-        net_total = player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days - 1]]
-        print(f"Net: {net_total:.2f}")
-        print(f"Average: {net_total / days:.2f}") 
+        net_total = player_net_dict[reversed_keys[0]] - \
+            player_net_dict[reversed_keys[days - 1]]
+        print(f'Net: {net_total:.2f}')
+        print(f'Average: {net_total / days:.2f}')
