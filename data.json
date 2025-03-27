@@ -1683,28 +1683,24 @@
         "id": 15,
         "flag": "flags/china.png",
         "putr": 11.27,
-        "net": -40.0,
+        "net": 0.0,
         "player_id": "",
         "biggest_win": 0.0,
-        "biggest_loss": -20.0,
+        "biggest_loss": 0.0,
         "highest_net": 0.0,
-        "lowest_net": -40.0,
+        "lowest_net": 0.0,
         "games_up_most": 0,
         "games_down_most": 0,
         "games_up": 0,
-        "games_down": 2,
-        "average_net": -20.0,
+        "games_down": 0,
+        "average_net": 0.0,
         "player_nicknames": [
             "lukas"
         ],
         "games_played": [
-            "23_10_25",
-            "23_10_26"
         ],
         "net_dictionary": {
-            "01_01": 0,
-            "23_10_25": -20.00,
-            "23_10_26": -40.00
+            "01_01": 0
         }
     }
 }
