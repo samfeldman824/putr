@@ -438,7 +438,7 @@ class Poker:
             )
         print()
         net_total = (
-            player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days - 1]]
+            player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days]]
         )
         print(f"Net: {net_total:.2f}")
         print(f"Average: {net_total / days:.2f}")
