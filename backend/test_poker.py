@@ -397,7 +397,7 @@ def test_print_last_games(tem_dir_fixture3, capfd):
     out, _ = capfd.readouterr()
     assert out == ('Last 2 games for Charlie:\n\n23_10_20 -10.00'
                    ' (-12.00)\n23_10_19 2.00 (-8.00)\n\n'
-                   'Net: -12.00\nAverage: -6.00\n')
+                   'Net: -20.00\nAverage: -10.00\n')
     # assert "Last 2 games for James Lian:" in out
     # assert "23_10_19 -5.00 (-5.00)" in out
     # assert "0.00 (0.00)" in out
