@@ -1,3 +1,7 @@
+let putrAsc = true;
+let netAsc  = false;
+
+
 function populateTable() {
     fetch("data.json")
       .then((response) => response.json())
@@ -20,7 +24,7 @@ function populateTable() {
         tableBody.appendChild(row);
       }
         
-        sortTableByNet()
+        sortTableByPutr()
 
       })
       .catch((error) => {
@@ -28,48 +32,46 @@ function populateTable() {
       });
   }
 
-function sortTableByPutr() {
-    const table = document.getElementById("leaderboard-table");
-    const tbody = table.getElementsByTagName('tbody')[0];
-    const rows = Array.from(tbody.getElementsByTagName('tr'));
-  
-    rows.sort((a, b) => {
-      const aValue = parseFloat(a.querySelector('.player-putr').textContent);
-      const bValue = parseFloat(b.querySelector('.player-putr').textContent);
-      return bValue - aValue; // Sort in descending order
-    });
-  
-    // Clear the table
-    while (tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
-    }
-  
-    // Re-add the sorted rows
-    rows.forEach((row) => {
-      tbody.appendChild(row);
-    });
-  }
 
-  function sortTableByNet() {
-    const table = document.getElementById("leaderboard-table");
-    const tbody = table.getElementsByTagName('tbody')[0];
-    const rows = Array.from(tbody.getElementsByTagName('tr'));
+
+  function sortTableByPutr() {
+    const tbody = document.querySelector('#leaderboard-table tbody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+    putrAsc = !putrAsc;
   
     rows.sort((a, b) => {
-      const aValue = parseFloat(a.querySelector('.player-net').textContent);
-      const bValue = parseFloat(b.querySelector('.player-net').textContent);
-      return bValue - aValue; // Sort in descending order
+      const aVal = parseFloat(a.querySelector('.player-putr').textContent);
+      const bVal = parseFloat(b.querySelector('.player-putr').textContent);
+      return putrAsc ? aVal - bVal : bVal - aVal;
     });
   
-    // Clear the table
-    while (tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
-    }
+    // re‑populate
+    tbody.innerHTML = '';
+    rows.forEach(r => tbody.appendChild(r));
   
-    // Re-add the sorted rows
-    rows.forEach((row) => {
-      tbody.appendChild(row);
+    // **only** show the PUTR arrow, clear the NET arrow
+    document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
+    document.getElementById('net-arrow').textContent   = '';
+  }
+  
+  function sortTableByNet() {
+    const tbody = document.querySelector('#leaderboard-table tbody');
+    const rows  = Array.from(tbody.querySelectorAll('tr'));
+    netAsc = !netAsc;
+  
+    rows.sort((a, b) => {
+      const aVal = parseFloat(a.querySelector('.player-net').textContent);
+      const bVal = parseFloat(b.querySelector('.player-net').textContent);
+      return netAsc ? aVal - bVal : bVal - aVal;
     });
+  
+    // re‑populate
+    tbody.innerHTML = '';
+    rows.forEach(r => tbody.appendChild(r));
+  
+    // **only** show the NET arrow, clear the PUTR arrow
+    document.getElementById('net-arrow').textContent   = netAsc ? '▼' : '▲';
+    document.getElementById('putr-arrow').textContent = '';
   }
   
   // Call the sorting function when the page loads to initially sort the table by PUTR
