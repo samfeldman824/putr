@@ -32,8 +32,13 @@
               <tr id="table-header">
                 <th>Flag</th>
                 <th>Name</th>
-                <th onclick="sortTableByPutr()" >PUTR &#x25B2;</th>
-                <th onclick="sortTableByNet()">Net W/L ($) &#x25B2; </th>
+                <th id="putr-header" onclick="sortTableByPutr()">
+                  PUTR <span id="putr-arrow"></span>
+                </th>
+                <th id="net-header" onclick="sortTableByNet()">
+                  Net W/L ($) <span id="net-arrow"></span>
+                </th>
+
               </tr>
             </thead>
             <tbody id="table-body">
