@@ -209,7 +209,7 @@ class Poker:
             down_most: List of players who lost the most.
         """
 
-        player["net"] += player_net
+        player["net"] = round(player["net"] + player_net, 2)
         player["games_played"].append(day)
         player["biggest_win"] = max(player["biggest_win"], player_net)
         player["biggest_loss"] = min(player["biggest_loss"], player_net)
@@ -217,7 +217,7 @@ class Poker:
         player["lowest_net"] = min(player["lowest_net"], player["net"])
         player["net_dictionary"][day[:8]] = player["net"]
         player["average_net"] = (
-            player["net"] / len(player["games_played"]) if player["games_played"] else 0
+            round(player["net"] / len(player["games_played"]), 2) if player["games_played"] else 0
         )
 
         if nickname in up_most:
