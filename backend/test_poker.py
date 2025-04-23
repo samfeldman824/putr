@@ -398,11 +398,20 @@ def test_print_last_games(tem_dir_fixture3, capfd):
     assert out == ('Last 2 games for Charlie:\n\n23_10_20 -10.00'
                    ' (-12.00)\n23_10_19 2.00 (-8.00)\n\n'
                    'Net: -20.00\nAverage: -10.00\n')
-    # assert "Last 2 games for James Lian:" in out
-    # assert "23_10_19 -5.00 (-5.00)" in out
-    # assert "0.00 (0.00)" in out
-    # assert "Net: -5.00" in out
-    # assert "Average: -2.50" in out
+
+def test_combine_and_print_results(tem_dir_fixture3, capfd):
+    poker, ledger_path, _ = tem_dir_fixture3
+
+    poker.print_combined_results([ledger_path + "/ledger01_01.csv",
+                                  ledger_path + "/ledger01_02.csv"])
+
+    out, _ = capfd.readouterr()
+
+    assert "Combined results for 2 ledgers:" in out
+    assert "Alice: 11.00  (01_01, 01_02)" in out
+    assert "Bob: -8.50  (01_01, 01_02)" in out
+    assert "Charlie: -2.50  (01_01, 01_02)" in out
+    assert "Joe: 5.50  (01_02)" in out
 
 
 # testing exceptions
