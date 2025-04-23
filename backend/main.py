@@ -1,5 +1,6 @@
 from poker import Poker
 import click
+from typing import List
 
 
 def main():
@@ -26,6 +27,15 @@ def pg(ledger_date):
     poker = Poker("ledgers", "data.json")
     csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
     poker.print_game_results(csv_path)
+
+
+@cli.command()
+@click.argument('ledger_dates', nargs=-1)
+def cb(ledger_dates: List[str]):
+    """Combine and print results from multiple games by ledger_date (e.g. 23_10_18 23_10_19)."""
+    poker = Poker("ledgers", "data.json")
+    ledger_paths = [f"{poker.ledger_folder_path}/ledger{date}.csv" for date in ledger_dates]
+    poker.print_combined_results(ledger_paths)
 
 
 @cli.command()
