@@ -2,6 +2,8 @@ import json
 import os
 import re
 from typing import Dict, List, Tuple, Optional, Set
+from collections import defaultdict
+
 
 import pandas as pd
 
@@ -151,6 +153,23 @@ class Poker:
         for player_id, player_data in json_data.items():
             if nickname in player_data["player_nicknames"]:
                 return player_data
+        return None
+    
+    @staticmethod
+    def _search_for_nickname_clean(json_data: Dict, nickname: str) -> Optional[Dict]:
+        """
+        Searches for a player by nickname within the JSON data.
+
+        Args:
+            json_data: The JSON data to search within.
+            nickname: The nickname to search for.
+
+        Returns:
+            The player's name if found, otherwise None.
+        """
+        for player_id, player_data in json_data.items():
+            if nickname in player_data["player_nicknames"]:
+                return player_id
         return None
 
     def _update_players(
@@ -312,9 +331,7 @@ class Poker:
         Returns:
             None
         """
-
         game_data, _ = self._load_game_data(ledger_path)
-
         net_winnings_by_player = (
             game_data.groupby("player_nickname")["net"].sum().div(100).to_dict()
         )
@@ -325,6 +342,95 @@ class Poker:
         )
         for name, net in sorted_winnings.items():
             print(f"{name}: {net}")
+    
+    def print_combined_results(self, ledger_paths: List[str]) -> None:
+        json_data = self._load_json_data()
+
+        all_ledgers = []
+        player_days: Dict[str, List[str]] = defaultdict(list)
+
+        # 1) load each ledger, remap nicknames → IDs, and record the day per player
+        for path in ledger_paths:
+            game_data, day = self._load_game_data(path)
+            net_winnings = self._calculate_net_winnings(game_data)
+
+            # remap nicknames to player IDs
+            for nickname in list(net_winnings):
+                player_id = self._search_for_nickname_clean(json_data, nickname)
+                if player_id:
+                    net_winnings[player_id] = net_winnings.pop(nickname)
+
+            # record that each player played on this `day`
+            for player in net_winnings:
+                player_days[player].append(day)
+
+            all_ledgers.append(net_winnings)
+
+        # 2) combine all ledgers
+        combined: Dict[str, float] = {}
+        for ledger in all_ledgers:
+            for player, net in ledger.items():
+                combined[player] = combined.get(player, 0) + net
+
+        # 3) sort and print, pulling in the days list for each player
+        sorted_winnings = dict(
+            sorted(combined.items(), key=lambda kv: kv[1], reverse=True)
+        )
+
+        print(f"Combined results for {len(ledger_paths)} ledgers:\n")
+        print("Games included:")
+        for d in sorted({d for days in player_days.values() for d in days}):
+            print(d)
+        print()
+       
+
+        for name, net in sorted_winnings.items():
+            dates = ", ".join(player_days.get(name, []))
+            print(f"{name}: {net:.2f}  ({dates})")
+    
+    def print_combined_results(self, ledger_paths: List[str]) -> None:
+        json_data = self._load_json_data()
+
+        all_ledgers = []
+        player_days: Dict[str, List[str]] = defaultdict(list)
+
+        # 1) load each ledger, remap nicknames → IDs, and record the day per player
+        for path in ledger_paths:
+            game_data, day = self._load_game_data(path)
+            net_winnings = self._calculate_net_winnings(game_data)
+
+            # remap nicknames to player IDs
+            for nickname in list(net_winnings):
+                player_id = self._search_for_nickname_clean(json_data, nickname)
+                if player_id:
+                    net_winnings[player_id] = net_winnings.pop(nickname)
+
+            # record that each player played on this `day`
+            for player in net_winnings:
+                player_days[player].append(day)
+
+            all_ledgers.append(net_winnings)
+
+        # 2) combine all ledgers
+        combined: Dict[str, float] = {}
+        for ledger in all_ledgers:
+            for player, net in ledger.items():
+                combined[player] = combined.get(player, 0) + net
+
+        # 3) sort and print, pulling in the days list for each player
+        sorted_winnings = dict(
+            sorted(combined.items(), key=lambda kv: kv[1], reverse=True)
+        )
+
+        print(f"Combined results for {len(ledger_paths)} ledgers:\n")
+        print("Games included:")
+        for d in sorted({d for days in player_days.values() for d in days}):
+            print(d)
+        print()
+
+        for name, net in sorted_winnings.items():
+            dates = ", ".join(player_days.get(name, []))
+            print(f"{name}: {net:.2f}  ({dates})")
 
     def print_unique_nicknames(self) -> None:
         """
