@@ -94,7 +94,7 @@ fetch("data.json")
             zoom: {
               pan: { enabled: true, mode: 'x' },
               zoom: {
-                wheel: { enabled: true },
+                wheel: { enabled: true, speed: 0.0001 },
                 drag: { enabled: true },
                 pinch: { enabled: true },
                 mode: 'x' 
