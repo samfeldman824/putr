@@ -35,6 +35,7 @@ fetch("data.json")
         ${createStatCard('Average Net', player.average_net.toFixed(2))}
       `;
 
+      // const player = data[playerName];
       const netDictionary = player.net_dictionary;
       const dates = Object.keys(netDictionary);
       const netValues = Object.values(netDictionary);
@@ -57,10 +58,21 @@ fetch("data.json")
         datasets: [{
           label: 'Net Winnings Chart',
           data: netValues,
-          borderColor: 'blue',
+          borderColor: '#888888',
           borderWidth: 2,
           fill: false,
-          pointRadius: 2 // Very small dots on data points
+          pointRadius: 2, // Gray dots
+          pointBackgroundColor: '#888888',
+          pointBorderColor: '#888888',
+          pointHoverBackgroundColor: '#888888',
+          pointHoverBorderColor: '#888888',
+          segment: {
+            borderColor: ctx => {
+              const { p0, p1 } = ctx;
+              if (!p0 || !p1) return 'blue';
+              return p1.parsed.y > p0.parsed.y ? '#00FF00' : (p1.parsed.y < p0.parsed.y ? '#FF0000' : 'gray');
+            }
+          }
         }]
       };
 
