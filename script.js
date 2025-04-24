@@ -1,5 +1,5 @@
 let putrAsc = true;
-let netAsc  = false;
+let netAsc  = true;
 
 
 function populateTable() {
@@ -38,6 +38,7 @@ function populateTable() {
     const tbody = document.querySelector('#leaderboard-table tbody');
     const rows  = Array.from(tbody.querySelectorAll('tr'));
     putrAsc = !putrAsc;
+    netAsc = true;
   
     rows.sort((a, b) => {
       const aVal = parseFloat(a.querySelector('.player-putr').textContent);
@@ -58,6 +59,7 @@ function populateTable() {
     const tbody = document.querySelector('#leaderboard-table tbody');
     const rows  = Array.from(tbody.querySelectorAll('tr'));
     netAsc = !netAsc;
+    putrAsc = true;
   
     rows.sort((a, b) => {
       const aVal = parseFloat(a.querySelector('.player-net').textContent);
