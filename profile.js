@@ -39,6 +39,17 @@ fetch("data.json")
       const dates = Object.keys(netDictionary);
       const netValues = Object.values(netDictionary);
 
+     // Calculate the maximum absolute value among netValues for symmetric y-axis
+     const maxAbs = Math.max(...netValues.map(value => Math.abs(value)));
+     // Add extra headroom to the max (e.g., 20% extra)
+     const extraHeadroomFactor = 1.2;
+     const adjustedMax = maxAbs * extraHeadroomFactor;
+     
+     // Round adjustedMax up to the nearest multiple of 100.
+     const niceMax = Math.ceil(adjustedMax / 100) * 100;
+     // Calculate the step size so the axis divides evenly (here using 6 intervals)
+     const stepSize = niceMax / 4;
+
 
       // Data for the line chart
       const data1 = {
@@ -48,7 +59,8 @@ fetch("data.json")
           data: netValues,
           borderColor: 'blue',
           borderWidth: 2,
-          fill: false
+          fill: false,
+          pointRadius: 2 // Very small dots on data points
         }]
       };
 
@@ -64,7 +76,7 @@ fetch("data.json")
                 wheel: { enabled: true },
                 drag: { enabled: true },
                 pinch: { enabled: true },
-                mode: 'x'
+                mode: 'x' 
               }
             }
           },
@@ -72,15 +84,31 @@ fetch("data.json")
             x: {
               title: {
                 display: true,
-                text: 'Date'
+                text: 'Date',
               },
               beginAtZero: true
             },
-
             y: {
+              // Dynamically set min/max depending on last data point
+              ...(netValues.length > 0 && netValues[netValues.length - 1] > 0 ? {
+                max: niceMax
+              } : netValues.length > 0 && netValues[netValues.length - 1] < 0 ? {
+                min: -niceMax
+              } : {
+                min: -niceMax,
+                max: niceMax
+              }),
+              ticks: {
+                stepSize: stepSize
+              },
               title: {
                 display: true,
                 text: 'Net Winnings ($)'
+              },
+              grid: {
+                lineWidth: function(context) {
+                  return context.tick.value === 0 ? 3 : 1;
+                }
               },
               beginAtZero: true
             },
