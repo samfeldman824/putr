@@ -1,4 +1,13 @@
 const urlParams = new URLSearchParams(window.location.search);
+
+function escapeHTML(str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 const playerName = decodeURIComponent(urlParams.get('playerName'));
 // console.log("player id is",playerID)
 const createStatCard = (label, value) => `
@@ -18,7 +27,7 @@ fetch("data.json")
       const statsContainer = document.getElementById("stats-container");
       const nameDiv = document.getElementById("playerInfo")
       nameDiv.innerHTML = `
-        <h1>${playerName}</h1>
+        <h1>${escapeHTML(playerName)}</h1>
       `  
       statsContainer.innerHTML = `
         ${createStatCard('PUTR', player.putr.toFixed(2))}
