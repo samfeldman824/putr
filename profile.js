@@ -46,19 +46,173 @@ fetch("data.json")
 
       // const player = data[playerName];
       const netDictionary = player.net_dictionary;
-      const dates = Object.keys(netDictionary);
-      const netValues = Object.values(netDictionary);
+      // Chart filtering logic
+      if (typeof window.chartInstance === 'undefined') window.chartInstance = null;
+      function filterAndRenderChart(startDate, endDate) {
+        const filteredDates = [];
+        const filteredNetValues = [];
+        for (const dateStr of Object.keys(netDictionary)) {
+          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
+          if (match) {
+            const year = 2000 + parseInt(match[1], 10);
+            const month = parseInt(match[2], 10) - 1;
+            const day = parseInt(match[3], 10);
+            const gameDate = new Date(year, month, day);
+            if (gameDate >= startDate && gameDate <= endDate) {
+              filteredDates.push(dateStr);
+              filteredNetValues.push(netDictionary[dateStr]);
+            }
+          }
+        }
+        const dates = filteredDates;
+        const netValues = filteredNetValues;
+
+        // Calculate the maximum absolute value among netValues for symmetric y-axis
+        const maxAbs = netValues.length > 0 ? Math.max(...netValues.map(value => Math.abs(value))) : 1;
+        const extraHeadroomFactor = 1.2;
+        const adjustedMax = maxAbs * extraHeadroomFactor;
+        const niceMax = Math.ceil(adjustedMax / 100) * 100;
+        const stepSize = niceMax / 4;
+
+        const data1 = {
+          labels: dates,
+          datasets: [{
+            label: 'Net Winnings Chart',
+            data: netValues,
+            borderColor: '#888888',
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 2,
+            pointBackgroundColor: '#888888',
+            pointBorderColor: '#888888',
+            pointHoverBackgroundColor: '#888888',
+            pointHoverBorderColor: '#888888',
+            segment: {
+              borderColor: ctx => {
+                const { p0, p1 } = ctx;
+                if (!p0 || !p1) return 'blue';
+                return p1.parsed.y > p0.parsed.y ? '#00FF00' : (p1.parsed.y < p0.parsed.y ? '#FF0000' : 'gray');
+              }
+            }
+          }]
+        };
+
+        const config = {
+          type: 'line',
+          data: data1,
+          options: {
+            plugins: {
+              zoom: {
+                pan: { enabled: true, mode: 'x' },
+                zoom: {
+                  wheel: { enabled: true, speed: 0.0001 },
+                  drag: { enabled: true },
+                  pinch: { enabled: true },
+                  mode: 'x' 
+                }
+              }
+            },
+            scales: {
+              x: {
+                title: { display: true, text: 'Date' },
+                beginAtZero: true
+              },
+              y: {
+                ...(netValues.length > 0 && netValues[netValues.length - 1] > 0 ? {
+                  max: niceMax
+                } : netValues.length > 0 && netValues[netValues.length - 1] < 0 ? {
+                  min: -niceMax
+                } : {
+                  min: -niceMax,
+                  max: niceMax
+                }),
+                ticks: { stepSize: stepSize },
+                title: { display: true, text: 'Net Winnings ($)' },
+                grid: {}
+              }
+            }
+          }
+        };
+
+        // Remove old chart if present
+        if (window.chartInstance) {
+          window.chartInstance.destroy();
+        }
+        const ctx = document.getElementById('lineChart').getContext('2d');
+        window.chartInstance = new Chart(ctx, config);
+      }
+
+      // Set up date pickers and initial range (all dates)
+      const allGameDates = Object.keys(netDictionary)
+        .map(dateStr => {
+          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
+          if (match) {
+            const year = 2000 + parseInt(match[1], 10);
+            const month = parseInt(match[2], 10) - 1;
+            const day = parseInt(match[3], 10);
+            return new Date(year, month, day);
+          }
+          return null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => a - b);
+      const minDate = allGameDates.length > 0 ? allGameDates[0] : new Date();
+      const maxDate = allGameDates.length > 0 ? allGameDates[allGameDates.length - 1] : new Date();
+      const startInput = document.getElementById('start-date');
+      const endInput = document.getElementById('end-date');
+      const rangeBtns = document.querySelectorAll('.range-btn');
+      const customInputs = document.getElementById('custom-date-inputs');
+      function formatDateForInput(date) {
+        return date.toISOString().split('T')[0];
+      }
+      startInput.value = formatDateForInput(minDate);
+      endInput.value = formatDateForInput(maxDate);
+
+      // Helper to highlight selected button
+      function highlightBtn(btn) {
+        rangeBtns.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      }
+
+      // Range button logic
+      rangeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          highlightBtn(btn);
+          const range = btn.getAttribute('data-range');
+          if (range === 'custom') {
+            customInputs.style.display = '';
+          } else {
+            customInputs.style.display = 'none';
+            let start, end;
+            end = maxDate;
+            if (range === 'all') {
+              start = minDate;
+            } else {
+              start = new Date(maxDate.getTime() - (parseInt(range) * 24 * 60 * 60 * 1000));
+              if (start < minDate) start = minDate;
+            }
+            startInput.value = formatDateForInput(start);
+            endInput.value = formatDateForInput(end);
+            filterAndRenderChart(start, end);
+          }
+        });
+      });
+
+      // Initial render: All
+      highlightBtn(document.querySelector('.range-btn[data-range="all"]'));
+      customInputs.style.display = 'none';
+      filterAndRenderChart(minDate, maxDate);
+
+      // Apply button for custom
+      document.getElementById('apply-date-filter').addEventListener('click', () => {
+        const start = new Date(startInput.value);
+        const end = new Date(endInput.value);
+        filterAndRenderChart(start, end);
+      });
 
      // Calculate the maximum absolute value among netValues for symmetric y-axis
-     const maxAbs = Math.max(...netValues.map(value => Math.abs(value)));
-     // Add extra headroom to the max (e.g., 20% extra)
-     const extraHeadroomFactor = 1.2;
-     const adjustedMax = maxAbs * extraHeadroomFactor;
-     
-     // Round adjustedMax up to the nearest multiple of 100.
-     const niceMax = Math.ceil(adjustedMax / 100) * 100;
-     // Calculate the step size so the axis divides evenly (here using 6 intervals)
-     const stepSize = niceMax / 4;
+     // (moved inside filterAndRenderChart)
+
 
 
       // Data for the line chart
