@@ -18,7 +18,7 @@ function populateTable() {
           <td class="player-name">
       <a href="profile.html?playerName=${encodedName}"('${key}')">${key}</a>
     </td>
-          <td class="player-putr">${item.putr.toFixed(2)}</td>
+          <td class="player-putr">${Number.isFinite(item.putr) ? item.putr.toFixed(2) : 'UR'}</td>
           <td class="player-net">${item.net.toFixed(2)}</td>
         `;
         tableBody.appendChild(row);
