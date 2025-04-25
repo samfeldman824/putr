@@ -22,6 +22,20 @@
         
     </div>
 
+    <div id="range-bar" style="margin-bottom: 20px;">
+      <button class="range-btn" data-range="30">Last 30 Days</button>
+      <button class="range-btn" data-range="90">Last 90 Days</button>
+      <button class="range-btn" data-range="365">Last Year</button>
+      <button class="range-btn" data-range="all">All</button>
+      <button class="range-btn" data-range="custom">Custom</button>
+      <span id="custom-date-inputs" style="display:none;">
+        <label for="start-date">Start:</label>
+        <input type="date" id="start-date">
+        <label for="end-date">End:</label>
+        <input type="date" id="end-date">
+        <button id="apply-date-filter">Apply</button>
+      </span>
+    </div>
     <canvas id="lineChart"></canvas>
 </body>
 </html>
