@@ -388,50 +388,6 @@ class Poker:
             dates = ", ".join(player_days.get(name, []))
             print(f"{name}: {net:.2f}  ({dates})")
     
-    def print_combined_results(self, ledger_paths: List[str]) -> None:
-        json_data = self._load_json_data()
-
-        all_ledgers = []
-        player_days: Dict[str, List[str]] = defaultdict(list)
-
-        # 1) load each ledger, remap nicknames → IDs, and record the day per player
-        for path in ledger_paths:
-            game_data, day = self._load_game_data(path)
-            net_winnings = self._calculate_net_winnings(game_data)
-
-            # remap nicknames to player IDs
-            for nickname in list(net_winnings):
-                player_id = self._search_for_nickname_clean(json_data, nickname)
-                if player_id:
-                    net_winnings[player_id] = net_winnings.pop(nickname)
-
-            # record that each player played on this `day`
-            for player in net_winnings:
-                player_days[player].append(day)
-
-            all_ledgers.append(net_winnings)
-
-        # 2) combine all ledgers
-        combined: Dict[str, float] = {}
-        for ledger in all_ledgers:
-            for player, net in ledger.items():
-                combined[player] = combined.get(player, 0) + net
-
-        # 3) sort and print, pulling in the days list for each player
-        sorted_winnings = dict(
-            sorted(combined.items(), key=lambda kv: kv[1], reverse=True)
-        )
-
-        print(f"Combined results for {len(ledger_paths)} ledgers:\n")
-        print("Games included:")
-        for d in sorted({d for days in player_days.values() for d in days}):
-            print(d)
-        print()
-
-        for name, net in sorted_winnings.items():
-            dates = ", ".join(player_days.get(name, []))
-            print(f"{name}: {net:.2f}  ({dates})")
-
     def print_unique_nicknames(self) -> None:
         """
         Prints the unique nicknames of players found in the CSV files within the ledger folder.
