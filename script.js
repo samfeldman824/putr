@@ -1,7 +1,13 @@
+
+/**
+ * Handles leaderboard population and sorting logic.
+ * Data is fetched from `data.json` and displayed in a table.
+ */
 let putrAsc = true;
 let netAsc  = true;
 
 
+// Fetch player stats from data.json and build the leaderboard rows
 function populateTable() {
     fetch("data.json")
       .then((response) => response.json())
@@ -34,6 +40,7 @@ function populateTable() {
 
 
 
+  // Sort leaderboard rows by PUTR value
   function sortTableByPutr() {
     const tbody = document.querySelector('#leaderboard-table tbody');
     const rows  = Array.from(tbody.querySelectorAll('tr'));
@@ -55,6 +62,7 @@ function populateTable() {
     document.getElementById('net-arrow').textContent   = '';
   }
   
+  // Sort leaderboard rows by net winnings
   function sortTableByNet() {
     const tbody = document.querySelector('#leaderboard-table tbody');
     const rows  = Array.from(tbody.querySelectorAll('tr'));

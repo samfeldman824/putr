@@ -1,3 +1,9 @@
+/**
+ * profile.js
+ * ----------
+ * Renders player statistics and interactive charts on the profile page.
+ * Player data is loaded from `data.json`.
+ */
 const urlParams = new URLSearchParams(window.location.search);
 
 function escapeHTML(str) {
