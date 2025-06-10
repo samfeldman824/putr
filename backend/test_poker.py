@@ -419,14 +419,12 @@ def test_combine_and_print_results(tem_dir_fixture3, capfd):
 
 def test_json_file_not_found():
     with pytest.raises(FileNotFoundError):
-        poker = Poker("testing/mock_ledgers", "fake_path.json")
-        poker.add_poker_game("testing/mock_ledgers/ledger01_01.csv")
+        Poker("testing/mock_ledgers", "fake_path.json")
 
 
 def test_ledger_folder_not_found():
     with pytest.raises(FileNotFoundError):
-        poker = Poker("fake_path", "testing/mock_jsons/mock1_data.json")
-        poker.add_poker_game("testing/mock_ledgers/ledger01_01.csv")
+        Poker("fake_path", "backend/testing/mock_jsons/mock1_data.json")
 
 
 def test_ledger_file_not_csv(tem_dir_fixture1):
@@ -446,6 +444,47 @@ def test_ledger_file_not_exist_print(tem_dir_fixture1):
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
 
+
+# new tests covering edge cases in Poker.__init__ and _load_game_data
+
+def test_init_type_errors(tmp_path):
+    valid_dir = tmp_path / "ledgers"
+    valid_dir.mkdir()
+    valid_json = tmp_path / "data.json"
+    valid_json.write_text("{}")
+
+    with pytest.raises(TypeError):
+        Poker(123, str(valid_json))
+    with pytest.raises(TypeError):
+        Poker(str(valid_dir), 456)
+
+
+def test_init_value_errors(tmp_path):
+    valid_dir = tmp_path / "ledgers"
+    valid_dir.mkdir()
+    valid_json = tmp_path / "data.json"
+    valid_json.write_text("{}")
+
+    with pytest.raises(ValueError):
+        Poker("", str(valid_json))
+    with pytest.raises(ValueError):
+        Poker(str(valid_dir), "")
+
+
+def test_load_game_data_not_csv(tmp_path):
+    bad_file = tmp_path / "ledger01_01.txt"
+    bad_file.write_text("text")
+
+    with pytest.raises(ValueError):
+        Poker._load_game_data(str(bad_file))
+
+
+def test_load_game_data_bad_filename(tmp_path):
+    bad_file = tmp_path / "game01_01.csv"
+    bad_file.write_text("text")
+
+    with pytest.raises(ValueError):
+        Poker._load_game_data(str(bad_file))
 
 
 # def test_ledger_file_not_found(tem_dir_fixture1):
