@@ -1,11 +1,10 @@
-import json
 import os
 import re
 from typing import Dict, List, Tuple, Optional, Set
 from collections import defaultdict
 
-
 import pandas as pd
+from database import init_db, load_all, save_all
 
 
 class Poker:
@@ -13,74 +12,67 @@ class Poker:
     A class to manage poker game data, including loading, updating, and printing game results.
     """
 
-    def __init__(self, ledger_folder_path: str, json_path: str) -> None:
+    def __init__(self, ledger_folder_path: str, db_path: str) -> None:
         """
         Initialize a Poker object.
 
         Args:
             ledger_folder_path: The path to the ledger folder.
-            json_path: The path to the JSON file.
+            db_path: The path to the SQLite database.
 
         Raises:
-            TypeError: If ledger_folder_path or json_path is not a string.
-            ValueError: If ledger_folder_path or json_path is an empty string.
-            FileNotFoundError: If the specified JSON path or ledger folder path does not exist.
+            TypeError: If ledger_folder_path or db_path is not a string.
+            ValueError: If ledger_folder_path or db_path is an empty string.
+            FileNotFoundError: If the specified ledger folder path does not exist.
         """
         if not isinstance(ledger_folder_path, str):
             raise TypeError("ledger_folder_path must be a string")
-        if not isinstance(json_path, str):
-            raise TypeError("json_path must be a string")
+        if not isinstance(db_path, str):
+            raise TypeError("db_path must be a string")
         if not ledger_folder_path:
             raise ValueError(
                 "The ledger folder path cannot be an empty string."
             )
-        if not json_path:
-            raise ValueError("The JSON path cannot be an empty string.")
-
-        self._validate_paths(ledger_folder_path, json_path)
+        if not db_path:
+            raise ValueError("The database path cannot be an empty string.")
+        self._validate_paths(ledger_folder_path)
+        init_db(db_path)
         self.ledger_folder_path: str = ledger_folder_path
-        self.json_path: str = json_path
+        self.db_path: str = db_path
 
     @staticmethod
-    def _validate_paths(ledger_folder_path: str, json_path: str) -> None:
+    def _validate_paths(ledger_folder_path: str) -> None:
         """
         Validates the existence of the specified ledger folder and JSON paths.
 
         Args:
             ledger_folder_path: The path to the ledger folder.
-            json_path: The path to the JSON file.
 
         Raises:
-            FileNotFoundError: If the specified JSON or ledger folder path does not exist.
+            FileNotFoundError: If the specified ledger folder path does not exist.
         """
-        if not os.path.exists(json_path):
-            raise FileNotFoundError(
-                f"The specified JSON path does not exist: {json_path}"
-            )
         if not os.path.exists(ledger_folder_path):
             raise FileNotFoundError(
                 f"The specified ledger folder path does not exist: {ledger_folder_path}"
             )
 
-    def _load_json_data(self) -> Dict:
+    def _load_db_data(self) -> Dict:
         """
-        Loads JSON data from the specified file path.
+        Load all player data from the database.
 
         Returns:
-            The loaded JSON data.
+            The loaded data as a dictionary.
         """
-        with open(self.json_path, "r", encoding="utf-8") as json_file:
-            return json.load(json_file)
+        return load_all(self.db_path)
 
-    def _save_json_data(self, data: Dict) -> None:
+    def _save_db_data(self, data: Dict) -> None:
         """
-        Save the given data as JSON to the specified file path.
+        Save the given data dictionary to the database.
 
         Args:
-            data: The data to be saved as JSON.
+            data: The data to be saved.
         """
-        with open(self.json_path, "w", encoding="utf-8") as json_file:
-            json.dump(data, json_file, indent=4)
+        save_all(data, self.db_path)
 
     @staticmethod
     def _load_game_data(ledger_csv_path: str) -> Tuple[pd.DataFrame, str]:
@@ -283,7 +275,7 @@ class Poker:
             None
         """
 
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
 
         game_data, day = self._load_game_data(ledger_csv_path)
 
@@ -298,7 +290,7 @@ class Poker:
         if players_updated == len(net_winnings_by_player):
             for name, net in net_winnings_by_player.items():
                 print(name, net)
-            self._save_json_data(json_data)
+            self._save_db_data(json_data)
             print(f"Poker game on {day} added")
         else:
             for name in net_winnings_by_player.keys():
@@ -344,7 +336,7 @@ class Poker:
             print(f"{name}: {net}")
     
     def print_combined_results(self, ledger_paths: List[str]) -> None:
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
 
         all_ledgers = []
         player_days: Dict[str, List[str]] = defaultdict(list)
@@ -412,7 +404,7 @@ class Poker:
         Returns:
             None
         """
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
 
         for player in json_data.keys():
             json_data[player]["net"] = 0
@@ -428,7 +420,7 @@ class Poker:
             json_data[player]["games_down"] = 0
             json_data[player]["average_net"] = 0
 
-        self._save_json_data(json_data)
+        self._save_db_data(json_data)
 
     def sort_days_list(self) -> None:
         """
@@ -437,12 +429,12 @@ class Poker:
         Returns:
             None
         """
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
 
         for player in json_data.values():
             player["games_played"].sort()
 
-        self._save_json_data(json_data)
+        self._save_db_data(json_data)
 
     def print_all_games(self) -> None:
         """
@@ -463,13 +455,13 @@ class Poker:
         Returns:
             None
         """
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
 
         for player in json_data.keys():
             # edit line below to add desired field
             json_data[player]["mock_field"] = 0
 
-        self._save_json_data(json_data)
+        self._save_db_data(json_data)
 
     def print_last_games(self, player_name: str, days: int = 5) -> None:
         """
@@ -482,7 +474,7 @@ class Poker:
         Returns:
             None
         """
-        json_data = self._load_json_data()
+        json_data = self._load_db_data()
         player_data = json_data[player_name]
         player_net_dict = player_data["net_dictionary"]
         reversed_keys = list(reversed(list(player_net_dict.keys())))

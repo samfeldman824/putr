@@ -16,7 +16,7 @@ const createStatCard = (label, value) => `
   <div class="stat-label">${label}</div>
 </div>
 `;
-fetch("data.json")
+fetch(`/api/player?name=${encodeURIComponent(playerName)}`)
   .then(response => response.json())
   .then(data => {
     // Find the player by ID
