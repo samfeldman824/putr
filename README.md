@@ -29,6 +29,18 @@ source venv/bin/activate
 - Analyze player performance over time
 - Generate leaderboards and rankings
 
+## Running the API Server
+
+Player data is now stored in a SQLite database (`database.db`).
+Start the lightweight HTTP API which exposes the data with:
+
+```
+python backend/server.py
+```
+
+The leaderboard pages fetch data from this server at `/api/players` and
+`/api/player?name=<PLAYER_NAME>`.
+
 ## Testing
 
 Run the following commands for testing

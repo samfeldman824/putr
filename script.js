@@ -3,7 +3,7 @@ let netAsc  = true;
 
 
 function populateTable() {
-    fetch("data.json")
+    fetch("/api/players")
       .then((response) => response.json())
       .then((data) => {
         const tableBody = document.getElementById("table-body");

@@ -27,11 +27,11 @@ def tem_dir_fixture1():
         os.remove(os.path.join(new_ledger_path, "ledger01_02.csv"))
 
         # Create the Poker instance
-        json_path = os.path.join(new_json_path, "mock1_data.json")
-        poker = Poker(new_ledger_path, json_path)
+        db_path = os.path.join(new_json_path, "mock1.db")
+        poker = Poker(new_ledger_path, db_path)
 
         # Yield both the poker instance and the paths
-        yield poker, new_ledger_path, json_path
+        yield poker, new_ledger_path, db_path
 
 
 @pytest.fixture
@@ -51,11 +51,11 @@ def tem_dir_fixture2():
         shutil.copytree(original_ledger_path, new_ledger_path)
 
         # Create the Poker instance
-        json_path = os.path.join(new_json_path, "mock2_data.json")
-        poker = Poker(new_ledger_path, json_path)
+        db_path = os.path.join(new_json_path, "mock2.db")
+        poker = Poker(new_ledger_path, db_path)
 
         # Yield both the poker instance and the paths
-        yield poker, new_ledger_path, json_path
+        yield poker, new_ledger_path, db_path
 
 @pytest.fixture
 def tem_dir_fixture3():
@@ -74,20 +74,20 @@ def tem_dir_fixture3():
         shutil.copytree(original_ledger_path, new_ledger_path)
 
         # Create the Poker instance
-        json_path = os.path.join(new_json_path, "mock3_data.json")
-        poker = Poker(new_ledger_path, json_path)
+        db_path = os.path.join(new_json_path, "mock3.db")
+        poker = Poker(new_ledger_path, db_path)
 
         # Yield both the poker instance and the paths
-        yield poker, new_ledger_path, json_path
+        yield poker, new_ledger_path, db_path
 
 
-# Initializes a Poker object with valid ledger_folder_path and json_path.
+# Initializes a Poker object with valid ledger_folder_path and db_path.
 def test_valid_paths(tem_dir_fixture1):
-    poker, ledger_folder_path, json_path = tem_dir_fixture1
+    poker, ledger_folder_path, db_path = tem_dir_fixture1
 
     assert isinstance(poker, Poker)
     assert poker.ledger_folder_path == ledger_folder_path
-    assert poker.json_path == json_path
+    assert poker.db_path == db_path
     
     
 def test_add_poker_game1(tem_dir_fixture1, capfd):
@@ -268,11 +268,11 @@ def test_print_all_games(tem_dir_fixture1, capfd):
 
 def test_reset_net_fields(tem_dir_fixture1, capfd):
 
-    poker, _, json_path = tem_dir_fixture1
+    poker, _, db_path = tem_dir_fixture1
 
     poker.reset_net_fields()
 
-    with open(json_path) as json_file:
+    with open(db_path) as json_file:
         json_data = json.load(json_file)
         for player_data in json_data.keys():
             assert json_data[player_data]["net"] == 0

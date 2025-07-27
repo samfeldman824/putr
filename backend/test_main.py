@@ -27,7 +27,7 @@ def test_pg_invokes_print_game_results(monkeypatch):
     result = runner.invoke(main.cli, ["pg", "01_01"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
+        'init': ("ledgers", "database.db"),
         'csv': "ledgers/ledger01_01.csv",
     }
 
@@ -48,7 +48,7 @@ def test_cb_invokes_print_combined_results(monkeypatch):
     runner = CliRunner()
     result = runner.invoke(main.cli, ["cb", "01_01", "01_02"])
     assert result.exit_code == 0
-    assert called['init'] == ("ledgers", "data.json")
+    assert called['init'] == ("ledgers", "database.db")
     assert called['paths'] == [
         "ledgers/ledger01_01.csv",
         "ledgers/ledger01_02.csv",
@@ -71,7 +71,7 @@ def test_pgs_invokes_print_all_games(monkeypatch):
     runner = CliRunner()
     result = runner.invoke(main.cli, ["pgs"])
     assert result.exit_code == 0
-    assert called == {'init': ("ledgers", "data.json"), 'called': True}
+    assert called == {'init': ("ledgers", "database.db"), 'called': True}
 
 
 def test_ag_invokes_add_poker_game(monkeypatch):
@@ -91,7 +91,7 @@ def test_ag_invokes_add_poker_game(monkeypatch):
     result = runner.invoke(main.cli, ["ag", "01_03"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
+        'init': ("ledgers", "database.db"),
         'path': "ledgers/ledger01_03.csv",
     }
 
@@ -113,7 +113,7 @@ def test_plg_invokes_print_last_games(monkeypatch):
     result = runner.invoke(main.cli, ["plg", "Alice", "-n", "3"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
+        'init': ("ledgers", "database.db"),
         'args': ("Alice", 3),
     }
 
