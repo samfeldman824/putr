@@ -1,3 +1,19 @@
+// Firebase configuration (same as script.js)
+const firebaseConfig = {
+  apiKey: "AIzaSyBLetCCR_hcY4_2AcV21w0eYfkqhzH_viQ",
+  authDomain: "bmt-db-dc8eb.firebaseapp.com",
+  databaseURL: "https://bmt-db-dc8eb-default-rtdb.firebaseio.com",
+  projectId: "bmt-db-dc8eb",
+  storageBucket: "bmt-db-dc8eb.firebasestorage.app",
+  messagingSenderId: "417887464130",
+  appId: "1:417887464130:web:82edbc63001c4271a9e95b",
+  measurementId: "G-8L0CN18VR5"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 const urlParams = new URLSearchParams(window.location.search);
 
 function escapeHTML(str) {
@@ -8,40 +24,41 @@ function escapeHTML(str) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
+
 const playerName = decodeURIComponent(urlParams.get('playerName'));
-// console.log("player id is",playerID)
+
 const createStatCard = (label, value) => `
 <div class="stat-card">
   <div class="stat-value">${value}</div>
   <div class="stat-label">${label}</div>
 </div>
 `;
-fetch("data.json")
-  .then(response => response.json())
-  .then(data => {
-    // Find the player by ID
-    const player = data[playerName];
-    // console.log(player)
 
-    if (player) {
+// Fetch player data from Firestore
+db.collection("players").doc(playerName).get()
+  .then((doc) => {
+    if (doc.exists) {
+      const player = doc.data();
+      console.log("Player data:", player);
+
       const statsContainer = document.getElementById("stats-container");
       const nameDiv = document.getElementById("playerInfo")
       nameDiv.innerHTML = `
         <h1>${escapeHTML(playerName)}</h1>
-      `  
+      `
       statsContainer.innerHTML = `
-        ${createStatCard('PUTR', player.putr.toFixed(2))}
+        ${createStatCard('PUTR', Number.isFinite(player.putr) ? player.putr.toFixed(2) : 'UR')}
         ${createStatCard('Net', player.net.toFixed(2))}
-        ${createStatCard('Games Played', player.games_played.length)}
-        ${createStatCard('Biggest Win', player.biggest_win.toFixed(2))}
-        ${createStatCard('Biggest Loss', player.biggest_loss.toFixed(2))}
-        ${createStatCard('Highest Net', player.highest_net.toFixed(2))}
-        ${createStatCard('Lowest Net', player.lowest_net.toFixed(2))}
-        ${createStatCard('Games Up Most', player.games_up_most)}
-        ${createStatCard('Games Down Most', player.games_down_most)}
-        ${createStatCard('Games Up', player.games_up)}
-        ${createStatCard('Games Down', player.games_down)}
-        ${createStatCard('Average Net', player.average_net.toFixed(2))}
+        ${createStatCard('Games Played', player.games_played ? player.games_played.length : 0)}
+        ${createStatCard('Biggest Win', player.biggest_win ? player.biggest_win.toFixed(2) : '0.00')}
+        ${createStatCard('Biggest Loss', player.biggest_loss ? player.biggest_loss.toFixed(2) : '0.00')}
+        ${createStatCard('Highest Net', player.highest_net ? player.highest_net.toFixed(2) : '0.00')}
+        ${createStatCard('Lowest Net', player.lowest_net ? player.lowest_net.toFixed(2) : '0.00')}
+        ${createStatCard('Games Up Most', player.games_up_most || 0)}
+        ${createStatCard('Games Down Most', player.games_down_most || 0)}
+        ${createStatCard('Games Up', player.games_up || 0)}
+        ${createStatCard('Games Down', player.games_down || 0)}
+        ${createStatCard('Average Net', player.average_net ? player.average_net.toFixed(2) : '0.00')}
       `;
 
       // const player = data[playerName];
@@ -108,7 +125,7 @@ fetch("data.json")
                   wheel: { enabled: true, speed: 0.0001 },
                   drag: { enabled: true },
                   pinch: { enabled: true },
-                  mode: 'x' 
+                  mode: 'x'
                 }
               }
             },
@@ -210,91 +227,23 @@ fetch("data.json")
         filterAndRenderChart(start, end);
       });
 
-     // Calculate the maximum absolute value among netValues for symmetric y-axis
-     // (moved inside filterAndRenderChart)
-
-
-
-      // Data for the line chart
-      const data1 = {
-        labels: dates,
-        datasets: [{
-          label: 'Net Winnings Chart',
-          data: netValues,
-          borderColor: '#888888',
-          borderWidth: 2,
-          fill: false,
-          pointRadius: 2, // Gray dots
-          pointBackgroundColor: '#888888',
-          pointBorderColor: '#888888',
-          pointHoverBackgroundColor: '#888888',
-          pointHoverBorderColor: '#888888',
-          segment: {
-            borderColor: ctx => {
-              const { p0, p1 } = ctx;
-              if (!p0 || !p1) return 'blue';
-              return p1.parsed.y > p0.parsed.y ? '#00FF00' : (p1.parsed.y < p0.parsed.y ? '#FF0000' : 'gray');
-            }
-          }
-        }]
-      };
-
-      // Configuration for the chart
-      const config = {
-        type: 'line',
-        data: data1,
-        options: {
-          plugins: {
-            zoom: {
-              pan: { enabled: true, mode: 'x' },
-              zoom: {
-                wheel: { enabled: true, speed: 0.0001 },
-                drag: { enabled: true },
-                pinch: { enabled: true },
-                mode: 'x' 
-              }
-            }
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Date',
-              },
-              beginAtZero: true
-            },
-            y: {
-              // Dynamically set min/max depending on last data point
-              ...(netValues.length > 0 && netValues[netValues.length - 1] > 0 ? {
-                max: niceMax
-              } : netValues.length > 0 && netValues[netValues.length - 1] < 0 ? {
-                min: -niceMax
-              } : {
-                min: -niceMax,
-                max: niceMax
-              }),
-              ticks: {
-                stepSize: stepSize
-              },
-              title: {
-                display: true,
-                text: 'Net Winnings ($)'
-              },
-              grid: {
-                lineWidth: function(context) {
-                  return context.tick.value === 0 ? 3 : 1;
-                }
-              },
-              beginAtZero: true
-            },
-          }
-        }
-      };
-
-
-      // Create the chart
-      const ctx = document.getElementById('lineChart').getContext('2d');
-      const chartInstance = new Chart(ctx, config);
-
+    } else {
+      // Player not found
+      console.log("No player found with name:", playerName);
+      document.getElementById("playerInfo").innerHTML = `
+        <h1>Player "${escapeHTML(playerName)}" not found</h1>
+      `;
+      document.getElementById("stats-container").innerHTML = `
+        <p>The requested player could not be found in the database.</p>
+      `;
     }
   })
+  .catch((error) => {
+    console.error("Error fetching player data from Firestore:", error);
+    document.getElementById("playerInfo").innerHTML = `
+      <h1>Error loading player data</h1>
+    `;
+    document.getElementById("stats-container").innerHTML = `
+      <p>There was an error loading the player data. Please try again later.</p>
+    `;
+  });
