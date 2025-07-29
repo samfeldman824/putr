@@ -18,7 +18,7 @@ const db = firebase.firestore();
 
 
 
-let putrAsc = true;
+let putrAsc = false; // Start false so first sort will be descending (highest to lowest)
 let netAsc = true;
 
 // Cache for player data with sessionStorage persistence
@@ -106,15 +106,25 @@ function renderTable(source = "unknown") {
   const tableBody = document.getElementById("table-body");
   tableBody.innerHTML = ""; // Clear existing rows
 
+  // Sort the data before rendering to avoid flash
+  const sortedEntries = Object.entries(playersCache).sort(([keyA, itemA], [keyB, itemB]) => {
+    const aVal = Number.isFinite(itemA.putr) ? itemA.putr : -Infinity;
+    const bVal = Number.isFinite(itemB.putr) ? itemB.putr : -Infinity;
+    return bVal - aVal; // Descending order (highest to lowest)
+  });
+
   let playerCount = 0;
-  Object.entries(playersCache).forEach(([key, item]) => {
+  sortedEntries.forEach(([key, item]) => {
     const row = createPlayerRow(key, item);
     tableBody.appendChild(row);
     playerCount++;
   });
 
   console.log(`Rendered ${playerCount} rows from ${source}`);
-  sortTableByPutr();
+  
+  // Update the arrow to show current sort state (descending by PUTR)
+  document.getElementById('putr-arrow').textContent = '▲';
+  document.getElementById('net-arrow').textContent = '';
 }
 
 function setupRealtimeListener() {
@@ -150,10 +160,6 @@ function setupRealtimeListener() {
 function renderTableFromCache() {
   renderTable("cache");
 }
-
-
-
-
 
 function sortTableByPutr() {
   const tbody = document.querySelector('#leaderboard-table tbody');
