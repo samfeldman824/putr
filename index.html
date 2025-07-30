@@ -28,6 +28,35 @@
     </div>
     
 </div>
+<div class="csv-upload-container">
+    <div class="upload-section">
+        <h2>Upload New Game CSV</h2>
+        <div class="upload-help">
+            <button type="button" id="help-button" class="help-btn">📋 Upload Guidelines</button>
+        </div>
+        <form id="csv-upload-form" enctype="multipart/form-data">
+            <div class="file-input-container">
+                <input type="file" id="csv-file-input" name="csvFile" accept=".csv" required>
+                <label for="csv-file-input" class="file-input-label">
+                    <span id="file-label-text">Choose CSV File</span>
+                </label>
+            </div>
+            <div class="upload-controls">
+                <button type="submit" id="upload-button" disabled>Upload Game</button>
+                <div id="upload-progress" class="progress-container" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">Uploading...</span>
+                </div>
+            </div>
+        </form>
+        <div id="upload-result" class="result-container" style="display: none;">
+            <!-- Results will be displayed here -->
+        </div>
+    </div>
+</div>
+
 <div class="leaderboard-container">
     
     
