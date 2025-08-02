@@ -10,6 +10,14 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <!-- Firestore SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="src/constants.js"></script>
+    <script src="src/errorHandler.js"></script>
+    <script src="src/csvProcessor.js"></script>
+    <script src="src/playerStatsCalculator.js"></script>
+    <script src="src/databaseManager.js"></script>
+    <script src="src/undoManager.js"></script>
+    <script src="src/uploadInterface.js"></script>
+    <script src="src/uploadOrchestrator.js"></script>
     <script src="script.js"></script>
     <title>Poker Leaderboard</title>
 </head>
@@ -30,7 +38,32 @@
 </div>
 <div class="leaderboard-container">
     
-    
+    <!-- CSV Upload Interface -->
+    <div class="upload-container" id="upload-container">
+        <div class="upload-area" id="upload-area">
+            <div class="upload-icon">📁</div>
+            <div class="upload-text">
+                <h3>Upload Game Results</h3>
+                <p>Drag and drop a CSV file here or click to select</p>
+                <p class="upload-format">Format: ledgerYY_MM_DD.csv</p>
+            </div>
+            <input type="file" id="file-input" accept=".csv" style="display: none;">
+            <button class="upload-button" id="upload-button">Select CSV File</button>
+        </div>
+        
+        <!-- Progress and Status Messages -->
+        <div class="upload-status" id="upload-status" style="display: none;">
+            <div class="status-message" id="status-message"></div>
+            <div class="progress-bar" id="progress-bar" style="display: none;">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <!-- Undo Button (shown after successful upload) -->
+        <div class="undo-container" id="undo-container" style="display: none;">
+            <button class="undo-button" id="undo-button">Undo Last Upload</button>
+        </div>
+    </div>
 
     <div class="table-container">
         <table class="leaderboard-table" id="leaderboard-table">

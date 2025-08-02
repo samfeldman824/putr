@@ -167,6 +167,492 @@ button {
     color: #666;
   }
 
+/* CSV Upload Interface Styles */
+.upload-container {
+    margin: 2vh 0;
+    padding: 2vh;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.upload-area {
+    border: 3px dashed #007BFF;
+    border-radius: 10px;
+    padding: 3vh;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.upload-area:hover {
+    border-color: #0056b3;
+    background-color: #e3f2fd;
+}
+
+.upload-area.drag-over {
+    border-color: #28a745;
+    background-color: #d4edda;
+    transform: scale(1.02);
+}
+
+.upload-area.processing {
+    border-color: #ffc107;
+    background-color: #fff3cd;
+    cursor: not-allowed;
+}
+
+.upload-area.success {
+    border-color: #28a745;
+    background-color: #d4edda;
+}
+
+.upload-area.error {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.upload-icon {
+    font-size: 4rem;
+    margin-bottom: 1vh;
+    opacity: 0.7;
+}
+
+.upload-text h3 {
+    margin: 1vh 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.upload-text p {
+    margin: 0.5vh 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+.upload-format {
+    font-size: 0.9rem !important;
+    color: #888 !important;
+    font-style: italic;
+}
+
+.upload-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 1vh 2vh;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1vh;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+    background-color: #0056b3;
+}
+
+.upload-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Status Messages */
+.upload-status {
+    margin-top: 2vh;
+    padding: 1vh;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.status-message {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1vh;
+}
+
+.upload-status.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.upload-status.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.upload-status.processing {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.upload-status.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.upload-status.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 1vh;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #007BFF;
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+/* Undo Button */
+.undo-container {
+    margin-top: 2vh;
+    text-align: center;
+}
+
+.undo-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 1vh 2vh;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.undo-button:hover {
+    background-color: #c82333;
+}
+
+/* Progress bar animations */
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.upload-status {
+    animation: slideIn 0.3s ease-out;
+}
+
+.undo-container {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .upload-container {
+        margin: 1vh 0;
+        padding: 1vh;
+    }
+    
+    .upload-area {
+        padding: 2vh;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+    }
+    
+    .upload-text h3 {
+        font-size: 1.3rem;
+    }
+    
+    .upload-text p {
+        font-size: 0.9rem;
+    }
+    
+    .upload-button {
+        padding: 1.5vh 3vh;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-area {
+        padding: 1.5vh;
+    }
+    
+    .upload-icon {
+        font-size: 2.5rem;
+    }
+    
+    .upload-text h3 {
+        font-size: 1.2rem;
+    }
+    
+    .upload-text p {
+        font-size: 0.8rem;
+    }
+}
+
+/* Enhanced Error Handling Styles */
+.upload-status.error.critical {
+    background-color: #f5c6cb;
+    color: #721c24;
+    border: 2px solid #dc3545;
+    font-weight: bold;
+}
+
+.upload-status.error.high {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.upload-status.error.medium {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.upload-status.error.low {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.error-suggestions {
+    margin-top: 1vh;
+    padding: 1vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    text-align: left;
+}
+
+.suggestions-title {
+    font-weight: bold;
+    margin-bottom: 0.5vh;
+    color: #333;
+    font-size: 1rem;
+}
+
+.suggestions-list {
+    margin: 0;
+    padding-left: 1.5vh;
+    list-style-type: none;
+}
+
+.suggestion-item {
+    margin: 0.3vh 0;
+    padding: 0.3vh 0;
+    font-size: 0.9rem;
+    color: #555;
+    position: relative;
+}
+
+.suggestion-item:before {
+    content: "💡";
+    margin-right: 0.5vh;
+}
+
+.suggestion-item.clickable {
+    cursor: pointer;
+    color: #007BFF;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.suggestion-item.clickable:hover {
+    color: #0056b3;
+    background-color: rgba(0, 123, 255, 0.1);
+    border-radius: 3px;
+    padding: 0.3vh 0.5vh;
+}
+
+.suggestion-item.clickable:before {
+    content: "🔧";
+}
+
+/* Error severity indicators */
+.upload-area.error.critical {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+    animation: shake 0.5s ease-in-out;
+}
+
+.upload-area.error.high {
+    border-color: #fd7e14;
+    background-color: #fff3cd;
+}
+
+.upload-area.error.medium {
+    border-color: #ffc107;
+    background-color: #fff3cd;
+}
+
+.upload-area.error.low {
+    border-color: #17a2b8;
+    background-color: #d1ecf1;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Enhanced status message formatting */
+.status-message {
+    white-space: pre-wrap;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.4;
+    text-align: left;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 1vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    margin: 1vh 0;
+}
+
+.status-message.error {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* Error ID display */
+.error-id {
+    font-size: 0.8rem;
+    color: #666;
+    font-family: monospace;
+    margin-top: 1vh;
+    padding: 0.5vh;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+    text-align: center;
+}
+
+/* Recovery action buttons */
+.recovery-actions {
+    margin-top: 1vh;
+    text-align: center;
+}
+
+.recovery-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5vh 1vh;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin: 0 0.5vh;
+    transition: background-color 0.3s ease;
+}
+
+.recovery-button:hover {
+    background-color: #218838;
+}
+
+.recovery-button.secondary {
+    background-color: #6c757d;
+}
+
+.recovery-button.secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Validation error highlighting */
+.validation-error {
+    border-left: 4px solid #dc3545;
+    padding-left: 1vh;
+    margin: 0.5vh 0;
+    background-color: rgba(220, 53, 69, 0.1);
+    border-radius: 0 3px 3px 0;
+}
+
+.validation-warning {
+    border-left: 4px solid #ffc107;
+    padding-left: 1vh;
+    margin: 0.5vh 0;
+    background-color: rgba(255, 193, 7, 0.1);
+    border-radius: 0 3px 3px 0;
+}
+
+/* Enhanced progress indicators */
+.progress-step {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5vh;
+}
+
+.progress-step.active {
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.progress-step.completed {
+    color: #28a745;
+}
+
+.progress-step.error {
+    color: #dc3545;
+}
+
+/* Accessibility improvements */
+.upload-status[role="alert"] {
+    /* Screen reader announcements */
+}
+
+.error-suggestions[aria-label] {
+    /* Screen reader context */
+}
+
+/* Print styles for error reports */
+@media print {
+    .upload-container {
+        border: 1px solid #000;
+        box-shadow: none;
+    }
+    
+    .upload-status.error {
+        border: 2px solid #000;
+        background-color: #f0f0f0;
+        color: #000;
+    }
+    
+    .error-suggestions {
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+    }
+}
+
 
 
 

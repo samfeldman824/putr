@@ -8,3 +8,5 @@ flags/flags.txt
 trash/
 ignore/
 .pylintrc
+bmt-db*.json
+.kiro/*

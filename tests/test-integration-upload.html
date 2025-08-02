@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Upload Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+        }
+
+        .test-pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .test-fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .test-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        #test-results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CSV Upload Integration Test</h1>
+    <p>This page tests the integration of all CSV upload components.</p>
+
+    <div class="test-section">
+        <h2>Component Loading Tests</h2>
+        <button onclick="runComponentTests()">Test Component Loading</button>
+        <div id="component-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Integration Tests</h2>
+        <button onclick="runIntegrationTests()">Test Integration</button>
+        <div id="integration-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>End-to-End & Performance Tests</h2>
+        <button onclick="runE2ETests()">Run E2E Tests</button>
+        <button onclick="runPerformanceTests()">Performance Tests</button>
+        <button onclick="runBrowserCompatibilityTests()">Browser Compatibility</button>
+        <div id="e2e-results"></div>
+    </div>
+
+    <div id="test-results"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <!-- CSV Upload Modules -->
+    <script src="../src/constants.js"></script>
+    <script src="../src/csvProcessor.js"></script>
+    <script src="../src/playerStatsCalculator.js"></script>
+    <script src="../src/databaseManager.js"></script>
+    <script src="../src/undoManager.js"></script>
+    <script src="../src/uploadInterface.js"></script>
+    <script src="../src/uploadOrchestrator.js"></script>
+
+    <script>
+        function addTestResult(containerId, testName, passed, message) {
+            const container = document.getElementById(containerId);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${passed ? 'test-pass' : 'test-fail'}`;
+            resultDiv.innerHTML = `<strong>${testName}:</strong> ${message}`;
+            container.appendChild(resultDiv);
+        }
+
+        function addTestInfo(containerId, message) {
+            const container = document.getElementById(containerId);
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'test-result test-info';
+            resultDiv.innerHTML = message;
+            container.appendChild(resultDiv);
+        }
+
+        function runComponentTests() {
+            const container = document.getElementById('component-results');
+            container.innerHTML = '';
+
+            // Test if all classes are available
+            const components = [
+                { name: 'CSVProcessor', class: window.CSVProcessor },
+                { name: 'PlayerStatsCalculator', class: window.PlayerStatsCalculator },
+                { name: 'DatabaseManager', class: window.DatabaseManager },
+                { name: 'UndoManager', class: window.UndoManager },
+                { name: 'UploadInterface', class: window.UploadInterface },
+                { name: 'UploadOrchestrator', class: window.UploadOrchestrator }
+            ];
+
+            components.forEach(component => {
+                const exists = typeof component.class === 'function';
+                addTestResult('component-results', component.name, exists,
+                    exists ? 'Class loaded successfully' : 'Class not found');
+            });
+
+            // Test constants
+            const constantsExist = typeof window.COLLECTIONS === 'object';
+            addTestResult('component-results', 'Constants', constantsExist,
+                constantsExist ? 'Constants loaded successfully' : 'Constants not found');
+        }
+
+        function runIntegrationTests() {
+            const container = document.getElementById('integration-results');
+            container.innerHTML = '';
+
+            try {
+                // Test component instantiation
+                const csvProcessor = new CSVProcessor();
+                addTestResult('integration-results', 'CSVProcessor instantiation', true, 'Created successfully');
+
+                const playerStatsCalculator = new PlayerStatsCalculator();
+                addTestResult('integration-results', 'PlayerStatsCalculator instantiation', true, 'Created successfully');
+
+                const undoManager = new UndoManager();
+                addTestResult('integration-results', 'UndoManager instantiation', true, 'Created successfully');
+
+                // Test localStorage availability
+                const storageAvailable = undoManager.testStorageAvailability();
+                addTestResult('integration-results', 'localStorage availability', storageAvailable,
+                    storageAvailable ? 'localStorage is available' : 'localStorage not available');
+
+                // Test CSV processor methods
+                const testDate = csvProcessor.extractGameDate('ledger23_10_15.csv');
+                const expectedDate = '2023-10-15';
+                addTestResult('integration-results', 'Date extraction', testDate === expectedDate,
+                    `Expected: ${expectedDate}, Got: ${testDate}`);
+
+                // Test player stats calculator
+                const mockGameData = [
+                    { player_nickname: 'TestPlayer1', net: 1000 },
+                    { player_nickname: 'TestPlayer2', net: -500 }
+                ];
+                const winnings = playerStatsCalculator.calculateNetWinnings(mockGameData);
+                const correctCalculation = winnings[0].netWinnings === 10 && winnings[1].netWinnings === -5;
+                addTestResult('integration-results', 'Net winnings calculation', correctCalculation,
+                    correctCalculation ? 'Calculations correct' : 'Calculations incorrect');
+
+                addTestInfo('integration-results', 'All integration tests completed successfully!');
+
+            } catch (error) {
+                addTestResult('integration-results', 'Integration test', false, `Error: ${error.message}`);
+            }
+        }
+
+        async function runE2ETests() {
+            const container = document.getElementById('e2e-results');
+            container.innerHTML = '';
+
+            try {
+                // Test complete upload workflow
+                const orchestrator = new UploadOrchestrator();
+                orchestrator.initialize();
+
+                addTestResult('e2e-results', 'Upload Orchestrator', true, 'Successfully initialized all components');
+
+                // Test with sample CSV data
+                const testCSV = generateTestCSV(5);
+                const testFile = new File([testCSV], 'ledger25_01_15.csv', { type: 'text/csv' });
+
+                const csvProcessor = new CSVProcessor();
+                const result = await csvProcessor.parseCSVFile(testFile);
+
+                addTestResult('e2e-results', 'End-to-End CSV Processing',
+                    result.players.length === 5,
+                    `Successfully processed ${result.players.length} players for ${result.gameDate}`);
+
+                // Test statistics calculation
+                const playerStatsCalculator = new PlayerStatsCalculator();
+                const winnings = playerStatsCalculator.calculateNetWinnings(result.players);
+
+                addTestResult('e2e-results', 'End-to-End Statistics',
+                    winnings.length === 5,
+                    `Calculated statistics for all ${winnings.length} players`);
+
+                orchestrator.destroy();
+
+            } catch (error) {
+                addTestResult('e2e-results', 'End-to-End Test', false, `E2E test failed: ${error.message}`);
+            }
+        }
+
+        async function runPerformanceTests() {
+            const container = document.getElementById('e2e-results');
+            container.innerHTML = '';
+
+            const csvProcessor = new CSVProcessor();
+            const sizes = [10, 50, 100];
+
+            for (const size of sizes) {
+                const csvContent = generateTestCSV(size);
+                const file = new File([csvContent], `perf_test_${size}.csv`, { type: 'text/csv' });
+
+                const startTime = performance.now();
+                try {
+                    const result = await csvProcessor.parseCSVFile(file);
+                    const parseTime = performance.now() - startTime;
+
+                    const threshold = size * 2; // 2ms per player
+                    addTestResult('e2e-results', `Performance (${size} players)`,
+                        parseTime < threshold,
+                        `Parsed in ${parseTime.toFixed(2)}ms (threshold: ${threshold}ms)`);
+
+                } catch (error) {
+                    addTestResult('e2e-results', `Performance (${size} players)`, false, `Failed: ${error.message}`);
+                }
+            }
+        }
+
+        function runBrowserCompatibilityTests() {
+            const container = document.getElementById('e2e-results');
+            container.innerHTML = '';
+
+            // Test critical browser features
+            const features = {
+                'File API': typeof FileReader !== 'undefined',
+                'LocalStorage': testLocalStorage(),
+                'Drag & Drop': testDragDrop(),
+                'Performance API': typeof performance !== 'undefined',
+                'Promise Support': typeof Promise !== 'undefined'
+            };
+
+            Object.entries(features).forEach(([feature, supported]) => {
+                addTestResult('e2e-results', feature, supported,
+                    supported ? 'Supported' : 'Not supported');
+            });
+
+            // Browser detection
+            const browserName = getBrowserName();
+            addTestResult('e2e-results', 'Browser Detection', true, `Running on ${browserName}`);
+        }
+
+        function generateTestCSV(playerCount) {
+            const headers = 'player_nickname,player_id,session_start_at,session_end_at,buy_in,buy_out,stack,net\n';
+            let rows = '';
+
+            for (let i = 1; i <= playerCount; i++) {
+                const net = Math.floor(Math.random() * 10000) - 5000;
+                const buyIn = 10000;
+                const buyOut = buyIn + net;
+                const stack = buyOut;
+
+                rows += `Player${i},${i},2025-01-15 19:00:00,2025-01-15 23:00:00,${buyIn},${buyOut},${stack},${net}\n`;
+            }
+
+            return headers + rows;
+        }
+
+        function testLocalStorage() {
+            try {
+                localStorage.setItem('test', 'test');
+                localStorage.removeItem('test');
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function testDragDrop() {
+            const div = document.createElement('div');
+            return 'draggable' in div && 'ondragstart' in div;
+        }
+
+        function getBrowserName() {
+            const userAgent = navigator.userAgent;
+            if (userAgent.includes('Chrome')) return 'Chrome';
+            if (userAgent.includes('Firefox')) return 'Firefox';
+            if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) return 'Safari';
+            if (userAgent.includes('Edge')) return 'Edge';
+            return 'Unknown';
+        }
+
+        // Run component tests automatically on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runComponentTests();
+            }, 100);
+        });
+    </script>
+</body>
+
+</html>

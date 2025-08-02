@@ -1,0 +1,4 @@
+player_nickname,player_id,session_start_at,session_end_at,buy_in,buy_out,stack,net
+John Doe,player1,2025-01-15 19:00:00,2025-01-15 23:30:00,10000,12500,12500,2500
+Jane Smith,player2,2025-01-15 19:00:00,2025-01-15 23:30:00,10000,8500,8500,-1500
+Bob Johnson,player3,2025-01-15 19:00:00,2025-01-15 23:30:00,10000,9000,9000,-1000

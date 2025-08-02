@@ -1,0 +1,25 @@
+{
+  "name": "csv-upload-frontend",
+  "version": "1.0.0",
+  "description": "CSV Upload Frontend with comprehensive testing",
+  "main": "script.js",
+  "scripts": {
+    "test": "node tests/ci-test-runner.js",
+    "test:all": "node tests/run-tests.js",
+    "test:frontend": "node tests/run-extracted-tests.js",
+    "test:browser": "node tests/run-html-tests.js",
+    "test:ci": "node tests/ci-test-runner.js"
+  },
+  "keywords": ["csv", "upload", "frontend", "testing"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "puppeteer": "^21.0.0"
+  },
+  "optionalDependencies": {
+    "puppeteer": "^21.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

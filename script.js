@@ -137,8 +137,13 @@ function setupRealtimeListener() {
   isListenerActive = true;
   saveCacheToStorage(); // Save the listener state
 
-  realtimeListener = db.collection("players").onSnapshot((querySnapshot) => {
+  const collectionName = (typeof COLLECTIONS !== 'undefined' && COLLECTIONS.PLAYERS) ? COLLECTIONS.PLAYERS : 'players';
+  console.log('🔍 Using collection:', collectionName);
+  
+  realtimeListener = db.collection(collectionName).onSnapshot((querySnapshot) => {
     console.log("Database updated - refreshing data");
+    console.log(`📊 Query returned ${querySnapshot.size} documents from ${collectionName}`);
+    
     playersCache = {};
 
     querySnapshot.forEach((doc) => {
@@ -146,6 +151,8 @@ function setupRealtimeListener() {
       const key = doc.id;
       playersCache[key] = item;
     });
+
+    console.log(`💾 Total players in cache: ${Object.keys(playersCache).length}`);
 
     // Save updated cache to sessionStorage
     saveCacheToStorage();
@@ -203,8 +210,117 @@ function sortTableByNet() {
   document.getElementById('putr-arrow').textContent = '';
 }
 
+// Global function to refresh leaderboard (used by upload system)
+window.refreshLeaderboard = function() {
+  return new Promise((resolve) => {
+    console.log("🔄 Refreshing leaderboard after upload...");
+    
+    // Force refresh by clearing cache and reloading data
+    playersCache = null;
+    sessionStorage.removeItem('playersCache');
+    sessionStorage.removeItem('cacheTimestamp');
+    
+    // Set up a one-time listener to get fresh data
+    const collectionName = (typeof COLLECTIONS !== 'undefined' && COLLECTIONS.PLAYERS) ? COLLECTIONS.PLAYERS : 'players';
+    
+    db.collection(collectionName).get().then((querySnapshot) => {
+      playersCache = {};
+      querySnapshot.forEach((doc) => {
+        const item = doc.data();
+        const key = doc.id;
+        playersCache[key] = item;
+      });
+      
+      // Save updated cache and render
+      saveCacheToStorage();
+      renderTable("post-upload refresh");
+      resolve();
+    }).catch((error) => {
+      console.error("Error refreshing leaderboard:", error);
+      resolve(); // Don't fail the upload process
+    });
+  });
+};
+
+// Global upload orchestrator instance
+let uploadOrchestrator = null;
+
+// Initialize upload system
+function initializeUploadSystem() {
+  try {
+    console.log("🚀 Initializing CSV upload system...");
+    
+    // Create orchestrator instance
+    uploadOrchestrator = new UploadOrchestrator();
+    
+    // Initialize with all components
+    uploadOrchestrator.initialize();
+    
+    console.log("✅ CSV upload system initialized successfully");
+    
+    // Make orchestrator globally available for debugging
+    window.uploadOrchestrator = uploadOrchestrator;
+    
+    // Set up cleanup on page unload
+    window.addEventListener('beforeunload', cleanupUploadSystem);
+    
+  } catch (error) {
+    console.error("❌ Failed to initialize upload system:", error);
+    
+    // Show error in upload interface if available
+    const statusContainer = document.getElementById('upload-status');
+    const statusMessage = document.getElementById('status-message');
+    
+    if (statusContainer && statusMessage) {
+      statusContainer.style.display = 'block';
+      statusContainer.className = 'upload-status error';
+      statusMessage.textContent = `Upload system initialization failed: ${error.message}`;
+    }
+  }
+}
+
+// Cleanup function for upload system
+function cleanupUploadSystem() {
+  try {
+    if (uploadOrchestrator) {
+      console.log("🧹 Cleaning up upload system...");
+      
+      // Destroy orchestrator and cleanup resources
+      uploadOrchestrator.destroy();
+      uploadOrchestrator = null;
+      
+      // Clear any temporary data from sessionStorage related to uploads
+      const keysToRemove = [];
+      for (let i = 0; i < sessionStorage.length; i++) {
+        const key = sessionStorage.key(i);
+        if (key && (key.includes('upload') || key.includes('undo') || key.includes('csv'))) {
+          keysToRemove.push(key);
+        }
+      }
+      
+      keysToRemove.forEach(key => {
+        sessionStorage.removeItem(key);
+      });
+      
+      console.log("✅ Upload system cleanup completed");
+    }
+  } catch (error) {
+    console.error("❌ Error during upload system cleanup:", error);
+  }
+}
+
 // Call the sorting function when the page loads to initially sort the table by PUTR
 window.addEventListener("load", () => {
-  populateTable()
+  // Debug: Check if constants are loaded
+  console.log('🔍 COLLECTIONS available:', typeof COLLECTIONS !== 'undefined' ? COLLECTIONS : 'NOT DEFINED');
+  console.log('🔍 Environment detection:', typeof isDevelopment !== 'undefined' ? isDevelopment() : 'NOT DEFINED');
+  console.log('🔍 Collection to use:', typeof COLLECTIONS !== 'undefined' ? COLLECTIONS.PLAYERS : 'FALLBACK TO players');
+  
+  populateTable();
+  
+  // Initialize upload system after a short delay to ensure all dependencies are loaded
+  setTimeout(() => {
+    initializeUploadSystem();
+  }, 100);
 });
 

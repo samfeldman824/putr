@@ -1,11 +1,12 @@
-name: API workflow
+name: Full Stack CI/CD Pipeline
 
 on: [push, pull_request]
 
 jobs:
-  build:
+  # Backend Python API Tests
+  backend-tests:
     runs-on: ubuntu-latest
-    name: Test python API
+    name: Test Python API
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v2
@@ -19,3 +20,78 @@ jobs:
       uses: codecov/codecov-action@v4.2.0
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  # Frontend CSV Upload Tests
+  frontend-tests:
+    runs-on: ubuntu-latest
+    name: Test CSV Upload Frontend
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install Node.js dependencies (if package.json exists)
+      run: |
+        if [ -f package.json ]; then
+          npm ci
+        else
+          echo "No package.json found, skipping npm install"
+        fi
+    
+    - name: Run CSV Upload Frontend Tests
+      run: |
+        echo "🧪 Running CSV Upload Frontend Test Suite..."
+        node tests/ci-test-runner.js
+      env:
+        NODE_ENV: test
+    
+    - name: Upload Test Reports
+      if: always()
+      run: |
+        echo "📊 Uploading test reports and artifacts..."
+        if [ -f tests/ci-test-report.json ]; then
+          echo "✅ Test report generated successfully"
+        else
+          echo "❌ Test report not found"
+        fi
+    
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-test-results
+        path: |
+          tests/ci-test-report.json
+          tests/*.js
+          tests/*.html
+          tests/*.csv
+        retention-days: 30
+
+  # Optional: HTML Tests with Puppeteer (if you want full browser testing)
+  browser-tests:
+    runs-on: ubuntu-latest
+    name: Browser Integration Tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+    
+    - name: Install Puppeteer
+      run: |
+        npm init -y
+        npm install puppeteer
+    
+    - name: Run Headless Browser Tests
+      run: |
+        echo "🤖 Running Headless Browser Tests..."
+        node tests/run-html-tests.js
+      env:
+        NODE_ENV: test
