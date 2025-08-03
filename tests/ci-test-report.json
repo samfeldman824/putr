@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-08-02T09:46:10.933Z",
+  "timestamp": "2025-08-03T05:16:43.464Z",
   "nodeVersion": "v24.4.1",
   "overallSuccess": true,
-  "totalTests": 32,
-  "totalPassed": 32,
+  "totalTests": 16,
+  "totalPassed": 16,
   "totalFailed": 0,
   "successRate": 100,
   "suites": [
@@ -12,14 +12,7 @@
       "passed": 16,
       "total": 16,
       "failed": 0,
-      "name": "Complete Test Suite"
-    },
-    {
-      "success": true,
-      "passed": 16,
-      "total": 16,
-      "failed": 0,
-      "name": "Browser Compatibility Tests"
+      "name": "Frontend Component Tests"
     }
   ]
 }

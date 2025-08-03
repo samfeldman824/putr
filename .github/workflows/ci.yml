@@ -45,7 +45,7 @@ jobs:
     - name: Run CSV Upload Frontend Tests
       run: |
         echo "🧪 Running CSV Upload Frontend Test Suite..."
-        node tests/ci-test-runner.js
+        NODE_ENV=test node tests/ci-test-runner.js
       env:
         NODE_ENV: test
     

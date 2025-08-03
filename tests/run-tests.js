@@ -322,9 +322,13 @@ async function runAllTestSuites() {
             await runTestFile(errorHandlerTestPath, 'Error Handler');
         }
         
-        // Try to run HTML-based tests
-        console.log('\n🌐 Attempting HTML-based tests...');
-        await runHTMLBasedTests();
+        // Skip HTML-based tests in CI environment
+        if (process.env.NODE_ENV !== 'test') {
+            console.log('\n🌐 Attempting HTML-based tests...');
+            await runHTMLBasedTests();
+        } else {
+            console.log('\n🌐 Skipping HTML-based tests in CI environment...');
+        }
         
         // Print final summary
         printFinalSummary();

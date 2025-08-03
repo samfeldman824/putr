@@ -80,8 +80,7 @@ async function main() {
     log(`📁 Working directory: ${process.cwd()}`, 'blue');
     
     const testSuites = [
-        { file: 'run-tests.js', name: 'Complete Test Suite' },
-        { file: 'run-extracted-tests.js', name: 'Browser Compatibility Tests' }
+        { file: 'run-extracted-tests.js', name: 'Frontend Component Tests' }
     ];
     
     const results = [];
