@@ -18,6 +18,7 @@
     <script src="src/undoManager.js"></script>
     <script src="src/uploadInterface.js"></script>
     <script src="src/uploadOrchestrator.js"></script>
+    <script src="src/uploadToggle.js"></script>
     <script src="script.js"></script>
     <title>Poker Leaderboard</title>
 </head>
@@ -31,6 +32,13 @@
       <h1>BMT Poker Leaderboard</h1>
     </div> 
     
+    <div id="header-controls">
+      <button id="toggle-upload-btn" class="toggle-upload-button">
+        <span class="toggle-icon">📁</span>
+        <span class="toggle-text">Upload Results</span>
+      </button>
+    </div>
+    
     <div id="putr-logo">
       <img src="images/opt1-clear.png">
     </div>
@@ -39,7 +47,7 @@
 <div class="leaderboard-container">
     
     <!-- CSV Upload Interface -->
-    <div class="upload-container" id="upload-container">
+    <div class="upload-container" id="upload-container" style="display: none;">
         <div class="upload-area" id="upload-area">
             <div class="upload-icon">📁</div>
             <div class="upload-text">

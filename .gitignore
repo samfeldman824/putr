@@ -10,3 +10,4 @@ ignore/
 .pylintrc
 bmt-db*.json
 .kiro/*
+node_modules/

@@ -167,6 +167,54 @@ button {
     color: #666;
   }
 
+/* Toggle Upload Button Styles */
+#header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.toggle-upload-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.toggle-upload-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.toggle-upload-button:active {
+    transform: translateY(0);
+}
+
+.toggle-upload-button.active {
+    background-color: #28a745;
+}
+
+.toggle-upload-button.active:hover {
+    background-color: #218838;
+}
+
+.toggle-icon {
+    font-size: 1.1rem;
+}
+
+.toggle-text {
+    font-weight: 500;
+}
+
 /* CSV Upload Interface Styles */
 .upload-container {
     margin: 2vh 0;
@@ -174,6 +222,42 @@ button {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.upload-container.show {
+    animation: slideDown 0.3s ease-out;
+}
+
+.upload-container.hide {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 500px;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        max-height: 0;
+    }
 }
 
 .upload-area {
@@ -376,6 +460,23 @@ button {
 
 /* Responsive Design for Mobile */
 @media (max-width: 768px) {
+    #header-controls {
+        gap: 0.5rem;
+    }
+    
+    .toggle-upload-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .toggle-text {
+        display: none; /* Hide text on mobile, show only icon */
+    }
+    
+    .toggle-icon {
+        font-size: 1.2rem;
+    }
+    
     .upload-container {
         margin: 1vh 0;
         padding: 1vh;
