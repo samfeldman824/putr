@@ -139,6 +139,7 @@ function addTestResult(testName, passed, message) {
 let CSVProcessor, PlayerStatsCalculator, ErrorHandler;
 
 try {
+    require('../src/debugManager.js');
     require('../src/constants.js');
     require('../src/errorHandler.js');
     require('../src/csvProcessor.js');

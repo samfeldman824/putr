@@ -6,6 +6,9 @@
 // Mock window object for Node.js environment
 global.window = {};
 
+// Load the debug manager first
+require('../src/debugManager.js');
+
 // Load the calculator module
 require('../src/playerStatsCalculator.js');
 const PlayerStatsCalculator = global.window.PlayerStatsCalculator;

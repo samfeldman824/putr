@@ -82,18 +82,18 @@ class PlayerStatsCalculator {
         }
 
         const trimmedNickname = nickname.trim();
-        console.log(`🔍 Trying to match nickname: "${trimmedNickname}"`);
+        debugManager.log('playerMatching', `Trying to match nickname: "${trimmedNickname}"`);
 
         // First, try exact match with player keys
         if (playersData[trimmedNickname]) {
-            console.log(`✅ Found exact match as player key: "${trimmedNickname}"`);
+            debugManager.log('playerMatching', `Found exact match as player key: "${trimmedNickname}"`);
             return trimmedNickname;
         }
 
         // Then, search through player_nicknames arrays
         for (const [playerKey, playerData] of Object.entries(playersData)) {
             if (playerData.player_nicknames && Array.isArray(playerData.player_nicknames)) {
-                console.log(`🔍 Checking player "${playerKey}" with nicknames:`, playerData.player_nicknames);
+                debugManager.log('playerMatching', `Checking player "${playerKey}" with nicknames:`, playerData.player_nicknames);
                 
                 // Check if nickname exists in the player_nicknames array
                 const matchFound = playerData.player_nicknames.some(nick => 
@@ -101,7 +101,7 @@ class PlayerStatsCalculator {
                 );
 
                 if (matchFound) {
-                    console.log(`✅ Found match for "${trimmedNickname}" in player "${playerKey}"`);
+                    debugManager.log('playerMatching', `Found match for "${trimmedNickname}" in player "${playerKey}"`);
                     return playerKey;
                 }
             } else {
@@ -119,9 +119,9 @@ class PlayerStatsCalculator {
             }
         }
         
-        console.log(`❌ No match found for "${trimmedNickname}"`);
-        console.log(`Available player keys:`, availablePlayerKeys);
-        console.log(`Available nicknames:`, availableNicknames);
+        debugManager.log('playerMatching', `No match found for "${trimmedNickname}"`);
+        debugManager.log('playerMatching', `Available player keys:`, availablePlayerKeys);
+        debugManager.log('playerMatching', `Available nicknames:`, availableNicknames);
         
         return null;
     }

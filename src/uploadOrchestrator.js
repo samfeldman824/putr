@@ -11,6 +11,7 @@ class UploadOrchestrator {
         this.databaseManager = null;
         this.undoManager = null;
         this.uploadInterface = null;
+        this.gameResultsDisplay = null;
         
         this.isInitialized = false;
         this.uploadedGames = new Set(); // Track uploaded games to prevent duplicates
@@ -33,6 +34,7 @@ class UploadOrchestrator {
             this.databaseManager = components.databaseManager || new DatabaseManager();
             this.undoManager = components.undoManager || new UndoManager();
             this.uploadInterface = components.uploadInterface || new UploadInterface();
+            this.gameResultsDisplay = components.gameResultsDisplay || new GameResultsDisplay();
 
             // Validate all components are available
             this.validateComponents();
@@ -66,7 +68,8 @@ class UploadOrchestrator {
             { name: 'playerStatsCalculator', instance: this.playerStatsCalculator },
             { name: 'databaseManager', instance: this.databaseManager },
             { name: 'undoManager', instance: this.undoManager },
-            { name: 'uploadInterface', instance: this.uploadInterface }
+            { name: 'uploadInterface', instance: this.uploadInterface },
+            { name: 'gameResultsDisplay', instance: this.gameResultsDisplay }
         ];
 
         for (const component of requiredComponents) {
@@ -102,16 +105,12 @@ class UploadOrchestrator {
 
             console.log(`📅 Game date: ${gameDate}, Players: ${csvData.playerCount}`);
 
-            // Step 2: Check for duplicate games
-            this.uploadInterface.showProcessingStep(2, 6, 'Checking for duplicates...');
-            await this.checkForDuplicateGame(gameDate, file.name);
-
-            // Step 3: Fetch existing player data
-            this.uploadInterface.showProcessingStep(3, 6, 'Fetching player data...');
+            // Step 2: Fetch existing player data
+            this.uploadInterface.showProcessingStep(2, 5, 'Fetching player data...');
             const existingPlayers = await this.databaseManager.fetchAllPlayers();
 
-            // Step 4: Process game data and calculate statistics
-            this.uploadInterface.showProcessingStep(4, 6, 'Calculating statistics...');
+            // Step 3: Process game data and calculate statistics
+            this.uploadInterface.showProcessingStep(3, 5, 'Calculating statistics...');
             const gameResults = this.playerStatsCalculator.processGameData(
                 csvData.players,
                 existingPlayers,
@@ -129,19 +128,28 @@ class UploadOrchestrator {
             playerUpdates = gameResults.playerUpdates;
             affectedPlayerKeys = Object.keys(playerUpdates);
 
-            console.log(`📊 Processed ${gameResults.processedCount} players, ${gameResults.matchedCount} matched`);
+            debugManager.log('upload', `Processed ${gameResults.processedCount} players, ${gameResults.matchedCount} matched`);
 
-            // Step 5: Create backup before updating
-            this.uploadInterface.showProcessingStep(5, 6, 'Creating backup...');
+            // Step 4: Create backup before updating
+            this.uploadInterface.showProcessingStep(4, 5, 'Creating backup...');
             const backupData = await this.databaseManager.createBackup(affectedPlayerKeys);
             const backupId = this.undoManager.storeUndoData(backupData, gameDate, affectedPlayerKeys.length);
 
-            // Step 6: Update player statistics in database
-            this.uploadInterface.showProcessingStep(6, 6, 'Updating player statistics...');
+            // Step 5: Update player statistics in database
+            this.uploadInterface.showProcessingStep(5, 5, 'Updating player statistics...');
             await this.databaseManager.updatePlayersInTransaction(playerUpdates);
 
             // Mark game as uploaded
             this.markGameAsUploaded(gameDate, file.name);
+
+            // Show game results before success message
+            try {
+                debugManager.log('upload', 'Displaying game results...');
+                await this.gameResultsDisplay.showGameResults(csvData, gameDate);
+            } catch (error) {
+                console.warn('⚠️ Could not display game results:', error.message);
+                // Don't fail the upload if results display fails
+            }
 
             // Show success with undo option
             const undoCallback = () => this.handleUndo();
@@ -545,12 +553,18 @@ class UploadOrchestrator {
             this.uploadInterface.resetInterface();
         }
 
+        // Dismiss any open results display
+        if (this.gameResultsDisplay && this.gameResultsDisplay.isResultsDisplayed()) {
+            this.gameResultsDisplay.dismissResults();
+        }
+
         // Clear references
         this.csvProcessor = null;
         this.playerStatsCalculator = null;
         this.databaseManager = null;
         this.undoManager = null;
         this.uploadInterface = null;
+        this.gameResultsDisplay = null;
         
         this.isInitialized = false;
         

@@ -18,7 +18,7 @@ class CSVProcessor {
         
         // Initialize error handler
         this.errorHandler = new ErrorHandler();
-        console.log('📊 CSVProcessor initialized with enhanced error handling');
+        debugManager.log('csvProcessing', 'CSVProcessor initialized with enhanced error handling');
     }
 
     /**
@@ -28,7 +28,7 @@ class CSVProcessor {
      */
     async parseCSVFile(file) {
         try {
-            console.log(`📊 Starting CSV processing for: ${file?.name || 'unknown file'}`);
+            debugManager.log('csvProcessing', `Starting CSV processing for: ${file?.name || 'unknown file'}`);
 
             // Comprehensive file validation
             const fileValidation = this.errorHandler.validateFile(file);
@@ -62,7 +62,7 @@ class CSVProcessor {
             // Sanitize and validate data with enhanced error reporting
             const sanitizedData = this.sanitizePlayerDataWithValidation(parsedData);
 
-            console.log(`✅ CSV processing completed: ${sanitizedData.length} players processed`);
+            debugManager.log('csvProcessing', `CSV processing completed: ${sanitizedData.length} players processed`);
 
             return {
                 gameDate,
@@ -430,7 +430,7 @@ class CSVProcessor {
                 );
             }
 
-            console.log(`📊 Successfully parsed ${data.length} rows from CSV`);
+            debugManager.log('csvProcessing', `Successfully parsed ${data.length} rows from CSV`);
             return data;
 
         } catch (error) {
@@ -677,7 +677,7 @@ class CSVProcessor {
             }
         }
 
-        console.log(`✅ Data sanitization completed: ${sanitizedData.length} valid players`);
+        debugManager.log('csvProcessing', `Data sanitization completed: ${sanitizedData.length} valid players`);
         return sanitizedData;
     }
 
