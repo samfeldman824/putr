@@ -4,11 +4,11 @@
   "description": "CSV Upload Frontend with comprehensive testing",
   "main": "script.js",
   "scripts": {
-    "test": "node tests/ci-test-runner.js",
-    "test:all": "node tests/run-tests.js",
-    "test:frontend": "node tests/run-extracted-tests.js",
-    "test:browser": "node tests/run-html-tests.js",
-    "test:ci": "node tests/ci-test-runner.js"
+    "test": "node tests/ci/ci-test-runner.js",
+    "test:all": "node tests/ci/run-tests.js",
+    "test:frontend": "node tests/frontend/run-extracted-tests.js",
+    "test:browser": "node tests/frontend/run-html-tests.js",
+    "test:ci": "node tests/ci/ci-test-runner.js"
   },
   "keywords": [
     "csv",

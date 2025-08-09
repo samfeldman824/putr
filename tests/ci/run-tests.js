@@ -13,7 +13,7 @@ const { spawn } = require('child_process');
 process.env.NODE_ENV = 'development';
 
 // Resolve paths relative to project root
-const projectRoot = path.join(__dirname, '..');
+const projectRoot = path.join(__dirname, '../..');
 const srcPath = path.join(projectRoot, 'src');
 const testsPath = path.join(projectRoot, 'tests');
 
@@ -156,7 +156,7 @@ async function runDatabaseManagerTests() {
         // Load source files
         const constantsCode = fs.readFileSync(path.join(srcPath, 'constants.js'), 'utf8');
         const dbManagerCode = fs.readFileSync(path.join(srcPath, 'databaseManager.js'), 'utf8');
-        const testCode = fs.readFileSync(path.join(testsPath, 'test-databaseManager.js'), 'utf8');
+        const testCode = fs.readFileSync(path.join(testsPath, 'backend', 'test-databaseManager.js'), 'utf8');
 
         // Create a global context
         global.window = {};
@@ -265,7 +265,7 @@ async function runHTMLBasedTests() {
         require.resolve('puppeteer');
         console.log('✅ Puppeteer found! Running headless browser tests...');
         
-        const htmlTestPath = path.join(testsPath, 'run-html-tests.js');
+        const htmlTestPath = path.join(testsPath, 'frontend', 'run-html-tests.js');
         if (fs.existsSync(htmlTestPath)) {
             await runTestFile(htmlTestPath, 'HTML Integration Tests (Puppeteer)');
         }
@@ -276,7 +276,7 @@ async function runHTMLBasedTests() {
         try {
             // Method 2: Try extracted tests
             console.log('🔄 Trying extracted HTML test logic...');
-            const extractedTestPath = path.join(testsPath, 'run-extracted-tests.js');
+            const extractedTestPath = path.join(testsPath, 'frontend', 'run-extracted-tests.js');
             if (fs.existsSync(extractedTestPath)) {
                 await runTestFile(extractedTestPath, 'HTML Tests (Extracted)');
             }
@@ -285,9 +285,9 @@ async function runHTMLBasedTests() {
             console.log('⚠️  Extracted tests not available.');
             console.log('\n💡 To run HTML tests manually:');
             console.log('   Option 1: Install Puppeteer: npm install puppeteer');
-            console.log('   Option 2: Open tests/test-integration-upload.html in browser');
+            console.log('   Option 2: Open tests/frontend/test-integration-upload.html in browser');
             console.log('   Option 3: Run: python3 -m http.server 8000');
-            console.log('             Then visit: http://localhost:8000/tests/test-integration-upload.html');
+            console.log('             Then visit: http://localhost:8000/tests/frontend/test-integration-upload.html');
             
             // Add a placeholder result
             const results = {
@@ -311,13 +311,13 @@ async function runAllTestSuites() {
         await runDatabaseManagerTests();
         
         // Run Player Stats Calculator tests (separate file)
-        const calculatorTestPath = path.join(testsPath, 'test-calculator-node.js');
+        const calculatorTestPath = path.join(testsPath, 'backend', 'test-calculator-node.js');
         if (fs.existsSync(calculatorTestPath)) {
             await runTestFile(calculatorTestPath, 'Player Stats Calculator');
         }
         
         // Run Error Handler tests (separate file)
-        const errorHandlerTestPath = path.join(testsPath, 'test-error-handler-simple.js');
+        const errorHandlerTestPath = path.join(testsPath, 'frontend', 'test-error-handler-simple.js');
         if (fs.existsSync(errorHandlerTestPath)) {
             await runTestFile(errorHandlerTestPath, 'Error Handler');
         }

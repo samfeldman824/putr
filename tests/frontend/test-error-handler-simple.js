@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Read and evaluate the ErrorHandler source
-const errorHandlerSource = fs.readFileSync(path.join(__dirname, '../src/errorHandler.js'), 'utf8');
+const errorHandlerSource = fs.readFileSync(path.join(__dirname, '../../src/errorHandler.js'), 'utf8');
 
 // Create a modified version for Node.js
 const nodeErrorHandlerSource = errorHandlerSource.replace(

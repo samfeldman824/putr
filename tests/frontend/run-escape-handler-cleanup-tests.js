@@ -71,15 +71,15 @@ global.window = global;
 global.requestAnimationFrame = (cb) => setTimeout(cb, 16);
 
 // Load the DebugManager first
-const debugManagerCode = fs.readFileSync('src/debugManager.js', 'utf8');
+const debugManagerCode = fs.readFileSync('../../src/debugManager.js', 'utf8');
 eval(debugManagerCode);
 
 // Load the GameResultsDisplay class
-const gameResultsCode = fs.readFileSync('src/gameResultsDisplay.js', 'utf8');
+const gameResultsCode = fs.readFileSync('../../src/gameResultsDisplay.js', 'utf8');
 eval(gameResultsCode);
 
 // Load and run escape handler cleanup tests
-const testCode = fs.readFileSync('tests/test-escape-handler-cleanup.js', 'utf8');
+const testCode = fs.readFileSync('tests/frontend/test-escape-handler-cleanup.js', 'utf8');
 eval(testCode);
 
 // Run tests

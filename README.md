@@ -62,8 +62,10 @@ npm run test:ci           # run CI test suite
 - Node.js 16.0.0 or higher
 - Install dependencies: `npm install`
 
-**Test files are located in the `tests/` directory and include:**
-- Unit tests for individual components
-- Integration tests for upload functionality
-- Browser-based tests using Puppeteer
-- Modal lifecycle and UI interaction tests
+**Test files are organized in the `tests/` directory:**
+- `tests/ci/` - CI/CD test runners and infrastructure
+- `tests/frontend/` - Frontend component and browser tests
+- `tests/backend/` - Backend logic and database tests
+- `tests/integration/` - Cross-component integration tests
+- `tests/data/` - Test data files (CSV samples)
+- `tests/demos/` - Example code and demonstrations

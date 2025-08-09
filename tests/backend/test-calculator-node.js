@@ -7,10 +7,10 @@
 global.window = {};
 
 // Load the debug manager first
-require('../src/debugManager.js');
+require('../../src/debugManager.js');
 
 // Load the calculator module
-require('../src/playerStatsCalculator.js');
+require('../../src/playerStatsCalculator.js');
 const PlayerStatsCalculator = global.window.PlayerStatsCalculator;
 
 let testResults = [];

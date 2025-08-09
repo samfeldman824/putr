@@ -45,7 +45,7 @@ jobs:
     - name: Run CSV Upload Frontend Tests
       run: |
         echo "🧪 Running CSV Upload Frontend Test Suite..."
-        NODE_ENV=test node tests/ci-test-runner.js
+        NODE_ENV=test node tests/ci/ci-test-runner.js
       env:
         NODE_ENV: test
     
@@ -61,9 +61,9 @@ jobs:
       with:
         name: frontend-test-results
         path: |
-          tests/*.js
-          tests/*.html
-          tests/*.csv
+          tests/**/*.js
+          tests/**/*.html
+          tests/**/*.csv
         retention-days: 30
 
   # Optional: HTML Tests with Puppeteer (if you want full browser testing)
@@ -87,6 +87,6 @@ jobs:
     - name: Run Headless Browser Tests
       run: |
         echo "🤖 Running Headless Browser Tests..."
-        node tests/run-html-tests.js
+        node tests/frontend/run-html-tests.js
       env:
         NODE_ENV: test

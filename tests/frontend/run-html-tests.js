@@ -168,7 +168,7 @@ try {
     // Fallback to running available Node.js tests
     const { execSync } = require('child_process');
     try {
-        execSync('node tests/run-tests.js', { stdio: 'inherit' });
+        execSync('node tests/ci/run-tests.js', { stdio: 'inherit' });
     } catch (err) {
         console.error('❌ Fallback tests also failed');
         process.exit(1);

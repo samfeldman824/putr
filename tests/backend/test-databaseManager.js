@@ -7,14 +7,14 @@
 if (typeof require !== 'undefined') {
     // Set NODE_ENV to development for testing
     process.env.NODE_ENV = 'development';
-    const { COLLECTIONS, DATABASE_CONSTANTS } = require('../src/constants.js');
+    const { COLLECTIONS, DATABASE_CONSTANTS } = require('../../src/constants.js');
     global.COLLECTIONS = COLLECTIONS;
     global.DATABASE_CONSTANTS = DATABASE_CONSTANTS;
     
     // Load DatabaseManager for Node.js testing
     const fs = require('fs');
     const path = require('path');
-    const dbManagerPath = path.join(__dirname, '../src/databaseManager.js');
+    const dbManagerPath = path.join(__dirname, '../../src/databaseManager.js');
     const dbManagerCode = fs.readFileSync(dbManagerPath, 'utf8');
     
     // Create a mock window object for Node.js

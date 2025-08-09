@@ -18,18 +18,18 @@ global.document = {
             innerHTML: '',
             textContent: '',
             classList: {
-                add: () => {},
-                remove: () => {},
+                add: () => { },
+                remove: () => { },
                 contains: () => false
             },
-            addEventListener: () => {},
+            addEventListener: () => { },
             appendChild: (child) => {
                 if (child && child.id) {
                     mockElements.set(child.id, child);
                 }
             },
             querySelector: () => null,
-            parentNode: { 
+            parentNode: {
                 removeChild: (child) => {
                     if (child && child.id) {
                         mockElements.delete(child.id);
@@ -37,11 +37,11 @@ global.document = {
                 }
             }
         };
-        
+
         // Mock textContent setter for HTML escaping
         Object.defineProperty(element, 'textContent', {
-            get: function() { return this._textContent || ''; },
-            set: function(value) { 
+            get: function () { return this._textContent || ''; },
+            set: function (value) {
                 this._textContent = value;
                 this.innerHTML = String(value)
                     .replace(/&/g, '&amp;')
@@ -51,7 +51,7 @@ global.document = {
                     .replace(/'/g, '&#x27;');
             }
         });
-        
+
         return element;
     },
     body: {
@@ -62,23 +62,23 @@ global.document = {
         }
     },
     getElementById: (id) => mockElements.get(id) || null,
-    addEventListener: () => {},
-    removeEventListener: () => {}
+    addEventListener: () => { },
+    removeEventListener: () => { }
 };
 
 global.window = global;
 global.requestAnimationFrame = (cb) => setTimeout(cb, 16);
 
 // Load the DebugManager first
-const debugManagerCode = fs.readFileSync('src/debugManager.js', 'utf8');
+const debugManagerCode = fs.readFileSync('../../src/debugManager.js', 'utf8');
 eval(debugManagerCode);
 
 // Load the GameResultsDisplay class
-const gameResultsCode = fs.readFileSync('src/gameResultsDisplay.js', 'utf8');
+const gameResultsCode = fs.readFileSync('../../src/gameResultsDisplay.js', 'utf8');
 eval(gameResultsCode);
 
 // Load and run tests
-const testCode = fs.readFileSync('tests/test-game-results-display.js', 'utf8');
+const testCode = fs.readFileSync('tests/frontend/test-game-results-display.js', 'utf8');
 eval(testCode);
 
 // Run tests
@@ -86,10 +86,10 @@ async function runTests() {
     try {
         const tests = new GameResultsDisplayTests();
         const summary = await tests.runAllTests();
-        
+
         console.log('\n🏁 Test execution completed!');
         console.log(`Final Results: ${summary.passed}/${summary.total} tests passed (${summary.successRate.toFixed(1)}%)`);
-        
+
         if (summary.failed > 0) {
             console.log('❌ Some tests failed. Check the output above for details.');
             process.exit(1);

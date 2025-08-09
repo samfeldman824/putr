@@ -27,17 +27,26 @@ putr/
 │   │
 │   └── 🧪 Comprehensive Test Suite
 │       ├── tests/                    # 🧪 All test files
-│       │   ├── ci-test-runner.js     # 🚀 CI-optimized test runner
-│       │   ├── run-tests.js          # 🧪 Complete test suite runner
-│       │   ├── run-extracted-tests.js # 🌐 Browser compatibility tests
-│       │   ├── run-html-tests.js     # 🤖 Puppeteer browser tests
-│       │   ├── test-integration-upload.html # 🔗 Integration tests
-│       │   ├── test-databaseManager.js # 🔗 Database tests
-│       │   ├── test-calculator-node.js # 🧮 Calculator tests
-│       │   ├── test-error-handler-simple.js # 🛡️ Error handler tests
-│       │   ├── test-ledger25_01_15.csv # 📄 Test data
-│       │   ├── test-status.txt       # ✅ Test status
-│       │   └── example-player-matching.js # 📝 Usage examples
+│       │   ├── ci/                   # 🚀 CI/CD Test Infrastructure
+│       │   │   ├── ci-test-runner.js # 🚀 CI-optimized test runner
+│       │   │   └── run-tests.js      # 🧪 Complete test suite runner
+│       │   ├── frontend/             # 🌐 Frontend Test Suite
+│       │   │   ├── run-extracted-tests.js # 🌐 Browser compatibility tests
+│       │   │   ├── run-html-tests.js # 🤖 Puppeteer browser tests
+│       │   │   ├── test-integration-upload.html # 🔗 Integration tests
+│       │   │   └── test-error-handler-simple.js # 🛡️ Error handler tests
+│       │   ├── backend/              # 🔧 Backend Test Suite
+│       │   │   ├── test-databaseManager.js # 🔗 Database tests
+│       │   │   └── test-calculator-node.js # 🧮 Calculator tests
+│       │   ├── integration/          # 🔗 Integration Test Suite
+│       │   ├── data/                 # 📄 Test Data Files
+│       │   │   ├── test-ledger25_01_15.csv # 📄 Test CSV data
+│       │   │   └── ledger25_06_31.csv # 📄 Additional test data
+│       │   ├── demos/                # 📝 Demo & Example Files
+│       │   │   ├── demo-debug-system.js # 🐛 Debug system examples
+│       │   │   ├── demo-duplicate-combining.js # 🔄 Duplicate handling demo
+│       │   │   └── example-player-matching.js # 📝 Player matching examples
+│       │   └── [remaining test files] # 🧪 Other test utilities
 │       │
 │       └── package.json              # 📋 Node.js dependencies & scripts
 │

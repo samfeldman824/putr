@@ -80,7 +80,7 @@ async function main() {
     log(`📁 Working directory: ${process.cwd()}`, 'blue');
     
     const testSuites = [
-        { file: 'run-extracted-tests.js', name: 'Frontend Component Tests' }
+        { file: 'frontend/run-extracted-tests.js', name: 'Frontend Component Tests' }
     ];
     
     const results = [];
@@ -90,7 +90,7 @@ async function main() {
     
     // Run each test suite
     for (const suite of testSuites) {
-        const testPath = path.join(__dirname, suite.file);
+        const testPath = path.join(__dirname, '..', suite.file);
         if (fs.existsSync(testPath)) {
             const result = await runTestSuite(testPath, suite.name);
             results.push({ ...result, name: suite.name });
