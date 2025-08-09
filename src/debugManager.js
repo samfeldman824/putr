@@ -1,6 +1,26 @@
 /**
  * Debug Manager
  * Provides centralized debug logging that can be controlled from the browser console
+ * 
+ * Usage Examples:
+ * - window.debug.enable("playerMatching")  // Enable specific debug mode
+ * - window.debug.enable("all")             // Enable all debug modes
+ * - window.debug.disable("csvProcessing")  // Disable specific debug mode
+ * - window.debug.disable("all")            // Disable all debug modes
+ * - window.debug.toggle("upload")          // Toggle a debug mode on/off
+ * - window.debug.status()                  // Show current status of all modes
+ * - window.debug.isEnabled("database")     // Check if a mode is enabled
+ * 
+ * Available Debug Modes:
+ * - playerMatching: Debug logs for player matching functionality
+ * - csvProcessing: Debug logs for CSV file processing
+ * - gameResults: Debug logs for game results handling
+ * - upload: Debug logs for upload operations
+ * - database: Debug logs for database operations
+ * - all: Master switch that enables/disables all debug modes
+ * 
+ * In your code, use debugManager.log(), debugManager.warn(), or debugManager.error()
+ * to conditionally log messages based on enabled debug modes.
  */
 
 class DebugManager {
@@ -13,19 +33,15 @@ class DebugManager {
             database: false,
             all: false
         };
-        
-        // Make debug manager globally accessible
+
+        // Make debug manager globally accessible as window.debug
+        // This allows developers to control debugging from browser console
+        // Example: window.debug.enable("playerMatching")
         if (typeof window !== 'undefined') {
             window.debug = this;
         }
-        
+
         console.log('🐛 Debug Manager initialized. Use window.debug to control logging.');
-        console.log('Available modes:', Object.keys(this.debugModes));
-        console.log('Examples:');
-        console.log('  window.debug.enable("playerMatching")');
-        console.log('  window.debug.enable("all")');
-        console.log('  window.debug.disable("all")');
-        console.log('  window.debug.status()');
     }
 
     /**
@@ -138,10 +154,12 @@ class DebugManager {
     }
 }
 
-// Create global instance
+// Create global instance - this automatically makes window.debug available
 const debugManager = new DebugManager();
 
 // Export for use in other modules
+// window.debug points to the debugManager instance for console control
+// window.debugManager provides direct access to the instance
 if (typeof window !== 'undefined') {
     window.DebugManager = DebugManager;
     window.debugManager = debugManager;
