@@ -136,15 +136,7 @@ async function main() {
         suites: results
     };
     
-    // Write JSON report for CI systems
-    fs.writeFileSync(
-        path.join(__dirname, 'ci-test-report.json'),
-        JSON.stringify(report, null, 2)
-    );
-    
-
-    
-    log(`📊 Test report saved to: ci-test-report.json`, 'blue');
+    // Report generation removed - no longer writing to ci-test-report.json
     
     // Exit with appropriate code
     process.exit(overallSuccess ? 0 : 1);

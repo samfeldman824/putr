@@ -31,7 +31,9 @@ source venv/bin/activate
 
 ## Testing
 
-Run the following commands for testing
+### Python Tests
+
+Run the following commands for Python testing
 
 ```
 # run all tests
@@ -40,3 +42,28 @@ pytest
 # run all tests with line coverage
 coverage run -m pytest && coverage report -m
 ```
+
+### JavaScript Tests
+
+Run the following commands for JavaScript testing
+
+```
+# run all JavaScript tests
+npm test
+
+# run specific test suites
+npm run test:all          # run all test suites
+npm run test:frontend     # run frontend-specific tests
+npm run test:browser      # run browser-based tests
+npm run test:ci           # run CI test suite
+```
+
+**Prerequisites for JavaScript tests:**
+- Node.js 16.0.0 or higher
+- Install dependencies: `npm install`
+
+**Test files are located in the `tests/` directory and include:**
+- Unit tests for individual components
+- Integration tests for upload functionality
+- Browser-based tests using Puppeteer
+- Modal lifecycle and UI interaction tests

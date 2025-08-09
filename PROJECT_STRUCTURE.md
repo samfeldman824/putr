@@ -36,7 +36,6 @@ putr/
 │       │   ├── test-calculator-node.js # 🧮 Calculator tests
 │       │   ├── test-error-handler-simple.js # 🛡️ Error handler tests
 │       │   ├── test-ledger25_01_15.csv # 📄 Test data
-│       │   ├── ci-test-report.json   # 📊 CI test results
 │       │   ├── test-status.txt       # ✅ Test status
 │       │   └── example-player-matching.js # 📝 Usage examples
 │       │
@@ -214,7 +213,6 @@ python3 -m http.server 8000
 - **Puppeteer Integration** - Optional headless browser testing
 
 ### **Test Artifacts**
-- `ci-test-report.json` - Structured test results for CI
 
 - Test coverage and performance metrics
 

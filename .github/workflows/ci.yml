@@ -53,11 +53,7 @@ jobs:
       if: always()
       run: |
         echo "📊 Uploading test reports and artifacts..."
-        if [ -f tests/ci-test-report.json ]; then
-          echo "✅ Test report generated successfully"
-        else
-          echo "❌ Test report not found"
-        fi
+        echo "✅ Test execution completed"
     
     - name: Upload Test Results
       if: always()
@@ -65,7 +61,6 @@ jobs:
       with:
         name: frontend-test-results
         path: |
-          tests/ci-test-report.json
           tests/*.js
           tests/*.html
           tests/*.csv
