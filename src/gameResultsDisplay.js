@@ -8,6 +8,7 @@ class GameResultsDisplay {
     constructor() {
         this.currentModal = null;
         this.isDisplaying = false;
+        this.escapeHandler = null; // Reference to escape key event handler for proper cleanup
 
         debugManager.log('gameResults', 'GameResultsDisplay initialized');
     }
@@ -22,9 +23,14 @@ class GameResultsDisplay {
         try {
             debugManager.log('gameResults', `Displaying results for game: ${gameDate}`);
 
+            // Add explicit cleanup call before creating new modal when isDisplaying is true
             if (this.isDisplaying) {
                 console.warn('⚠️ Results already being displayed, dismissing current modal');
+                // Ensure previous escape handlers are cleaned up before setting up new ones
                 this.dismissResults();
+                
+                // Wait for cleanup to complete before proceeding
+                await new Promise(resolve => setTimeout(resolve, 0));
             }
 
             // Format and sort player results
@@ -255,20 +261,31 @@ class GameResultsDisplay {
             }
         });
 
-        // Escape key to close
-        const escapeHandler = (event) => {
+        // Create escape handler function and store it in this.escapeHandler
+        this.escapeHandler = (event) => {
             if (event.key === 'Escape' && this.isDisplaying) {
                 this.dismissResults();
-                document.removeEventListener('keydown', escapeHandler);
             }
         };
-        document.addEventListener('keydown', escapeHandler);
+        
+        // Add the stored handler to document keydown event listener
+        document.addEventListener('keydown', this.escapeHandler);
     }
 
     /**
      * Dismiss the results modal
      */
     dismissResults() {
+        // Clean up escape handler at the beginning
+        if (this.escapeHandler) {
+            try {
+                document.removeEventListener('keydown', this.escapeHandler);
+            } catch (error) {
+                console.warn('Could not remove escape handler:', error);
+            }
+            this.escapeHandler = null;
+        }
+
         if (!this.currentModal || !this.isDisplaying) {
             return;
         }
