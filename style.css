@@ -1054,6 +1054,77 @@ button {
     transform: translateY(0);
 }
 
+/* Confirmation notice styles */
+.confirmation-notice {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 5px;
+    color: #856404;
+}
+
+.confirmation-notice p {
+    margin: 0;
+}
+
+.confirmation-notice p:first-child {
+    margin-bottom: 8px;
+}
+
+/* Button group for confirmation */
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+/* Confirm button styles */
+.confirm-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-weight: 600;
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.confirm-btn:active {
+    background-color: #1e7e34;
+    transform: translateY(1px);
+}
+
+/* Cancel button styles */
+.cancel-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    font-weight: 600;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+.cancel-btn:active {
+    background-color: #545b62;
+    transform: translateY(1px);
+}
+
 /* Responsive Design for Results Modal */
 @media (max-width: 768px) {
     .results-modal {

@@ -130,33 +130,17 @@ class UploadOrchestrator {
 
             debugManager.log('upload', `Processed ${gameResults.processedCount} players, ${gameResults.matchedCount} matched`);
 
-            // Step 4: Create backup before updating
-            this.uploadInterface.showProcessingStep(4, 5, 'Creating backup...');
-            const backupData = await this.databaseManager.createBackup(affectedPlayerKeys);
-            const backupId = this.undoManager.storeUndoData(backupData, gameDate, affectedPlayerKeys.length);
-
-            // Step 5: Update player statistics in database
-            this.uploadInterface.showProcessingStep(5, 5, 'Updating player statistics...');
-            await this.databaseManager.updatePlayersInTransaction(playerUpdates);
-
-            // Mark game as uploaded
-            this.markGameAsUploaded(gameDate, file.name);
-
-            // Show game results before success message
+            // Step 4: Show preview with confirmation
+            this.uploadInterface.showProcessingStep(4, 5, 'Preparing results preview...');
+            
+            // Show game results with confirmation before database update
             try {
-                debugManager.log('upload', 'Displaying game results...');
-                await this.gameResultsDisplay.showGameResults(csvData, gameDate);
+                debugManager.log('upload', 'Displaying game results for confirmation...');
+                await this.showGameResultsWithConfirmation(csvData, gameDate, playerUpdates, affectedPlayerKeys, file.name);
             } catch (error) {
                 console.warn('⚠️ Could not display game results:', error.message);
-                // Don't fail the upload if results display fails
+                throw error; // This should fail the upload since user needs to confirm
             }
-
-            // Show success with undo option
-            const undoCallback = () => this.handleUndo();
-            this.uploadInterface.showDetailedSuccess(gameDate, affectedPlayerKeys.length, undoCallback);
-
-            // Refresh leaderboard if function exists
-            await this.refreshLeaderboard();
 
             console.log(`✅ Upload completed successfully: ${gameDate} (${affectedPlayerKeys.length} players)`);
 
@@ -199,6 +183,63 @@ class UploadOrchestrator {
                 this.errorHandler.logError(cleanupWarning, { partialProcessing: true });
             }
         }
+    }
+
+    /**
+     * Show game results with confirmation before database update
+     * @param {Object} csvData - Processed CSV data
+     * @param {string} gameDate - Game date
+     * @param {Object} playerUpdates - Player updates to be applied
+     * @param {Array} affectedPlayerKeys - Keys of affected players
+     * @param {string} fileName - Name of the uploaded file
+     */
+    async showGameResultsWithConfirmation(csvData, gameDate, playerUpdates, affectedPlayerKeys, fileName) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // Show game results with confirmation callback
+                await this.gameResultsDisplay.showGameResults(csvData, gameDate, {
+                    showConfirmButton: true,
+                    onConfirm: async () => {
+                        try {
+                            console.log('🚀 User confirmed, proceeding with database update...');
+                            
+                            // Show processing step
+                            this.uploadInterface.showProcessingStep(5, 5, 'Creating backup...');
+                            
+                            // Create backup before updating
+                            const backupData = await this.databaseManager.createBackup(affectedPlayerKeys);
+                            const backupId = this.undoManager.storeUndoData(backupData, gameDate, affectedPlayerKeys.length);
+
+                            // Update database
+                            this.uploadInterface.showProcessingStep(5, 5, 'Updating player statistics...');
+                            await this.databaseManager.updatePlayersInTransaction(playerUpdates);
+
+                            // Mark game as uploaded
+                            this.markGameAsUploaded(gameDate, fileName);
+
+                            // Show success with undo option
+                            const undoCallback = () => this.handleUndo();
+                            this.uploadInterface.showDetailedSuccess(gameDate, affectedPlayerKeys.length, undoCallback);
+
+                            // Refresh leaderboard
+                            await this.refreshLeaderboard();
+
+                            resolve();
+                        } catch (error) {
+                            console.error('❌ Database update failed:', error);
+                            reject(error);
+                        }
+                    },
+                    onCancel: () => {
+                        console.log('ℹ️ User cancelled upload');
+                        this.uploadInterface.resetInterface();
+                        reject(new Error('Upload cancelled by user'));
+                    }
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
 
     /**

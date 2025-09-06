@@ -17,9 +17,10 @@ class GameResultsDisplay {
      * Display game results in a modal dialog
      * @param {Object} gameData - Game data containing players and their net amounts
      * @param {string} gameDate - Date of the game (YYYY-MM-DD format)
+     * @param {Object} options - Optional configuration for the modal
      * @returns {Promise<void>}
      */
-    async showGameResults(gameData, gameDate) {
+    async showGameResults(gameData, gameDate, options = {}) {
         try {
             debugManager.log('gameResults', `Displaying results for game: ${gameDate}`);
 
@@ -38,14 +39,14 @@ class GameResultsDisplay {
             const sortedResults = this.sortPlayersByNet(formattedResults);
 
             // Create modal content
-            const modalContent = this.createModalContent(sortedResults, gameDate);
+            const modalContent = this.createModalContent(sortedResults, gameDate, options);
 
             // Create and show modal
             this.currentModal = this.createResultsModal(modalContent);
             this.isDisplaying = true;
 
             // Add event listeners for modal interaction
-            this.setupModalEventListeners();
+            this.setupModalEventListeners(options);
 
             debugManager.log('gameResults', `Game results displayed for ${sortedResults.length} players`);
 
@@ -132,9 +133,10 @@ class GameResultsDisplay {
      * Create the HTML content for the modal
      * @param {Array<Object>} sortedResults - Sorted player results
      * @param {string} gameDate - Game date
+     * @param {Object} options - Options for the modal
      * @returns {string} HTML content for the modal
      */
-    createModalContent(sortedResults, gameDate) {
+    createModalContent(sortedResults, gameDate, options = {}) {
         const totalPlayers = sortedResults.length;
         const biggestWinner = sortedResults[0];
         const biggestLoser = sortedResults[sortedResults.length - 1];
@@ -203,9 +205,33 @@ class GameResultsDisplay {
             </div>
 
             <div class="modal-actions">
-                <button class="close-results-btn" id="close-results-btn">Close</button>
+                ${this.createModalButtons(options)}
             </div>
         `;
+    }
+
+    /**
+     * Create the appropriate buttons for the modal based on options
+     * @param {Object} options - Options for the modal
+     * @returns {string} HTML content for the buttons
+     */
+    createModalButtons(options = {}) {
+        const { showConfirmButton = false } = options;
+
+        if (showConfirmButton) {
+            return `
+                <div class="confirmation-notice">
+                    <p><strong>⚠️ Confirm Upload</strong></p>
+                    <p>Review the results above. Click "Confirm & Save" to permanently save these results to the database.</p>
+                </div>
+                <div class="button-group">
+                    <button class="cancel-btn" id="cancel-upload-btn">Cancel</button>
+                    <button class="confirm-btn" id="confirm-upload-btn">Confirm & Save</button>
+                </div>
+            `;
+        } else {
+            return '<button class="close-results-btn" id="close-results-btn">Close</button>';
+        }
     }
 
     /**
@@ -244,29 +270,68 @@ class GameResultsDisplay {
 
     /**
      * Set up event listeners for modal interaction
+     * @param {Object} options - Options containing callbacks
      */
-    setupModalEventListeners() {
+    setupModalEventListeners(options = {}) {
         if (!this.currentModal) return;
 
-        // Close button
-        const closeBtn = this.currentModal.querySelector('#close-results-btn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.dismissResults());
+        const { showConfirmButton = false, onConfirm, onCancel } = options;
+
+        if (showConfirmButton) {
+            // Confirm button
+            const confirmBtn = this.currentModal.querySelector('#confirm-upload-btn');
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', () => {
+                    this.dismissResults();
+                    if (onConfirm && typeof onConfirm === 'function') {
+                        onConfirm();
+                    }
+                });
+            }
+
+            // Cancel button
+            const cancelBtn = this.currentModal.querySelector('#cancel-upload-btn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', () => {
+                    this.dismissResults();
+                    if (onCancel && typeof onCancel === 'function') {
+                        onCancel();
+                    }
+                });
+            }
+
+            // For confirmation mode, don't allow closing by clicking outside or escape
+            // Only allow explicit confirm/cancel actions
+            this.escapeHandler = (event) => {
+                if (event.key === 'Escape' && this.isDisplaying) {
+                    // Trigger cancel on escape in confirmation mode
+                    this.dismissResults();
+                    if (onCancel && typeof onCancel === 'function') {
+                        onCancel();
+                    }
+                }
+            };
+        } else {
+            // Close button (normal mode)
+            const closeBtn = this.currentModal.querySelector('#close-results-btn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => this.dismissResults());
+            }
+
+            // Click outside modal to close (normal mode)
+            this.currentModal.addEventListener('click', (event) => {
+                if (event.target === this.currentModal) {
+                    this.dismissResults();
+                }
+            });
+
+            // Create escape handler function and store it in this.escapeHandler
+            this.escapeHandler = (event) => {
+                if (event.key === 'Escape' && this.isDisplaying) {
+                    this.dismissResults();
+                }
+            };
         }
-
-        // Click outside modal to close
-        this.currentModal.addEventListener('click', (event) => {
-            if (event.target === this.currentModal) {
-                this.dismissResults();
-            }
-        });
-
-        // Create escape handler function and store it in this.escapeHandler
-        this.escapeHandler = (event) => {
-            if (event.key === 'Escape' && this.isDisplaying) {
-                this.dismissResults();
-            }
-        };
         
         // Add the stored handler to document keydown event listener
         document.addEventListener('keydown', this.escapeHandler);
