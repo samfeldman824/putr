@@ -137,7 +137,9 @@ function setupRealtimeListener() {
   isListenerActive = true;
   saveCacheToStorage(); // Save the listener state
 
-  realtimeListener = db.collection("players").onSnapshot((querySnapshot) => {
+  collectionName = COLLECTIONS.PLAYERS || 'players'; // Fallback to 'players' if COLLECTIONS is undefined
+
+  realtimeListener = db.collection(collectionName).onSnapshot((querySnapshot) => {
     console.log("Database updated - refreshing data");
     playersCache = {};
 

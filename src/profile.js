@@ -35,7 +35,9 @@ const createStatCard = (label, value) => `
 `;
 
 // Fetch player data from Firestore
-db.collection("players").doc(playerName).get()
+collectionName = COLLECTIONS.PLAYERS || 'players'; // Fallback to 'players' if COLLECTIONS is undefined
+
+db.collection(collectionName).doc(playerName).get()
   .then((doc) => {
     if (doc.exists) {
       const player = doc.data();
