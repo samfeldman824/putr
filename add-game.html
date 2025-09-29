@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <!-- Firestore SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="src/config.js"></script>
+    <script src="src/add-game.js"></script>
+    <title>Add Game - BMT Poker</title>
+    <style>
+        .add-game-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #8B4513;
+            padding-bottom: 5px;
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input, .form-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .players-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .player-entry {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 60px;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .player-entry input, .player-entry select {
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-btn:hover {
+            background: #c82333;
+        }
+
+        .add-player-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .add-player-btn:hover {
+            background: #218838;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .submit-btn {
+            background: #8B4513;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover {
+            background: #6B3410;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .nav-buttons {
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background: #0056b3;
+            text-decoration: none;
+            color: white;
+        }
+
+        .status-message {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .csv-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+        }
+
+        .preview-table th {
+            background: #e9ecef;
+            font-weight: bold;
+        }
+
+        .upload-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="add-game-container">
+        <div class="nav-buttons">
+            <a href="index.html" class="nav-btn">Home</a>
+            <a href="profile.html" class="nav-btn">Profiles</a>
+        </div>
+
+        <h1>Add New Game</h1>
+
+        <div id="statusMessage" class="status-message"></div>
+
+        <form id="gameForm">
+            <div class="form-section">
+                <h3>Upload Game Ledger</h3>
+                <div class="upload-section">
+                    <div class="form-group">
+                        <label for="csvFile">CSV Ledger File:</label>
+                        <input type="file" id="csvFile" accept=".csv" required>
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Upload a CSV file with format: player_nickname,player_id,session_start_at,session_end_at,buy_in,buy_out,stack,net
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="gameDate">Game Date (optional - will extract from CSV):</label>
+                        <input type="date" id="gameDate">
+                        <small style="color: #666; display: block; margin-top: 5px;">
+                            Leave blank to automatically extract date from CSV timestamps
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="gameLocation">Location:</label>
+                        <input type="text" id="gameLocation" placeholder="e.g., Brown University" value="Brown University">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section" id="previewSection" style="display: none;">
+                <h3>Preview Data</h3>
+                <div id="csvPreview" class="csv-preview">
+                    <!-- CSV preview will be shown here -->
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>Upload Game Data</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
