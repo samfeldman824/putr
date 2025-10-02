@@ -8,8 +8,10 @@ import tempfile
 app = Flask(__name__)
 CORS(app)
 
-LEDGER_FOLDER = "ledgers"
-JSON_PATH = "data.json"
+# Get the parent directory (project root) of the backend directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LEDGER_FOLDER = os.path.join(BASE_DIR, "ledgers")
+JSON_PATH = os.path.join(BASE_DIR, "data.json")
 
 @app.route('/api/upload-csv', methods=['POST'])
 def upload_csv():
