@@ -28,6 +28,20 @@ source venv/bin/activate
 - Track player statistics such as wins, losses, and net earnings
 - Analyze player performance over time
 - Generate leaderboards and rankings
+- Upload CSV game files from the browser
+
+## Running the Application
+
+To use the CSV upload feature from the browser, you need to run the Flask backend server:
+
+```bash
+cd backend
+python app.py
+```
+
+The server will start on `http://localhost:5000`.
+
+Then, open `index.html` in your browser and use the "Upload Game CSV" button to add new games.
 
 ## Testing
 

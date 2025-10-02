@@ -102,6 +102,29 @@ body {
     background-color: #f0f0f0;
 }
 
+.upload-section {
+    text-align: center;
+    margin: 2vh 0;
+    padding: 1vh;
+}
+
+#upload-btn {
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #218838;
+    cursor: pointer;
+}
+
+#upload-btn:hover {
+    background-color: #218838;
+}
+
+#upload-status {
+    margin-top: 1vh;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
 
 .profile-container {
   text-align: center;

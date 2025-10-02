@@ -206,5 +206,61 @@ function sortTableByNet() {
 // Call the sorting function when the page loads to initially sort the table by PUTR
 window.addEventListener("load", () => {
   populateTable()
+  setupFileUpload()
 });
+
+function setupFileUpload() {
+  const uploadBtn = document.getElementById('upload-btn');
+  const fileInput = document.getElementById('csv-file-input');
+  const uploadStatus = document.getElementById('upload-status');
+
+  uploadBtn.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.name.endsWith('.csv')) {
+      uploadStatus.textContent = 'Error: Please select a CSV file';
+      uploadStatus.style.color = 'red';
+      return;
+    }
+
+    uploadStatus.textContent = 'Uploading...';
+    uploadStatus.style.color = 'blue';
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/upload-csv', {
+        method: 'POST',
+        body: formData
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        uploadStatus.textContent = result.message || 'Game added successfully!';
+        uploadStatus.style.color = 'green';
+        // Refresh the table after successful upload
+        setTimeout(() => {
+          uploadStatus.textContent = '';
+        }, 3000);
+      } else {
+        uploadStatus.textContent = 'Error: ' + (result.error || 'Upload failed');
+        uploadStatus.style.color = 'red';
+      }
+    } catch (error) {
+      uploadStatus.textContent = 'Error: Could not connect to server';
+      uploadStatus.style.color = 'red';
+      console.error('Upload error:', error);
+    }
+
+    // Reset file input
+    fileInput.value = '';
+  });
+}
 

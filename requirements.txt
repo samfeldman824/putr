@@ -1,5 +1,7 @@
 click
 coverage
+flask
+flask-cors
 pandas
 pytest
 pytest-cov
