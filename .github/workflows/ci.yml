@@ -1,21 +1,42 @@
-name: API workflow
+name: CI/CD Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-    name: Test python API
+    name: Run Tests in Docker
+    
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v2
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    
+    - name: Cache Docker layers
+      uses: actions/cache@v3
       with:
-        python-version: '3.10'
-    - name: Install requirements
-      run: pip install -r requirements.txt
-    - name: Run tests and collect coverage
-      run: pytest --cov=backend/ --cov-report=xml
-    - name: Upload coverage reports to Codecov with GitHub Action
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+    
+    - name: Build Docker image
+      run: docker-compose -f docker/docker-compose.yml build
+    
+    - name: Run tests with coverage
+      run: docker-compose -f docker/docker-compose.yml run --rm coverage
+    
+    - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v4.2.0
+      if: always()
+      with:
+        files: ./coverage.xml
+        fail_ci_if_error: false
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

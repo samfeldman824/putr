@@ -48,7 +48,7 @@ services:
     environment:
       - PYTHONPATH=/app
     working_dir: /app
-    command: coverage run -m pytest && coverage report -m
+    command: sh -c "pytest --cov=backend/ --cov-report=xml --cov-report=term-missing"
     profiles:
       - test
 
