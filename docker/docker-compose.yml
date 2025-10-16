@@ -1,0 +1,83 @@
+services:
+  putr:
+    build:
+      context: ../.
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-dev
+    volumes:
+      # Mount the entire project directory for development
+      - ../:/app
+      # Preserve Python cache for faster rebuilds
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app/backend
+    stdin_open: true
+    tty: true
+    # Override default command for development
+    command: /bin/bash
+
+  # Service for running tests
+  test:
+    build:
+      context: ../.
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-test
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: pytest
+    profiles:
+      - test
+
+  # Service for running coverage
+  coverage:
+    build:
+      context: ../.
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-coverage
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: coverage run -m pytest && coverage report -m
+    profiles:
+      - test
+
+  # Frontend server
+  frontend:
+    image: python:3.11-slim
+    container_name: putr-frontend
+    ports:
+      - "3000:8000"
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: python -m http.server 8000
+    profiles:
+      - frontend
+
+  # Firebase emulator
+  firebase:
+    build:
+      context: ../firebase
+      dockerfile: ../docker/Dockerfile.firebase
+    image: putr-firebase:latest
+    container_name: putr-firebase
+    ports:
+      - "4000:4000"  # Emulator UI
+      - "8080:8080"  # Firestore
+      - "9099:9099"  # Auth
+    profiles:
+      - firebase
+
+volumes:
+  python-cache:

@@ -3,4 +3,4 @@ coverage
 pandas
 pytest
 pytest-cov
-venmo-api
+requests
