@@ -8,7 +8,7 @@ from poker import Poker
 
 
 @pytest.fixture
-def tem_dir_fixture1():
+def temp_dir_fixture1():
     with TemporaryDirectory() as tempdir:
 
         # move mock_jsons to tempdir
@@ -35,7 +35,7 @@ def tem_dir_fixture1():
 
 
 @pytest.fixture
-def tem_dir_fixture2():
+def temp_dir_fixture2():
     with TemporaryDirectory() as tempdir:
 
         # move mock_jsons to tempdir
@@ -58,7 +58,7 @@ def tem_dir_fixture2():
         yield poker, new_ledger_path, json_path
 
 @pytest.fixture
-def tem_dir_fixture3():
+def temp_dir_fixture3():
     with TemporaryDirectory() as tempdir:
 
         # move mock_jsons to tempdir
@@ -82,16 +82,16 @@ def tem_dir_fixture3():
 
 
 # Initializes a Poker object with valid ledger_folder_path and json_path.
-def test_valid_paths(tem_dir_fixture1):
-    poker, ledger_folder_path, json_path = tem_dir_fixture1
+def test_valid_paths(temp_dir_fixture1):
+    poker, ledger_folder_path, json_path = temp_dir_fixture1
 
     assert isinstance(poker, Poker)
     assert poker.ledger_folder_path == ledger_folder_path
     assert poker.json_path == json_path
     
     
-def test_add_poker_game1(tem_dir_fixture1, capfd):
-    poker, ledger_path, json_path = tem_dir_fixture1
+def test_add_poker_game1(temp_dir_fixture1, capfd):
+    poker, ledger_path, json_path = temp_dir_fixture1
 
     poker.add_poker_game(ledger_path + "/ledger01_01.csv")
 
@@ -174,8 +174,8 @@ def test_add_poker_game1(tem_dir_fixture1, capfd):
         )
 
 
-def test_add_poker_game2(tem_dir_fixture2, capfd):
-    poker, ledger_path, json_path = tem_dir_fixture2
+def test_add_poker_game2(temp_dir_fixture2, capfd):
+    poker, ledger_path, json_path = temp_dir_fixture2
 
     poker.add_poker_game(ledger_path + "/ledger01_01.csv")
 
@@ -223,8 +223,8 @@ def test_add_poker_game2(tem_dir_fixture2, capfd):
     )
 
 
-def test_add_all_games(tem_dir_fixture1, capfd):
-    poker, _, _ = tem_dir_fixture1
+def test_add_all_games(temp_dir_fixture1, capfd):
+    poker, _, _ = temp_dir_fixture1
 
     poker.add_all_games(["Joe"])
 
@@ -234,9 +234,9 @@ def test_add_all_games(tem_dir_fixture1, capfd):
         )
 
 
-def test_print_game_results(tem_dir_fixture1, capfd):
+def test_print_game_results(temp_dir_fixture1, capfd):
 
-    poker, ledger_path, _ = tem_dir_fixture1
+    poker, ledger_path, _ = temp_dir_fixture1
 
     poker.print_game_results(ledger_path + "/ledger01_01.csv")
 
@@ -244,9 +244,9 @@ def test_print_game_results(tem_dir_fixture1, capfd):
     assert out == "Alice: 5.5\nCharlie: -1.25\nBob: -4.25\n"
 
 
-def test_unique_nicknames(tem_dir_fixture1, capfd):
+def test_unique_nicknames(temp_dir_fixture1, capfd):
 
-    poker, _, _ = tem_dir_fixture1
+    poker, _, _ = temp_dir_fixture1
 
     poker.print_unique_nicknames()
 
@@ -256,9 +256,9 @@ def test_unique_nicknames(tem_dir_fixture1, capfd):
     assert "Charlie" in out
 
 
-def test_print_all_games(tem_dir_fixture1, capfd):
+def test_print_all_games(temp_dir_fixture1, capfd):
 
-    poker, _, _ = tem_dir_fixture1
+    poker, _, _ = temp_dir_fixture1
 
     poker.print_all_games()
 
@@ -266,9 +266,9 @@ def test_print_all_games(tem_dir_fixture1, capfd):
     assert "01_01" in out
 
 
-def test_reset_net_fields(tem_dir_fixture1, capfd):
+def test_reset_net_fields(temp_dir_fixture1, capfd):
 
-    poker, _, json_path = tem_dir_fixture1
+    poker, _, json_path = temp_dir_fixture1
 
     poker.reset_net_fields()
 
@@ -288,9 +288,9 @@ def test_reset_net_fields(tem_dir_fixture1, capfd):
             assert json_data[player_data]["average_net"] == 0
 
 
-def test_add_field(tem_dir_fixture1, capfd):
+def test_add_field(temp_dir_fixture1, capfd):
 
-    poker, _, json_path = tem_dir_fixture1
+    poker, _, json_path = temp_dir_fixture1
 
     poker.add_field()
 
@@ -300,9 +300,9 @@ def test_add_field(tem_dir_fixture1, capfd):
             assert json_data[player_data]["mock_field"] == 0
 
 
-def test_add_game_print_unknown_names(tem_dir_fixture2, capfd):
+def test_add_game_print_unknown_names(temp_dir_fixture2, capfd):
 
-    poker, ledger_path, _ = tem_dir_fixture2
+    poker, ledger_path, _ = temp_dir_fixture2
 
     poker.add_poker_game(ledger_path + "/ledger01_02.csv")
 
@@ -310,8 +310,8 @@ def test_add_game_print_unknown_names(tem_dir_fixture2, capfd):
     assert out == "Joe\nNot all players known\n"
 
 
-def test_sort_days_list(tem_dir_fixture1):
-    poker, _, json_path = tem_dir_fixture1
+def test_sort_days_list(temp_dir_fixture1):
+    poker, _, json_path = temp_dir_fixture1
 
     poker.sort_days_list()
 
@@ -389,9 +389,9 @@ def test_search_for_nickname():
     assert Poker._search_for_nickname(json_data, nickname) == (
         json_data["player1"])
 
-def test_print_last_games(tem_dir_fixture3, capfd):
+def test_print_last_games(temp_dir_fixture3, capfd):
 
-    poker, _, _ = tem_dir_fixture3
+    poker, _, _ = temp_dir_fixture3
     poker.print_last_games("Charlie", 2)
     #
     out, _ = capfd.readouterr()
@@ -399,8 +399,8 @@ def test_print_last_games(tem_dir_fixture3, capfd):
                    ' (-12.00)\n23_10_19 2.00 (-8.00)\n\n'
                    'Net: -20.00\nAverage: -10.00\n')
 
-def test_combine_and_print_results(tem_dir_fixture3, capfd):
-    poker, ledger_path, _ = tem_dir_fixture3
+def test_combine_and_print_results(temp_dir_fixture3, capfd):
+    poker, ledger_path, _ = temp_dir_fixture3
 
     poker.print_combined_results([ledger_path + "/ledger01_01.csv",
                                   ledger_path + "/ledger01_02.csv"])
@@ -427,20 +427,20 @@ def test_ledger_folder_not_found():
         Poker("fake_path", "backend/testing/mock_jsons/mock1_data.json")
 
 
-def test_ledger_file_not_csv(tem_dir_fixture1):
-    poker, _, _ = tem_dir_fixture1
+def test_ledger_file_not_csv(temp_dir_fixture1):
+    poker, _, _ = temp_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.add_poker_game("testing/mock_ledgers/ledger01_01.txt")
 
 
-def test_ledger_file_not_csv_print(tem_dir_fixture1):
-    poker, _, _ = tem_dir_fixture1
+def test_ledger_file_not_csv_print(temp_dir_fixture1):
+    poker, _, _ = temp_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("testing/mock_ledgers/ledger01_01.txt")
 
 
-def test_ledger_file_not_exist_print(tem_dir_fixture1):
-    poker, _, _ = tem_dir_fixture1
+def test_ledger_file_not_exist_print(temp_dir_fixture1):
+    poker, _, _ = temp_dir_fixture1
     with pytest.raises(FileNotFoundError):
         poker.print_game_results("fake_ledger01_03.csv")
 
@@ -487,7 +487,7 @@ def test_load_game_data_bad_filename(tmp_path):
         Poker._load_game_data(str(bad_file))
 
 
-# def test_ledger_file_not_found(tem_dir_fixture1):
-#     poker, _, _ = tem_dir_fixture1
+# def test_ledger_file_not_found(temp_dir_fixture1):
+#     poker, _, _ = temp_dir_fixture1
 #     with pytest.raises(ValueError):
 #         poker._load_game_data("fake_ledger.csv")
