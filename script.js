@@ -1,3 +1,6 @@
+// Constants
+const CACHE_TIMEOUT_MS = 30000; // 30 seconds
+
 // Firebase configuration - switches between prod and emulator
 let firebaseConfig;
 
@@ -73,7 +76,7 @@ function loadCacheFromStorage() {
     // Check if we had an active listener (but we'll need to recreate it)
     if (listenerActive && cacheTimestamp) {
       const timeSinceCache = Date.now() - parseInt(cacheTimestamp);
-      if (timeSinceCache < 30000) { // If less than 30 seconds, consider listener still "active"
+      if (timeSinceCache < CACHE_TIMEOUT_MS) { // If less than cache timeout, consider listener still "active"
         isListenerActive = true;
       }
     }

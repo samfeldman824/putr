@@ -7,6 +7,8 @@ from collections import defaultdict
 
 import pandas as pd
 
+from constants import CENTS_TO_DOLLARS, INITIAL_DATE_KEY
+
 
 class Poker:
     """
@@ -135,7 +137,7 @@ class Poker:
 
         game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
         return (
-            game_data.groupby("player_nickname")["net"].sum().div(100).to_dict()
+            game_data.groupby("player_nickname")["net"].sum().div(CENTS_TO_DOLLARS).to_dict()
         )
 
     @staticmethod
@@ -333,7 +335,7 @@ class Poker:
         """
         game_data, _ = self._load_game_data(ledger_path)
         net_winnings_by_player = (
-            game_data.groupby("player_nickname")["net"].sum().div(100).to_dict()
+            game_data.groupby("player_nickname")["net"].sum().div(CENTS_TO_DOLLARS).to_dict()
         )
         sorted_winnings = dict(
             sorted(
@@ -421,7 +423,7 @@ class Poker:
             json_data[player]["biggest_loss"] = 0
             json_data[player]["highest_net"] = 0
             json_data[player]["lowest_net"] = 0
-            json_data[player]["net_dictionary"] = {"01_01": 0}
+            json_data[player]["net_dictionary"] = {INITIAL_DATE_KEY: 0}
             json_data[player]["games_up_most"] = 0
             json_data[player]["games_down_most"] = 0
             json_data[player]["games_up"] = 0
