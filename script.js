@@ -27,17 +27,23 @@ if (location.hostname === 'localhost') {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Connect to emulator when running locally
-if (location.hostname === 'localhost') {
+// Connect to emulator when running locally, only once and before any Firestore operations
+let emulatorConfigured = false;
+if (location.hostname === 'localhost' && !emulatorConfigured) {
   console.log('🔧 Connecting to Firebase emulator...');
   console.log('Current hostname:', location.hostname);
   console.log('Current project:', firebaseConfig.projectId);
   try {
     db.useEmulator('localhost', 8080);
+    emulatorConfigured = true;
     console.log('✅ Connected to Firestore emulator on localhost:8080');
     console.log('Emulator settings:', db._delegate._settings);
   } catch (error) {
-    console.warn('⚠️ Could not connect to emulator:', error);
+    if (error.message && error.message.includes('useEmulator() has already been called')) {
+      console.warn('⚠️ Emulator already configured:', error);
+    } else {
+      console.warn('⚠️ Could not connect to emulator:', error);
+    }
   }
 }
 
