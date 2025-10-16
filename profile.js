@@ -1,18 +1,50 @@
-// Firebase configuration (same as script.js)
-const firebaseConfig = {
-  apiKey: "AIzaSyBLetCCR_hcY4_2AcV21w0eYfkqhzH_viQ",
-  authDomain: "bmt-db-dc8eb.firebaseapp.com",
-  databaseURL: "https://bmt-db-dc8eb-default-rtdb.firebaseio.com",
-  projectId: "bmt-db-dc8eb",
-  storageBucket: "bmt-db-dc8eb.firebasestorage.app",
-  messagingSenderId: "417887464130",
-  appId: "1:417887464130:web:82edbc63001c4271a9e95b",
-  measurementId: "G-8L0CN18VR5"
-};
+// Firebase configuration - switches between prod and emulator
+let firebaseConfig;
+
+if (location.hostname === 'localhost') {
+  // Local development with emulator
+  firebaseConfig = {
+    projectId: 'putr-dev'
+  };
+  console.log('🏠 Using Firebase emulator configuration');
+} else {
+  // Production configuration
+  firebaseConfig = {
+    apiKey: "AIzaSyBLetCCR_hcY4_2AcV21w0eYfkqhzH_viQ",
+    authDomain: "bmt-db-dc8eb.firebaseapp.com",
+    databaseURL: "https://bmt-db-dc8eb-default-rtdb.firebaseio.com",
+    projectId: "bmt-db-dc8eb",
+    storageBucket: "bmt-db-dc8eb.firebasestorage.app",
+    messagingSenderId: "417887464130",
+    appId: "1:417887464130:web:82edbc63001c4271a9e95b",
+    measurementId: "G-8L0CN18VR5"
+  };
+  console.log('🌐 Using production Firebase configuration');
+}
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+// Connect to emulator when running locally, only once and before any Firestore operations
+let emulatorConfigured = false;
+if (location.hostname === 'localhost' && !emulatorConfigured) {
+  console.log('🔧 Connecting to Firebase emulator...');
+  console.log('Current hostname:', location.hostname);
+  console.log('Current project:', firebaseConfig.projectId);
+  try {
+    db.useEmulator('localhost', 8080);
+    emulatorConfigured = true;
+    console.log('✅ Connected to Firestore emulator on localhost:8080');
+    console.log('Emulator settings:', db._delegate._settings);
+  } catch (error) {
+    if (error.message && error.message.includes('useEmulator() has already been called')) {
+      console.warn('⚠️ Emulator already configured:', error);
+    } else {
+      console.warn('⚠️ Could not connect to emulator:', error);
+    }
+  }
+}
 
 const urlParams = new URLSearchParams(window.location.search);
 
