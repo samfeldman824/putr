@@ -8,3 +8,9 @@ flags/flags.txt
 trash/
 ignore/
 .pylintrc
+
+# Firebase emulator logs
+firestore-debug.log
+firebase-debug.log
+ui-debug.log
+WARP.md

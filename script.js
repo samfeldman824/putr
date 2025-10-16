@@ -1,19 +1,45 @@
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBLetCCR_hcY4_2AcV21w0eYfkqhzH_viQ",
-  authDomain: "bmt-db-dc8eb.firebaseapp.com",
-  databaseURL: "https://bmt-db-dc8eb-default-rtdb.firebaseio.com",
-  projectId: "bmt-db-dc8eb",
-  storageBucket: "bmt-db-dc8eb.firebasestorage.app",
-  messagingSenderId: "417887464130",
-  appId: "1:417887464130:web:82edbc63001c4271a9e95b",
-  measurementId: "G-8L0CN18VR5"
-};
+// Firebase configuration - switches between prod and emulator
+let firebaseConfig;
+
+if (location.hostname === 'localhost') {
+  // Local development with emulator
+  firebaseConfig = {
+    projectId: 'putr-dev'
+  };
+  console.log('🏠 Using Firebase emulator configuration');
+} else {
+  // Production configuration
+  firebaseConfig = {
+    apiKey: "AIzaSyBLetCCR_hcY4_2AcV21w0eYfkqhzH_viQ",
+    authDomain: "bmt-db-dc8eb.firebaseapp.com",
+    databaseURL: "https://bmt-db-dc8eb-default-rtdb.firebaseio.com",
+    projectId: "bmt-db-dc8eb",
+    storageBucket: "bmt-db-dc8eb.firebasestorage.app",
+    messagingSenderId: "417887464130",
+    appId: "1:417887464130:web:82edbc63001c4271a9e95b",
+    measurementId: "G-8L0CN18VR5"
+  };
+  console.log('🌐 Using production Firebase configuration');
+}
 
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
+// Connect to emulator when running locally
+if (location.hostname === 'localhost') {
+  console.log('🔧 Connecting to Firebase emulator...');
+  console.log('Current hostname:', location.hostname);
+  console.log('Current project:', firebaseConfig.projectId);
+  try {
+    db.useEmulator('localhost', 8080);
+    console.log('✅ Connected to Firestore emulator on localhost:8080');
+    console.log('Emulator settings:', db._delegate._settings);
+  } catch (error) {
+    console.warn('⚠️ Could not connect to emulator:', error);
+  }
+}
 
 
 
@@ -63,11 +89,40 @@ function saveCacheToStorage() {
   }
 }
 
+// Clear problematic cache
+function clearCache() {
+  console.log('🗑️ Clearing cache and forcing fresh data load');
+  
+  // Clear all session storage
+  sessionStorage.clear();
+  
+  // Clear local storage too (in case anything is stored there)
+  localStorage.clear();
+  
+  // Reset variables
+  playersCache = null;
+  isListenerActive = false;
+  
+  // Clear any existing real-time listener
+  if (realtimeListener) {
+    realtimeListener();
+    realtimeListener = null;
+  }
+  
+  console.log('✅ All caches cleared');
+}
+
 function populateTable() {
   console.log("populateTable called");
 
-  // Load any existing cache from sessionStorage
-  loadCacheFromStorage();
+  // Clear cache if we're on localhost (development)
+  if (location.hostname === 'localhost') {
+    clearCache();
+    console.log('🔄 Development mode: cleared cache for fresh emulator data');
+  } else {
+    // Load any existing cache from sessionStorage (production only)
+    loadCacheFromStorage();
+  }
 
   // If we have cached data, render it immediately
   if (playersCache) {
@@ -75,29 +130,30 @@ function populateTable() {
     renderTableFromCache();
   }
 
-  // Set up real-time listener if not already active
-  if (!isListenerActive) {
-    console.log("Setting up real-time listener");
-    setupRealtimeListener();
-  } else {
-    console.log("Real-time listener already active, reconnecting...");
-    // Reconnect the listener since page reload breaks the connection
-    setupRealtimeListener();
-  }
+  // Set up real-time listener
+  console.log("Setting up real-time listener");
+  setupRealtimeListener();
 }
 
 function createPlayerRow(key, item) {
+  console.log('Creating row for player:', key, 'with data:', item);
+  
+  // Handle missing data gracefully
+  const flag = item.flag || 'https://flagsapi.com/XX/flat/32.png'; // Default flag
+  const putr = Number.isFinite(item.putr) ? item.putr.toFixed(2) : 'UR';
+  const net = Number.isFinite(item.net) ? item.net.toFixed(2) : '0.00';
+  
   let encodedName = encodeURIComponent(key);
   const row = document.createElement("tr");
   row.innerHTML = `
     <td class="flag-container">
-      <img src="${item.flag}" class="player-flag"/>
+      <img src="${flag}" class="player-flag"/>
     </td>
     <td class="player-name">
       <a href="profile.html?playerName=${encodedName}">${key}</a>
     </td>
-    <td class="player-putr">${Number.isFinite(item.putr) ? item.putr.toFixed(2) : 'UR'}</td>
-    <td class="player-net">${item.net.toFixed(2)}</td>
+    <td class="player-putr">${putr}</td>
+    <td class="player-net">${net}</td>
   `;
   return row;
 }
@@ -137,8 +193,12 @@ function setupRealtimeListener() {
   isListenerActive = true;
   saveCacheToStorage(); // Save the listener state
 
+  console.log('📞 Setting up listener for collection: players');
+  console.log('Database instance:', db);
+  
   realtimeListener = db.collection("players").onSnapshot((querySnapshot) => {
     console.log("Database updated - refreshing data");
+    console.log('Query snapshot size:', querySnapshot.size);
     playersCache = {};
 
     querySnapshot.forEach((doc) => {
