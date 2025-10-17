@@ -1,7 +1,7 @@
 // Firebase configuration - switches between prod and emulator
 let firebaseConfig;
 
-if (location.hostname === 'localhost') {
+if (location.hostname === 'localhost' || location.hostname === 'host.docker.internal') {
   // Local development with emulator
   firebaseConfig = {
     projectId: 'putr-dev'
@@ -28,14 +28,16 @@ const db = firebase.firestore();
 
 // Connect to emulator when running locally, only once and before any Firestore operations
 let emulatorConfigured = false;
-if (location.hostname === 'localhost' && !emulatorConfigured) {
+if ((location.hostname === 'localhost' || location.hostname === 'host.docker.internal') && !emulatorConfigured) {
   console.log('🔧 Connecting to Firebase emulator...');
   console.log('Current hostname:', location.hostname);
   console.log('Current project:', firebaseConfig.projectId);
   try {
-    db.useEmulator('localhost', 8080);
+    // Use host.docker.internal for emulator connection when accessed from Docker
+    const emulatorHost = location.hostname === 'host.docker.internal' ? 'host.docker.internal' : 'localhost';
+    db.useEmulator(emulatorHost, 8080);
     emulatorConfigured = true;
-    console.log('✅ Connected to Firestore emulator on localhost:8080');
+    console.log(`✅ Connected to Firestore emulator on ${emulatorHost}:8080`);
     console.log('Emulator settings:', db._delegate._settings);
   } catch (error) {
     if (error.message && error.message.includes('useEmulator() has already been called')) {
