@@ -1,4 +1,4 @@
-.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down seed-cli clear-data firebase-status
+.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down seed-cli clear-data firebase-status sync-data
 
 # Default target
 help:
@@ -19,6 +19,7 @@ help:
 	@echo "  firebase-down - Stop Firebase emulator"
 	@echo "  seed-cli  - Seed Firebase data via CLI"
 	@echo "  clear-data - Clear all Firebase data via CLI"
+	@echo "  sync-data - Sync data.json to Firebase emulator"
 	@echo "  firebase-status - Show Firebase emulator status"
 	@echo "  ag        - Add game (usage: make ag DATE=24_12_08)"
 	@echo "  pg        - Print game (usage: make pg DATE=24_12_08)"
@@ -133,3 +134,8 @@ clear-data:
 firebase-status:
 	@echo "Checking Firebase emulator status (in container)..."
 	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py status"
+
+# Sync data.json to Firebase
+sync-data:
+	@echo "Syncing data.json to Firebase emulator..."
+	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py sync"
