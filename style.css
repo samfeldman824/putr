@@ -102,6 +102,36 @@ body {
     background-color: #f0f0f0;
 }
 
+/* Loading spinner styles */
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4vh;
+    text-align: center;
+}
+
+.spinner {
+    border: 0.8vh solid #f3f3f3;
+    border-top: 0.8vh solid #007BFF;
+    border-radius: 50%;
+    width: 8vh;
+    height: 8vh;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.spinner-container p {
+    margin-top: 2vh;
+    font-size: 2rem;
+    color: #333;
+}
+
 
 .profile-container {
   text-align: center;

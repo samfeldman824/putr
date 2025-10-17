@@ -192,6 +192,16 @@ function renderTable(source = "unknown") {
   // Update the arrow to show current sort state (descending by PUTR)
   document.getElementById('putr-arrow').textContent = '▲';
   document.getElementById('net-arrow').textContent = '';
+
+  // Hide spinner and show table
+  const spinner = document.getElementById('loading-spinner');
+  const tableContainer = document.getElementById('table-container');
+  if (spinner) {
+    spinner.style.display = 'none';
+  }
+  if (tableContainer) {
+    tableContainer.style.display = 'block';
+  }
 }
 
 function setupRealtimeListener() {
