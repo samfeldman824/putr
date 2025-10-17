@@ -47,8 +47,9 @@ services:
       - python-cache:/root/.cache/pip
     environment:
       - PYTHONPATH=/app
+      - COVERAGE_FILE=/tmp/.coverage
     working_dir: /app
-    command: sh -c "pytest --cov=backend/ --cov-report=xml --cov-report=term-missing"
+    command: sh -c "pytest --cov=backend/ --cov-report=term-missing"
     profiles:
       - test
 
