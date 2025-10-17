@@ -12,6 +12,9 @@ import sys
 from datetime import datetime
 from typing import Dict, Any
 
+# Constants (add at the top of your file)
+REQUEST_TIMEOUT = 10  # seconds
+
 def get_firestore_url():
     """Determine Firebase Emulator endpoint"""
     if os.path.exists('/.dockerenv'):
@@ -119,19 +122,24 @@ def sync_data():
         try:
             response = requests.post(
                 f"{FIRESTORE_URL}/players?documentId={doc_id}",
-                json=firestore_doc
+                json=firestore_doc,
+                timeout=REQUEST_TIMEOUT
             )
             if response.status_code in [200, 201]:
                 players_synced += 1
                 print(f"   ✓ {player_name}: ${player_data.get('net', 0):.2f} net")
             else:
                 print(f"   ❌ Failed to sync {player_name}: {response.status_code}")
+        except requests.exceptions.Timeout:
+            print(f"   ❌ Timeout syncing {player_name} (>{REQUEST_TIMEOUT}s)")
+        except requests.exceptions.ConnectionError:
+            print(f"   ❌ Connection error syncing {player_name}")
         except Exception as e:
             print(f"   ❌ Error syncing {player_name}: {e}")
     
     # Create aggregate stats
     print("\n📊 Creating aggregate stats...")
-    total_games = max(len(p.get("games_played", [])) for p in data.values()) if data else 0
+    total_games = max((len(p.get("games_played", [])) for p in data.values()), default=0) if data else 0
     total_net = sum(p.get("net", 0) for p in data.values())
     
     stats_doc = {
@@ -147,7 +155,8 @@ def sync_data():
     try:
         response = requests.post(
             f"{FIRESTORE_URL}/stats?documentId=aggregate",
-            json=stats_doc
+            json=stats_doc,
+            timeout=REQUEST_TIMEOUT
         )
         if response.status_code in [200, 201]:
             print("   ✓ Aggregate stats created")
