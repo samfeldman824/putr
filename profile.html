@@ -27,18 +27,26 @@
     </div>
 
     <div id="range-bar" style="margin-bottom: 20px;">
-      <button class="range-btn" data-range="30">Last 30 Days</button>
-      <button class="range-btn" data-range="90">Last 90 Days</button>
-      <button class="range-btn" data-range="365">Last Year</button>
-      <button class="range-btn" data-range="all">All</button>
-      <button class="range-btn" data-range="custom">Custom</button>
-      <span id="custom-date-inputs" style="display:none;">
-        <label for="start-date">Start:</label>
-        <input type="date" id="start-date">
-        <label for="end-date">End:</label>
-        <input type="date" id="end-date">
-        <button id="apply-date-filter">Apply</button>
-      </span>
+      <div class="preset-container">
+        <button class="range-btn" data-preset="last5">Last 5 Games</button>
+        <div class="badge-pill" id="badge-last5"></div>
+      </div>
+      <div class="preset-container">
+        <button class="range-btn" data-preset="last10">Last 10 Games</button>
+        <div class="badge-pill" id="badge-last10"></div>
+      </div>
+      <div class="preset-container">
+        <button class="range-btn" data-preset="last30">Last 30 Games</button>
+        <div class="badge-pill" id="badge-last30"></div>
+      </div>
+      <div class="preset-container">
+        <button class="range-btn" data-preset="alltime">All Time</button>
+        <div class="badge-pill" id="badge-alltime"></div>
+      </div>
+      <div class="preset-container">
+        <button class="range-btn" data-preset="best5">Best 5-Game Streak</button>
+        <div class="badge-pill" id="badge-best5"></div>
+      </div>
     </div>
     <canvas id="lineChart"></canvas>
 </body>

@@ -68,6 +68,155 @@ const createStatCard = (label, value) => `
 </div>
 `;
 
+/**
+ * Parses a date string in format YY_MM_DD and returns a Date object.
+ * @param {string} dateStr - Date string in format "YY_MM_DD"
+ * @returns {Date|null} Date object or null if invalid
+ */
+function parseLedgerDate(dateStr) {
+  const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
+  if (match) {
+    const year = 2000 + parseInt(match[1], 10);
+    const month = parseInt(match[2], 10) - 1;
+    const day = parseInt(match[3], 10);
+    return new Date(year, month, day);
+  }
+  return null;
+}
+
+/**
+ * Converts net_dictionary to sorted array of {dateStr, date, net} objects.
+ * @param {Object} netDictionary - Object mapping date strings to net values
+ * @returns {Array} Sorted array of game objects
+ */
+function parseGamesFromNetDictionary(netDictionary) {
+  const games = [];
+  for (const dateStr of Object.keys(netDictionary)) {
+    const date = parseLedgerDate(dateStr);
+    if (date) {
+      games.push({
+        dateStr: dateStr,
+        date: date,
+        net: netDictionary[dateStr]
+      });
+    }
+  }
+  // Sort by date ascending
+  games.sort((a, b) => a.date - b.date);
+  return games;
+}
+
+/**
+ * Gets the last N games from a sorted games array.
+ * @param {Array} games - Sorted array of game objects
+ * @param {number} n - Number of games to retrieve
+ * @returns {Array} Last N games, or empty array if fewer than N games exist
+ */
+function getLastNGames(games, n) {
+  if (games.length < n) {
+    return [];
+  }
+  return games.slice(-n);
+}
+
+/**
+ * Finds the best N-game streak (highest net change over consecutive N games).
+ * Since net_dictionary stores cumulative totals, we calculate the net change
+ * for each window as the difference between end and start cumulative values.
+ * @param {Array} games - Sorted array of game objects
+ * @param {number} n - Streak length
+ * @returns {Array|null} Best streak of N games or null if insufficient data
+ */
+function findBestNGameStreak(games, n) {
+  if (games.length < n) {
+    return null;
+  }
+  
+  let bestNetChange = -Infinity;
+  let bestStartIdx = 0;
+  
+  // Calculate net change for each possible window of N games
+  for (let i = 0; i <= games.length - n; i++) {
+    const window = games.slice(i, i + n);
+    
+    // Net change for this window is end cumulative - start cumulative
+    const endNet = window[window.length - 1].net;
+    const startNet = (i > 0) ? games[i - 1].net : 0;
+    const netChange = endNet - startNet;
+    
+    if (netChange > bestNetChange) {
+      bestNetChange = netChange;
+      bestStartIdx = i;
+    }
+  }
+  
+  return games.slice(bestStartIdx, bestStartIdx + n);
+}
+
+/**
+ * Calculates the net change for an array of games.
+ * Since net_dictionary stores cumulative totals, we calculate the difference
+ * between the last game's cumulative net and the game before the first game.
+ * @param {Array} games - Array of game objects (must be sorted chronologically)
+ * @param {Array} allGames - Full array of all games for finding previous game
+ * @returns {number} Net change over the game window
+ */
+function calculateNetChange(games, allGames) {
+  if (games.length === 0) {
+    return 0;
+  }
+  
+  // Get the cumulative net at the end of this window
+  const endNet = games[games.length - 1].net;
+  
+  // Find the game immediately before this window in allGames
+  const firstGameDate = games[0].date;
+  let startNet = 0;
+  
+  // Find the previous game's cumulative net
+  for (let i = allGames.length - 1; i >= 0; i--) {
+    if (allGames[i].date < firstGameDate) {
+      startNet = allGames[i].net;
+      break;
+    }
+  }
+  
+  // Net change is the difference
+  return endNet - startNet;
+}
+
+/**
+ * Updates a badge pill with net value and color coding.
+ * @param {string} badgeId - ID of badge element
+ * @param {number|null} netValue - Net value to display, or null to show N/A
+ */
+function updateBadge(badgeId, netValue) {
+  const badge = document.getElementById(badgeId);
+  if (netValue === null) {
+    badge.textContent = 'N/A';
+    badge.className = 'badge-pill badge-disabled';
+  } else {
+    const formattedValue = netValue >= 0 ? `+$${netValue.toFixed(2)}` : `-$${Math.abs(netValue).toFixed(2)}`;
+    badge.textContent = formattedValue;
+    badge.className = netValue >= 0 ? 'badge-pill badge-positive' : 'badge-pill badge-negative';
+  }
+}
+
+/**
+ * Enables or disables a preset button.
+ * @param {HTMLElement} button - Button element
+ * @param {boolean} enabled - Whether button should be enabled
+ */
+function setButtonEnabled(button, enabled) {
+  if (enabled) {
+    button.disabled = false;
+    button.classList.remove('btn-disabled');
+  } else {
+    button.disabled = true;
+    button.classList.add('btn-disabled');
+  }
+}
+
 // Fetch player data from Firestore
 db.collection("players").doc(playerName).get()
   .then((doc) => {
@@ -95,28 +244,19 @@ db.collection("players").doc(playerName).get()
         ${createStatCard('Average Net', player.average_net ? player.average_net.toFixed(2) : '0.00')}
       `;
 
-      // const player = data[playerName];
       const netDictionary = player.net_dictionary;
-      // Chart filtering logic
+      const allGames = parseGamesFromNetDictionary(netDictionary);
+      
+      // Store chart instance globally
       if (typeof window.chartInstance === 'undefined') window.chartInstance = null;
-      function filterAndRenderChart(startDate, endDate) {
-        const filteredDates = [];
-        const filteredNetValues = [];
-        for (const dateStr of Object.keys(netDictionary)) {
-          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
-          if (match) {
-            const year = 2000 + parseInt(match[1], 10);
-            const month = parseInt(match[2], 10) - 1;
-            const day = parseInt(match[3], 10);
-            const gameDate = new Date(year, month, day);
-            if (gameDate >= startDate && gameDate <= endDate) {
-              filteredDates.push(dateStr);
-              filteredNetValues.push(netDictionary[dateStr]);
-            }
-          }
-        }
-        const dates = filteredDates;
-        const netValues = filteredNetValues;
+      
+      /**
+       * Filters and renders the chart for a given subset of games.
+       * @param {Array} gamesToDisplay - Array of game objects to display
+       */
+      function filterAndRenderChart(gamesToDisplay) {
+        const dates = gamesToDisplay.map(g => g.dateStr);
+        const netValues = gamesToDisplay.map(g => g.net);
 
         // Calculate the maximum absolute value among netValues for symmetric y-axis
         const maxAbs = netValues.length > 0 ? Math.max(...netValues.map(value => Math.abs(value))) : 1;
@@ -193,73 +333,76 @@ db.collection("players").doc(playerName).get()
         window.chartInstance = new Chart(ctx, config);
       }
 
-      // Set up date pickers and initial range (all dates)
-      const allGameDates = Object.keys(netDictionary)
-        .map(dateStr => {
-          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
-          if (match) {
-            const year = 2000 + parseInt(match[1], 10);
-            const month = parseInt(match[2], 10) - 1;
-            const day = parseInt(match[3], 10);
-            return new Date(year, month, day);
-          }
-          return null;
-        })
-        .filter(Boolean)
-        .sort((a, b) => a - b);
-      const minDate = allGameDates.length > 0 ? allGameDates[0] : new Date();
-      const maxDate = allGameDates.length > 0 ? allGameDates[allGameDates.length - 1] : new Date();
-      const startInput = document.getElementById('start-date');
-      const endInput = document.getElementById('end-date');
+      // Calculate presets and update badges
+      const last5Games = getLastNGames(allGames, 5);
+      const last10Games = getLastNGames(allGames, 10);
+      const last30Games = getLastNGames(allGames, 30);
+      const best5Streak = findBestNGameStreak(allGames, 5);
+      
+      // Update all badges
+      updateBadge('badge-last5', last5Games.length > 0 ? calculateNetChange(last5Games, allGames) : null);
+      updateBadge('badge-last10', last10Games.length > 0 ? calculateNetChange(last10Games, allGames) : null);
+      updateBadge('badge-last30', last30Games.length > 0 ? calculateNetChange(last30Games, allGames) : null);
+      updateBadge('badge-alltime', allGames.length > 0 ? calculateNetChange(allGames, allGames) : null);
+      updateBadge('badge-best5', best5Streak ? calculateNetChange(best5Streak, allGames) : null);
+
+      // Set up button states and event handlers
       const rangeBtns = document.querySelectorAll('.range-btn');
-      const customInputs = document.getElementById('custom-date-inputs');
-      function formatDateForInput(date) {
-        return date.toISOString().split('T')[0];
-      }
-      startInput.value = formatDateForInput(minDate);
-      endInput.value = formatDateForInput(maxDate);
-
-      // Helper to highlight selected button
-      function highlightBtn(btn) {
-        rangeBtns.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
+      
+      /**
+       * Highlights the selected button and removes highlight from others.
+       * @param {HTMLElement} selectedBtn - Button to highlight
+       */
+      function highlightBtn(selectedBtn) {
+        rangeBtns.forEach(btn => btn.classList.remove('selected'));
+        selectedBtn.classList.add('selected');
       }
 
-      // Range button logic
+      // Configure each preset button
       rangeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          highlightBtn(btn);
-          const range = btn.getAttribute('data-range');
-          if (range === 'custom') {
-            customInputs.style.display = '';
-          } else {
-            customInputs.style.display = 'none';
-            let start, end;
-            end = maxDate;
-            if (range === 'all') {
-              start = minDate;
-            } else {
-              start = new Date(maxDate.getTime() - (parseInt(range) * 24 * 60 * 60 * 1000));
-              if (start < minDate) start = minDate;
-            }
-            startInput.value = formatDateForInput(start);
-            endInput.value = formatDateForInput(end);
-            filterAndRenderChart(start, end);
-          }
-        });
+        const preset = btn.getAttribute('data-preset');
+        let enabled = true;
+        let gamesToShow = null;
+
+        switch(preset) {
+          case 'last5':
+            enabled = last5Games.length > 0;
+            gamesToShow = last5Games;
+            break;
+          case 'last10':
+            enabled = last10Games.length > 0;
+            gamesToShow = last10Games;
+            break;
+          case 'last30':
+            enabled = last30Games.length > 0;
+            gamesToShow = last30Games;
+            break;
+          case 'alltime':
+            enabled = allGames.length > 0;
+            gamesToShow = allGames;
+            break;
+          case 'best5':
+            enabled = best5Streak !== null;
+            gamesToShow = best5Streak;
+            break;
+        }
+
+        setButtonEnabled(btn, enabled);
+
+        if (enabled) {
+          btn.addEventListener('click', () => {
+            highlightBtn(btn);
+            filterAndRenderChart(gamesToShow);
+          });
+        }
       });
 
-      // Initial render: All
-      highlightBtn(document.querySelector('.range-btn[data-range="all"]'));
-      customInputs.style.display = 'none';
-      filterAndRenderChart(minDate, maxDate);
-
-      // Apply button for custom
-      document.getElementById('apply-date-filter').addEventListener('click', () => {
-        const start = new Date(startInput.value);
-        const end = new Date(endInput.value);
-        filterAndRenderChart(start, end);
-      });
+      // Initial render: All Time (if available)
+      const allTimeBtn = document.querySelector('.range-btn[data-preset="alltime"]');
+      if (allTimeBtn && !allTimeBtn.disabled) {
+        highlightBtn(allTimeBtn);
+        filterAndRenderChart(allGames);
+      }
 
     } else {
       // Player not found
