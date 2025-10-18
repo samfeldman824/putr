@@ -125,7 +125,7 @@ function findBestStreak(entries, size = 5) {
     const endNet = entries[i + size - 1].net;
     const streakSum = endNet - startNet;
 
-    if (streakSum > bestSum || (streakSum === bestSum && i > (bestStartIndex ?? -1))) {
+    if (streakSum > bestSum || (streakSum === bestSum && i > (bestStartIndex === null ? -1 : bestStartIndex))) {
       bestSum = streakSum;
       bestStartIndex = i;
     }
@@ -160,19 +160,17 @@ function computeLastNGamesRange(entries, count) {
 }
 
 /**
- * Compute metrics for a given range versus a reference range.
+ * Compute metrics for a given range.
  * @param {Array<{ key: string, date: Date, net: number }>} entries
  * @param {{ startDate: Date, endDate: Date }} range
- * @param {number} comparisonCount
- * @returns {{ delta: number|null, record: { up: number, down: number }, milestone: string|null, previousDelta: number|null }}
+ * @returns {{ delta: number|null, record: { up: number, down: number }, milestone: string|null }}
  */
 function computeRangeMetrics(entries, range) {
   if (!range) {
     return {
       delta: null,
       record: { up: 0, down: 0 },
-      milestone: null,
-      previousDelta: null
+      milestone: null
     };
   }
 
@@ -187,8 +185,7 @@ function computeRangeMetrics(entries, range) {
     return {
       delta: null,
       record: { up: 0, down: 0 },
-      milestone: null,
-      previousDelta: null
+      milestone: null
     };
   }
 
@@ -225,12 +222,10 @@ function computeRangeMetrics(entries, range) {
     milestone = `Loss ${Math.abs(biggestLoss.amount).toFixed(2)} on ${biggestLoss.key}`;
   }
 
-  let previousDelta = null;
   return {
     delta,
     record: { up: wins, down: losses },
-    milestone,
-    previousDelta
+    milestone
   };
 }
 
@@ -252,14 +247,6 @@ function getMetricClass(delta) {
     return 'negative';
   }
   return 'neutral';
-}
-
-function formatRecord(record) {
-  return `Record: ${record.up}-${record.down}`;
-}
-
-function formatMilestone(milestone) {
-  return `Top: ${milestone ?? '—'}`;
 }
 
 // Fetch player data from Firestore
@@ -293,7 +280,6 @@ db.collection("players").doc(playerName).get()
       const netDictionary = player.net_dictionary;
       const sortedEntries = getSortedNetEntries(netDictionary);
       const rangeBtnNodes = Array.from(document.querySelectorAll('.range-btn'));
-      const rangeMetricNodes = Array.from(document.querySelectorAll('.range-option'));
       function updateMetric(displayRange, key) {
         const optionNode = document.querySelector(`.range-option[data-range-key="${key}"]`);
         if (!optionNode) {
