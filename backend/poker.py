@@ -346,6 +346,15 @@ class Poker:
             print(f"{name}: {net}")
     
     def print_combined_results(self, ledger_paths: List[str]) -> None:
+        """
+        Prints combined results from multiple ledger files.
+
+        Args:
+            ledger_paths: List of paths to ledger files to combine.
+
+        Returns:
+            None
+        """
         json_data = self._load_json_data()
 
         all_ledgers = []
