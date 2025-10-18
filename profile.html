@@ -26,19 +26,29 @@
         
     </div>
 
-    <div id="range-bar" style="margin-bottom: 20px;">
-      <button class="range-btn" data-range="30">Last 30 Days</button>
-      <button class="range-btn" data-range="90">Last 90 Days</button>
-      <button class="range-btn" data-range="365">Last Year</button>
-      <button class="range-btn" data-range="all">All</button>
-      <button class="range-btn" data-range="custom">Custom</button>
-      <span id="custom-date-inputs" style="display:none;">
-        <label for="start-date">Start:</label>
-        <input type="date" id="start-date">
-        <label for="end-date">End:</label>
-        <input type="date" id="end-date">
-        <button id="apply-date-filter">Apply</button>
-      </span>
+    <div id="range-bar" class="range-bar">
+      <div class="range-row">
+        <div class="range-option" data-range-key="last-5">
+          <button class="range-btn" data-range-key="last-5">Last 5 Games</button>
+          <div class="range-metric" aria-live="polite"></div>
+        </div>
+        <div class="range-option" data-range-key="last-10">
+          <button class="range-btn" data-range-key="last-10">Last 10 Games</button>
+          <div class="range-metric" aria-live="polite"></div>
+        </div>
+        <div class="range-option" data-range-key="last-30">
+          <button class="range-btn" data-range-key="last-30">Last 30 Games</button>
+          <div class="range-metric" aria-live="polite"></div>
+        </div>
+        <div class="range-option" data-range-key="all-time">
+          <button class="range-btn" data-range-key="all-time">All Time</button>
+          <div class="range-metric" aria-live="polite"></div>
+        </div>
+        <div class="range-option" data-range-key="best-5-streak">
+          <button class="range-btn highlight" data-range-key="best-5-streak">Best 5-Game Streak</button>
+          <div class="range-metric" aria-live="polite"></div>
+        </div>
+      </div>
     </div>
     <canvas id="lineChart"></canvas>
 </body>
