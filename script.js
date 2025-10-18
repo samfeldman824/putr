@@ -158,7 +158,7 @@ function createPlayerRow(key, item) {
   const row = document.createElement("tr");
   row.innerHTML = `
     <td class="flag-container">
-      <img src="${flag}" class="player-flag"/>
+      <img src="${flag}" class="player-flag" onerror="this.src='images/default-flag.png'"/>
     </td>
     <td class="player-name">
       <a href="profile.html?playerName=${encodedName}">${key}</a>
