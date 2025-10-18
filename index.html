@@ -32,7 +32,13 @@
     
     
 
-    <div class="table-container">
+    <!-- Loading spinner -->
+    <div id="loading-spinner" class="spinner-container">
+        <div class="spinner"></div>
+        <p>Loading player data...</p>
+    </div>
+
+    <div class="table-container" id="table-container" style="display: none;">
         <table class="leaderboard-table" id="leaderboard-table">
             <thead>
               <tr id="table-header">
