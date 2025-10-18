@@ -14,4 +14,24 @@ ignore/
 firestore-debug.log
 firebase-debug.log
 ui-debug.log
+
+# Agents
 WARP.md
+.cursorrules
+AGENT.md
+CLAUDE.md
+GPT.md
+LLAMA.md
+AGENT.txt
+CLAUDE.txt
+GPT.txt
+LLAMA.txt
+agent.md
+claude.md
+gpt.md
+llama.md
+agent.txt
+claude.txt
+gpt.txt
+llama.txt
+
