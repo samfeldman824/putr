@@ -68,6 +68,200 @@ const createStatCard = (label, value) => `
 </div>
 `;
 
+const RANGE_KEYS = {
+  LAST_5: 'last-5',
+  LAST_10: 'last-10',
+  LAST_30: 'last-30',
+  ALL_TIME: 'all-time',
+  BEST_5_STREAK: 'best-5-streak'
+};
+
+/**
+ * Convert ledger-style date key (YY_MM_DD) into a Date object.
+ * Returns null if the format is invalid.
+ * @param {string} dateStr
+ * @returns {Date|null}
+ */
+function parseGameDate(dateStr) {
+  const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
+  if (!match) {
+    return null;
+  }
+  const year = 2000 + parseInt(match[1], 10);
+  const month = parseInt(match[2], 10) - 1;
+  const day = parseInt(match[3], 10);
+  return new Date(year, month, day);
+}
+
+/**
+ * Sort net dictionary entries by date ascending.
+ * @param {Record<string, number>} netDictionary
+ * @returns {Array<{ key: string, date: Date, net: number }>}
+ */
+function getSortedNetEntries(netDictionary) {
+  return Object.entries(netDictionary)
+    .map(([key, net]) => ({ key, date: parseGameDate(key), net }))
+    .filter((entry) => entry.date instanceof Date && !Number.isNaN(entry.date.getTime()))
+    .sort((a, b) => a.date - b.date);
+}
+
+/**
+ * Determine the best contiguous streak of exactly five games by cumulative net change.
+ * Ties break by the most recent streak.
+ * @param {Array<{ key: string, date: Date, net: number }>} entries
+ * @param {number} size
+ * @returns {{ startDate: Date, endDate: Date, startIndex: number }|null}
+ */
+function findBestStreak(entries, size = 5) {
+  if (entries.length < size) {
+    return null;
+  }
+
+  let bestSum = Number.NEGATIVE_INFINITY;
+  let bestStartIndex = null;
+
+  for (let i = 0; i <= entries.length - size; i += 1) {
+    const startNet = i === 0 ? 0 : entries[i - 1].net;
+    const endNet = entries[i + size - 1].net;
+    const streakSum = endNet - startNet;
+
+    if (streakSum > bestSum || (streakSum === bestSum && i > (bestStartIndex ?? -1))) {
+      bestSum = streakSum;
+      bestStartIndex = i;
+    }
+  }
+
+  if (bestStartIndex === null) {
+    return null;
+  }
+
+  return {
+    startDate: entries[bestStartIndex].date,
+    endDate: entries[bestStartIndex + size - 1].date,
+    startIndex: bestStartIndex
+  };
+}
+
+/**
+ * Compute the date range covering the last N games.
+ * @param {Array<{ key: string, date: Date, net: number }>} entries
+ * @param {number} count
+ * @returns {{ startDate: Date, endDate: Date }|null}
+ */
+function computeLastNGamesRange(entries, count) {
+  if (!Number.isFinite(count) || count <= 0 || entries.length === 0) {
+    return null;
+  }
+
+  const startIndex = Math.max(entries.length - count, 0);
+  const startDate = entries[startIndex].date;
+  const endDate = entries[entries.length - 1].date;
+  return { startDate, endDate };
+}
+
+/**
+ * Compute metrics for a given range versus a reference range.
+ * @param {Array<{ key: string, date: Date, net: number }>} entries
+ * @param {{ startDate: Date, endDate: Date }} range
+ * @param {number} comparisonCount
+ * @returns {{ delta: number|null, record: { up: number, down: number }, milestone: string|null, previousDelta: number|null }}
+ */
+function computeRangeMetrics(entries, range) {
+  if (!range) {
+    return {
+      delta: null,
+      record: { up: 0, down: 0 },
+      milestone: null,
+      previousDelta: null
+    };
+  }
+
+  let rangeStartIndex = entries.findIndex((entry) => entry.date >= range.startDate);
+  if (rangeStartIndex === -1) {
+    rangeStartIndex = 0;
+  }
+  let rangeEndIndex = entries.findIndex((entry) => entry.date > range.endDate);
+  rangeEndIndex = rangeEndIndex === -1 ? entries.length - 1 : rangeEndIndex - 1;
+
+  if (rangeEndIndex < rangeStartIndex) {
+    return {
+      delta: null,
+      record: { up: 0, down: 0 },
+      milestone: null,
+      previousDelta: null
+    };
+  }
+
+  const startNet = rangeStartIndex === 0 ? 0 : entries[rangeStartIndex - 1].net;
+  const endNet = entries[rangeEndIndex].net;
+  const delta = endNet - startNet;
+
+  let wins = 0;
+  let losses = 0;
+  let biggestWin = { amount: Number.NEGATIVE_INFINITY, key: null };
+  let biggestLoss = { amount: Number.POSITIVE_INFINITY, key: null };
+
+  for (let i = rangeStartIndex; i <= rangeEndIndex; i += 1) {
+    const current = entries[i];
+    const previous = i === 0 ? 0 : entries[i - 1].net;
+    const change = current.net - previous;
+    if (change >= 0) {
+      wins += 1;
+      if (change > biggestWin.amount) {
+        biggestWin = { amount: change, key: current.key };
+      }
+    } else {
+      losses += 1;
+      if (change < biggestLoss.amount) {
+        biggestLoss = { amount: change, key: current.key };
+      }
+    }
+  }
+
+  let milestone = null;
+  if (biggestWin.amount !== Number.NEGATIVE_INFINITY) {
+    milestone = `Win ${biggestWin.amount.toFixed(2)} on ${biggestWin.key}`;
+  } else if (biggestLoss.amount !== Number.POSITIVE_INFINITY) {
+    milestone = `Loss ${Math.abs(biggestLoss.amount).toFixed(2)} on ${biggestLoss.key}`;
+  }
+
+  let previousDelta = null;
+  return {
+    delta,
+    record: { up: wins, down: losses },
+    milestone,
+    previousDelta
+  };
+}
+
+function formatDelta(delta) {
+  if (delta === null) {
+    return 'Net: —';
+  }
+  return `Net: ${delta >= 0 ? '+' : ''}${delta.toFixed(2)}`;
+}
+
+function getMetricClass(delta) {
+  if (delta === null) {
+    return 'neutral';
+  }
+  if (delta > 0) {
+    return 'positive';
+  }
+  if (delta < 0) {
+    return 'negative';
+  }
+  return 'neutral';
+}
+
+function formatRecord(record) {
+  return `Record: ${record.up}-${record.down}`;
+}
+
+function formatMilestone(milestone) {
+  return `Top: ${milestone ?? '—'}`;
+}
+
 // Fetch player data from Firestore
 db.collection("players").doc(playerName).get()
   .then((doc) => {
@@ -76,7 +270,7 @@ db.collection("players").doc(playerName).get()
       console.log("Player data:", player);
 
       const statsContainer = document.getElementById("stats-container");
-      const nameDiv = document.getElementById("playerInfo")
+      const nameDiv = document.getElementById("playerInfo");
       nameDiv.innerHTML = `
         <h1>${escapeHTML(playerName)}</h1>
       `
@@ -97,24 +291,40 @@ db.collection("players").doc(playerName).get()
 
       // const player = data[playerName];
       const netDictionary = player.net_dictionary;
+      const sortedEntries = getSortedNetEntries(netDictionary);
+      const rangeBtnNodes = Array.from(document.querySelectorAll('.range-btn'));
+      const rangeMetricNodes = Array.from(document.querySelectorAll('.range-option'));
+      function updateMetric(displayRange, key) {
+        const optionNode = document.querySelector(`.range-option[data-range-key="${key}"]`);
+        if (!optionNode) {
+          return;
+        }
+        const metricNode = optionNode.querySelector('.range-metric');
+        if (!metricNode) {
+          return;
+        }
+        metricNode.classList.remove('positive', 'negative', 'neutral');
+        if (!displayRange) {
+          metricNode.textContent = '';
+          metricNode.classList.add('neutral');
+          return;
+        }
+        const metrics = computeRangeMetrics(sortedEntries, displayRange);
+        metricNode.textContent = formatDelta(metrics.delta);
+        metricNode.classList.add(getMetricClass(metrics.delta));
+      }
+
       // Chart filtering logic
       if (typeof window.chartInstance === 'undefined') window.chartInstance = null;
       function filterAndRenderChart(startDate, endDate) {
         const filteredDates = [];
         const filteredNetValues = [];
-        for (const dateStr of Object.keys(netDictionary)) {
-          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
-          if (match) {
-            const year = 2000 + parseInt(match[1], 10);
-            const month = parseInt(match[2], 10) - 1;
-            const day = parseInt(match[3], 10);
-            const gameDate = new Date(year, month, day);
-            if (gameDate >= startDate && gameDate <= endDate) {
-              filteredDates.push(dateStr);
-              filteredNetValues.push(netDictionary[dateStr]);
-            }
+        sortedEntries.forEach((entry) => {
+          if (entry.date >= startDate && entry.date <= endDate) {
+            filteredDates.push(entry.key);
+            filteredNetValues.push(entry.net);
           }
-        }
+        });
         const dates = filteredDates;
         const netValues = filteredNetValues;
 
@@ -194,72 +404,66 @@ db.collection("players").doc(playerName).get()
       }
 
       // Set up date pickers and initial range (all dates)
-      const allGameDates = Object.keys(netDictionary)
-        .map(dateStr => {
-          const match = dateStr.match(/(\d{2})_(\d{2})_(\d{2})/);
-          if (match) {
-            const year = 2000 + parseInt(match[1], 10);
-            const month = parseInt(match[2], 10) - 1;
-            const day = parseInt(match[3], 10);
-            return new Date(year, month, day);
-          }
-          return null;
-        })
-        .filter(Boolean)
-        .sort((a, b) => a - b);
+      const allGameDates = sortedEntries.map((entry) => entry.date);
       const minDate = allGameDates.length > 0 ? allGameDates[0] : new Date();
       const maxDate = allGameDates.length > 0 ? allGameDates[allGameDates.length - 1] : new Date();
-      const startInput = document.getElementById('start-date');
-      const endInput = document.getElementById('end-date');
       const rangeBtns = document.querySelectorAll('.range-btn');
-      const customInputs = document.getElementById('custom-date-inputs');
-      function formatDateForInput(date) {
-        return date.toISOString().split('T')[0];
-      }
-      startInput.value = formatDateForInput(minDate);
-      endInput.value = formatDateForInput(maxDate);
 
       // Helper to highlight selected button
       function highlightBtn(btn) {
-        rangeBtns.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
+        rangeBtns.forEach((b) => b.classList.remove('selected'));
+        if (btn) {
+          btn.classList.add('selected');
+        }
       }
 
-      // Range button logic
-      rangeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          highlightBtn(btn);
-          const range = btn.getAttribute('data-range');
-          if (range === 'custom') {
-            customInputs.style.display = '';
-          } else {
-            customInputs.style.display = 'none';
-            let start, end;
-            end = maxDate;
-            if (range === 'all') {
-              start = minDate;
-            } else {
-              start = new Date(maxDate.getTime() - (parseInt(range) * 24 * 60 * 60 * 1000));
-              if (start < minDate) start = minDate;
-            }
-            startInput.value = formatDateForInput(start);
-            endInput.value = formatDateForInput(end);
-            filterAndRenderChart(start, end);
+      function getRangeForKey(rangeKey) {
+        switch (rangeKey) {
+          case RANGE_KEYS.LAST_5:
+            return computeLastNGamesRange(sortedEntries, 5);
+          case RANGE_KEYS.LAST_10:
+            return computeLastNGamesRange(sortedEntries, 10);
+          case RANGE_KEYS.LAST_30:
+            return computeLastNGamesRange(sortedEntries, 30);
+          case RANGE_KEYS.ALL_TIME:
+            return { startDate: minDate, endDate: maxDate };
+          case RANGE_KEYS.BEST_5_STREAK:
+            return findBestStreak(sortedEntries, 5);
+          default:
+            return null;
+        }
+      }
+
+      rangeBtnNodes.forEach((button) => {
+        const rangeKey = button.getAttribute('data-range-key');
+        const range = getRangeForKey(rangeKey);
+        if (!range) {
+          button.disabled = true;
+          button.classList.add('disabled');
+          updateMetric(null, rangeKey);
+          return;
+        }
+        updateMetric(range, rangeKey);
+
+        button.addEventListener('click', () => {
+          const computedRange = getRangeForKey(rangeKey);
+          if (!computedRange) {
+            return;
           }
+          highlightBtn(button);
+          filterAndRenderChart(computedRange.startDate, computedRange.endDate);
+          updateMetric(computedRange, rangeKey);
         });
       });
 
-      // Initial render: All
-      highlightBtn(document.querySelector('.range-btn[data-range="all"]'));
-      customInputs.style.display = 'none';
-      filterAndRenderChart(minDate, maxDate);
-
-      // Apply button for custom
-      document.getElementById('apply-date-filter').addEventListener('click', () => {
-        const start = new Date(startInput.value);
-        const end = new Date(endInput.value);
-        filterAndRenderChart(start, end);
-      });
+      // Initial render: All time if available
+      const defaultBtn = document.querySelector(`.range-btn[data-range-key="${RANGE_KEYS.ALL_TIME}"]`);
+      const defaultRange = getRangeForKey(RANGE_KEYS.ALL_TIME);
+      if (defaultRange) {
+        highlightBtn(defaultBtn);
+        filterAndRenderChart(defaultRange.startDate, defaultRange.endDate);
+        updateMetric(defaultRange, RANGE_KEYS.ALL_TIME);
+      }
 
     } else {
       // Player not found
