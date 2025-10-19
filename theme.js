@@ -46,21 +46,23 @@ class ThemeManager {
   }
 
   setupToggle() {
-    const toggleBtn = document.getElementById('theme-toggle');
-    if (toggleBtn) {
-      toggleBtn.setAttribute('role', 'switch');
-      toggleBtn.setAttribute('aria-checked', this.theme === 'dark');
-      toggleBtn.addEventListener('click', () => {
+    const toggleInput = document.getElementById('theme-toggle');
+    if (toggleInput) {
+      toggleInput.setAttribute('aria-checked', this.theme === 'dark');
+      // Set initial checked state
+      toggleInput.checked = this.theme === 'dark';
+      
+      toggleInput.addEventListener('change', () => {
         this.toggleTheme();
-        toggleBtn.setAttribute('aria-checked', this.theme === 'dark');
+        toggleInput.setAttribute('aria-checked', this.theme === 'dark');
       });
     }
   }
 
   updateToggleIcon() {
-    const icon = document.querySelector('.theme-icon');
-    if (icon) {
-      icon.textContent = this.theme === 'light' ? '🌙' : '☀️';
+    const toggleInput = document.getElementById('theme-toggle');
+    if (toggleInput) {
+      toggleInput.checked = this.theme === 'dark';
     }
   }
 
