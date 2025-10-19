@@ -344,6 +344,11 @@ db.collection("players").doc(playerName).get()
           }]
         };
 
+        // Determine theme for chart colors
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const gridColor = isDark ? '#444' : '#ddd';
+        const textColor = isDark ? '#e0e0e0' : '#333';
+
         const config = {
           type: 'line',
           data: data1,
@@ -357,11 +362,26 @@ db.collection("players").doc(playerName).get()
                   pinch: { enabled: true },
                   mode: 'x'
                 }
+              },
+              legend: {
+                labels: {
+                  color: textColor
+                }
               }
             },
             scales: {
               x: {
-                title: { display: true, text: 'Date' },
+                title: { 
+                  display: true, 
+                  text: 'Date',
+                  color: textColor
+                },
+                ticks: {
+                  color: textColor
+                },
+                grid: {
+                  color: gridColor
+                },
                 beginAtZero: true
               },
               y: {
@@ -373,20 +393,29 @@ db.collection("players").doc(playerName).get()
                   min: -niceMax,
                   max: niceMax
                 }),
-                ticks: { stepSize: stepSize },
-                title: { display: true, text: 'Net Winnings ($)' },
-                grid: {}
+                ticks: { 
+                  stepSize: stepSize,
+                  color: textColor
+                },
+                title: { 
+                  display: true, 
+                  text: 'Net Winnings ($)',
+                  color: textColor
+                },
+                grid: {
+                  color: gridColor
+                }
               }
             }
           }
         };
 
         // Remove old chart if present
-        if (window.chartInstance) {
-          window.chartInstance.destroy();
+        if (window.playerChart) {
+          window.playerChart.destroy();
         }
         const ctx = document.getElementById('lineChart').getContext('2d');
-        window.chartInstance = new Chart(ctx, config);
+        window.playerChart = new Chart(ctx, config);
       }
 
       // Set up date pickers and initial range (all dates)

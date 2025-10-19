@@ -1,28 +1,83 @@
+/* CSS Variables for theming */
+:root {
+  /* Light mode (default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e0e0e0;
+  
+  --text-primary: #000000;
+  --text-secondary: #333333;
+  --text-muted: #666666;
+  
+  --border-color: #ddd;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  
+  --accent-primary: #007BFF;
+  --accent-hover: #0056b3;
+  
+  --table-even: lightgrey;
+  --table-odd: white;
+  
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  
+  --spinner-border: #f3f3f3;
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #3a3a3a;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-muted: #a0a0a0;
+  
+  --border-color: #444;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  
+  --accent-primary: #4a9eff;
+  --accent-hover: #6bb0ff;
+  
+  --table-even: #2d2d2d;
+  --table-odd: #242424;
+  
+  --success-color: #4caf50;
+  --error-color: #f44336;
+  
+  --spinner-border: #444;
+}
 
 .leaderboard-container {
     display: flex;
     flex-direction: column;  
-    border: 1vh solid #ddd;
+    border: 1vh solid var(--border-color);
     padding: 1vh;
     margin: 1vh;
-    box-shadow: 0 0 1vh rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 1vh var(--shadow-color);
+    background-color: var(--bg-secondary);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .leaderboard-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #fff;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     margin: 1%;
-    
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
 .leaderboard-table tbody tr:nth-child(even) {
-    background-color: lightgrey;
+    background-color: var(--table-even);
+    transition: background-color 0.3s ease;
 }
 
 .leaderboard-table tbody tr:nth-child(odd) {
-    background-color: white;
+    background-color: var(--table-odd);
+    transition: background-color 0.3s ease;
 }
 
 .Leaderboard-header {
@@ -30,9 +85,10 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: black;
+    color: var(--text-primary);
     font-weight: bold;
     font-size: 2rem;
+    transition: color 0.3s ease;
 }
 
 #header-text {
@@ -82,24 +138,37 @@
 
 .player-name a {
     text-decoration: none;
-    color: rgb(0,0,238);
+    color: var(--accent-primary);
+    transition: color 0.3s ease;
 }
 
 .player-name a:visited {
     text-decoration: none;
-    color: rgb(0,0,238);
+    color: var(--accent-primary);
+}
+
+.player-name a:hover {
+    color: var(--accent-hover);
 }
 
 #table-header th {
-    background-color: #007BFF;
+    background-color: var(--accent-primary);
     color: #fff;
     font-weight: bold;
     padding: 2vh;
     text-align: center;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+#table-header th:hover {
+    background-color: var(--accent-hover);
 }
 
 body {
-    background-color: #f0f0f0;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Loading spinner styles */
@@ -113,12 +182,13 @@ body {
 }
 
 .spinner {
-    border: 0.8vh solid #f3f3f3;
-    border-top: 0.8vh solid #007BFF;
+    border: 0.8vh solid var(--spinner-border);
+    border-top: 0.8vh solid var(--accent-primary);
     border-radius: 50%;
     width: 8vh;
     height: 8vh;
     animation: spin 1s linear infinite;
+    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -129,7 +199,8 @@ body {
 .spinner-container p {
     margin-top: 2vh;
     font-size: 2rem;
-    color: #333;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 
@@ -146,8 +217,9 @@ button {
     border-radius: 5px;
     margin: 0.5%;
     font-size: 2vh;
-    background-color: #fff;
+    background-color: var(--bg-primary);
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 button.highlight {
@@ -200,28 +272,28 @@ button:disabled {
     justify-content: center;
     font-size: 0.9em;
     font-weight: 600;
-    color: #555;
-    background-color: #f2f4f8;
+    color: var(--text-muted);
+    background-color: var(--bg-tertiary);
     border-radius: 999px;
     padding: 4px 12px;
     min-height: 1.6em;
     min-width: 96px;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
 }
 
 .range-metric.positive {
     background-color: rgba(46, 204, 113, 0.15);
-    color: #218c53;
+    color: var(--success-color);
 }
 
 .range-metric.negative {
     background-color: rgba(231, 76, 60, 0.15);
-    color: #c0392b;
+    color: var(--error-color);
 }
 
 .range-metric.neutral {
     background-color: rgba(149, 165, 166, 0.15);
-    color: #7f8c8d;
+    color: var(--text-muted);
 }
 
 .range-option .range-btn.selected + .range-metric {
@@ -232,9 +304,10 @@ button:disabled {
 .range-preview {
     margin-top: 12px;
     text-align: center;
-    color: #555;
+    color: var(--text-muted);
     font-size: 0.95em;
     min-height: 1.5em;
+    transition: color 0.3s ease;
 }
 
 
@@ -261,29 +334,67 @@ button:disabled {
   
   .stat-card {
     flex: 1 1 24%;
-    background-color: #fff;
+    background-color: var(--bg-primary);
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-color);
     padding: 20px;
     text-align: center;
-    transition: box-shadow 0.3s ease-in-out;
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
   }
   
   .stat-card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px var(--shadow-color);
   }
   
   .stat-value {
     font-size: 2em;
     font-weight: bold;
-    color: #333;
+    color: var(--text-primary);
     margin: 10px 0;
+    transition: color 0.3s ease;
   }
   
   .stat-label {
     font-size: 1em;
-    color: #666;
+    color: var(--text-muted);
+    transition: color 0.3s ease;
   }
+
+/* Theme Toggle Button */
+.theme-toggle {
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.theme-toggle:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  transform: scale(1.1);
+}
+
+.theme-icon {
+  transition: transform 0.3s ease;
+}
+
+[data-theme="dark"] .theme-toggle .theme-icon {
+  transform: rotate(180deg);
+}
+
+/* Slightly dim logos in dark mode */
+[data-theme="dark"] #brown-logo img,
+[data-theme="dark"] #putr-logo img {
+  filter: brightness(0.9);
+}
 
 
 
