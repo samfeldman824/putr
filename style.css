@@ -367,9 +367,17 @@ button:disabled {
   }
 
 /* Theme Toggle Switch */
+/* Theme Toggle Switch */
 .theme-toggle-wrapper {
   display: flex;
   align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 0;
 }
 
 .theme-switch {
@@ -377,6 +385,7 @@ button:disabled {
   display: inline-block;
   width: 80px;
   height: 36px;
+}
 }
 
 .theme-switch input {
@@ -400,7 +409,6 @@ button:disabled {
   justify-content: space-between;
   padding: 0 6px;
   box-shadow: 0 2px 4px var(--shadow-color);
-}
 
 .theme-slider:before {
   position: absolute;
@@ -449,6 +457,37 @@ button:disabled {
 
 .theme-switch:hover .theme-slider {
   box-shadow: 0 3px 6px var(--shadow-color);
+}
+
+.theme-toggle:hover .theme-icon {
+  color: #ffffff;
+}
+
+.theme-icon {
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  position: absolute;
+}
+
+.moon-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.sun-icon {
+  opacity: 0;
+  transform: rotate(180deg) scale(0);
+}
+
+[data-theme="dark"] .moon-icon {
+  opacity: 0;
+  transform: rotate(-180deg) scale(0);
+}
+
+[data-theme="dark"] .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
 }
 
 /* Slightly dim logos in dark mode */

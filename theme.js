@@ -59,12 +59,6 @@ class ThemeManager {
     }
   }
 
-  updateToggleIcon() {
-    const toggleInput = document.getElementById('theme-toggle');
-    if (toggleInput) {
-      toggleInput.checked = this.theme === 'dark';
-    }
-  }
 
   updateChartTheme() {
     // Update Chart.js colors if chart exists
