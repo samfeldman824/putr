@@ -22,6 +22,9 @@
   --error-color: #dc3545;
   
   --spinner-border: #f3f3f3;
+  
+  --link-color: rgb(0,0,238);
+  --link-hover: #0000CC;
 }
 
 [data-theme="dark"] {
@@ -47,6 +50,9 @@
   --error-color: #f44336;
   
   --spinner-border: #444;
+  
+  --link-color: #4a9eff;
+  --link-hover: #6bb0ff;
 }
 
 .leaderboard-container {
@@ -138,17 +144,17 @@
 
 .player-name a {
     text-decoration: none;
-    color: var(--accent-primary);
+    color: var(--link-color);
     transition: color 0.3s ease;
 }
 
 .player-name a:visited {
     text-decoration: none;
-    color: var(--accent-primary);
+    color: var(--link-color);
 }
 
 .player-name a:hover {
-    color: var(--accent-hover);
+    color: var(--link-hover);
 }
 
 #table-header th {
