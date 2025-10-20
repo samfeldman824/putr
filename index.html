@@ -10,6 +10,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <!-- Firestore SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="theme.js"></script>
     <script src="script.js?v=ledger-data"></script>
     <title>Poker Leaderboard</title>
 </head>
@@ -22,6 +23,17 @@
     <div id="header-text">
       <h1>BMT Poker Leaderboard</h1>
     </div> 
+    
+    <!-- Theme toggle switch -->
+    <div class="theme-toggle-wrapper">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="theme-slider">
+          <span class="theme-slider-label light">☀️</span>
+          <span class="theme-slider-label dark">🌙</span>
+        </span>
+      </label>
+    </div>
     
     <div id="putr-logo">
       <img src="images/opt1-clear.png">
