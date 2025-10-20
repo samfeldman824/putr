@@ -367,7 +367,6 @@ button:disabled {
   }
 
 /* Theme Toggle Switch */
-/* Theme Toggle Switch */
 .theme-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -386,7 +385,6 @@ button:disabled {
   width: 80px;
   height: 36px;
 }
-}
 
 .theme-switch input {
   opacity: 0;
@@ -402,25 +400,29 @@ button:disabled {
   right: 0;
   bottom: 0;
   background-color: var(--accent-primary);
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
   border-radius: 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 6px;
   box-shadow: 0 2px 4px var(--shadow-color);
+}
 
+/* Sliding indicator */
 .theme-slider:before {
   position: absolute;
   content: "";
   height: 28px;
   width: 28px;
   left: 4px;
-  bottom: 4px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: white;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 2;
 }
 
 .theme-switch input:checked + .theme-slider {
@@ -428,15 +430,16 @@ button:disabled {
 }
 
 .theme-switch input:checked + .theme-slider:before {
-  transform: translateX(44px);
+  transform: translate(44px, -50%);
 }
 
 .theme-slider-label {
   font-size: 1.2rem;
   z-index: 1;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
   user-select: none;
   line-height: 1;
+  pointer-events: none;
 }
 
 .theme-slider-label.light {
@@ -457,6 +460,10 @@ button:disabled {
 
 .theme-switch:hover .theme-slider {
   box-shadow: 0 3px 6px var(--shadow-color);
+}
+
+.theme-switch:hover .theme-slider:before {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .theme-toggle:hover .theme-icon {
@@ -487,7 +494,6 @@ button:disabled {
 [data-theme="dark"] .sun-icon {
   opacity: 1;
   transform: rotate(0deg) scale(1);
-}
 }
 
 /* Slightly dim logos in dark mode */
