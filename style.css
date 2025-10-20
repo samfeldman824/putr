@@ -209,6 +209,110 @@ body {
     transition: color 0.3s ease;
 }
 
+/* Skeleton loader styles */
+.skeleton-loader {
+  padding: 2vh;
+}
+
+.skeleton-header {
+  height: 50px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.skeleton-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skeleton-row {
+  height: 60px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+[data-theme="dark"] .skeleton-header,
+[data-theme="dark"] .skeleton-row {
+  background: linear-gradient(90deg, #2d2d2d 25%, #3a3a3a 50%, #2d2d2d 75%);
+  background-size: 200% 100%;
+}
+
+/* Error state styles */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh;
+  text-align: center;
+  min-height: 40vh;
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 2vh;
+}
+
+.error-state h2 {
+  color: var(--text-primary);
+  margin-bottom: 1vh;
+  font-size: 2rem;
+}
+
+.error-state p {
+  color: var(--text-secondary);
+  margin-bottom: 2vh;
+  font-size: 1.2rem;
+}
+
+.retry-btn {
+  padding: 1.5vh 4vh;
+  font-size: 1.5rem;
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.retry-btn:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Empty state styles */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4vh;
+  text-align: center;
+  min-height: 40vh;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 2vh;
+}
+
+.empty-state h2 {
+  color: var(--text-primary);
+  font-size: 2rem;
+}
+
+
 
 .profile-container {
   text-align: center;

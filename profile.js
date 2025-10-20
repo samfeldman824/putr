@@ -250,8 +250,18 @@ function getMetricClass(delta) {
 }
 
 // Fetch player data from Firestore
+// Show loading state
+if (typeof loadingManager !== 'undefined') {
+  loadingManager.showLoading('Loading profile data...');
+}
+
 db.collection("players").doc(playerName).get()
   .then((doc) => {
+    // Hide loading state
+    if (typeof loadingManager !== 'undefined') {
+      loadingManager.hide();
+    }
+    
     if (doc.exists) {
       const player = doc.data();
       console.log("Player data:", player);
@@ -483,20 +493,38 @@ db.collection("players").doc(playerName).get()
     } else {
       // Player not found
       console.log("No player found with name:", playerName);
-      document.getElementById("playerInfo").innerHTML = `
-        <h1>Player "${escapeHTML(playerName)}" not found</h1>
-      `;
-      document.getElementById("stats-container").innerHTML = `
-        <p>The requested player could not be found in the database.</p>
-      `;
+      
+      // Show empty state
+      if (typeof loadingManager !== 'undefined') {
+        loadingManager.showEmpty(`Player "${playerName}" not found in the database.`);
+      } else {
+        document.getElementById("playerInfo").innerHTML = `
+          <h1>Player "${escapeHTML(playerName)}" not found</h1>
+        `;
+        document.getElementById("stats-container").innerHTML = `
+          <p>The requested player could not be found in the database.</p>
+        `;
+      }
     }
   })
   .catch((error) => {
     console.error("Error fetching player data from Firestore:", error);
-    document.getElementById("playerInfo").innerHTML = `
-      <h1>Error loading player data</h1>
-    `;
-    document.getElementById("stats-container").innerHTML = `
-      <p>There was an error loading the player data. Please try again later.</p>
-    `;
+    
+    // Show error state with retry
+    if (typeof loadingManager !== 'undefined') {
+      loadingManager.showError(
+        'Failed to load player data. Please check your connection and try again.',
+        () => {
+          console.log('Retrying profile data load...');
+          window.location.reload();
+        }
+      );
+    } else {
+      document.getElementById("playerInfo").innerHTML = `
+        <h1>Error loading player data</h1>
+      `;
+      document.getElementById("stats-container").innerHTML = `
+        <p>There was an error loading the player data. Please try again later.</p>
+      `;
+    }
   });

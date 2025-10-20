@@ -11,6 +11,7 @@
     <!-- Firestore SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="theme.js"></script>
+    <script src="loading-states.js"></script>
     <script src="profile.js"></script>
     <title>Profile</title>
     
@@ -28,6 +29,12 @@
     </div>
     
     <div class="profile-container">
+        <!-- Loading spinner for profile -->
+        <div id="loading-spinner" class="spinner-container" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading profile data...</p>
+        </div>
+        
         <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
             <button><a href="index.html">Home</a></button>
         </div>
