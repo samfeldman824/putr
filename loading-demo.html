@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="theme.js"></script>
+    <script src="loading-states.js"></script>
+    <title>Loading States Demo</title>
+    <style>
+        .demo-controls {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--bg-secondary);
+        }
+        .demo-controls h2 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        .demo-controls button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+  
+  <div class="Leaderboard-header">
+    <div id="brown-logo">
+      <img src="images/brownlogo.png">
+    </div>
+    <div id="header-text">
+      <h1>Loading States Demo</h1>
+    </div> 
+    
+    <!-- Theme toggle switch -->
+    <div class="theme-toggle-wrapper">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="theme-slider">
+          <span class="theme-slider-label light">☀️</span>
+          <span class="theme-slider-label dark">🌙</span>
+        </span>
+      </label>
+    </div>
+    
+    <div id="putr-logo">
+      <img src="images/opt1-clear.png">
+    </div>
+    
+  </div>
+
+  <div class="demo-controls">
+    <h2>Click buttons to test different loading states:</h2>
+    <button onclick="showSkeletonDemo()">Show Skeleton Loader</button>
+    <button onclick="showSpinnerDemo()">Show Loading Spinner</button>
+    <button onclick="showErrorDemo()">Show Error State</button>
+    <button onclick="showEmptyDemo()">Show Empty State</button>
+    <button onclick="showTableDemo()">Show Loaded Table</button>
+  </div>
+
+  <div class="leaderboard-container">
+    
+    <!-- Skeleton loader -->
+    <div id="skeleton-loader" class="skeleton-loader" style="display: none;">
+      <div class="skeleton-header"></div>
+      <div class="skeleton-table">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
+
+    <!-- Loading spinner -->
+    <div id="loading-spinner" class="spinner-container" style="display: none;">
+        <div class="spinner"></div>
+        <p>Loading player data...</p>
+    </div>
+
+    <div class="table-container" id="table-container" style="display: none;">
+        <table class="leaderboard-table" id="leaderboard-table">
+            <thead>
+              <tr id="table-header">
+                <th>Flag</th>
+                <th>Name</th>
+                <th id="putr-header">
+                  PUTR <span id="putr-arrow">▲</span>
+                </th>
+                <th id="net-header">
+                  Net W/L ($) <span id="net-arrow"></span>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td class="flag-container">
+                  <img src="https://flagsapi.com/US/flat/32.png" class="player-flag"/>
+                </td>
+                <td class="player-name">
+                  <a href="#">Sample Player 1</a>
+                </td>
+                <td class="player-putr">95.50</td>
+                <td class="player-net">250.00</td>
+              </tr>
+              <tr>
+                <td class="flag-container">
+                  <img src="https://flagsapi.com/GB/flat/32.png" class="player-flag"/>
+                </td>
+                <td class="player-name">
+                  <a href="#">Sample Player 2</a>
+                </td>
+                <td class="player-putr">88.75</td>
+                <td class="player-net">-100.50</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+
+  <script>
+    function hideAll() {
+      const skeleton = document.getElementById('skeleton-loader');
+      const spinner = document.getElementById('loading-spinner');
+      const table = document.getElementById('table-container');
+      if (skeleton) skeleton.style.display = 'none';
+      if (spinner) spinner.style.display = 'none';
+      if (table) table.style.display = 'none';
+      
+      const container = document.querySelector('.leaderboard-container');
+      if (!container) return;
+      container.innerHTML = `
+        <div id="skeleton-loader" class="skeleton-loader" style="display: none;">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-table">
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+          </div>
+        </div>
+        <div id="loading-spinner" class="spinner-container" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading player data...</p>
+        </div>
+        <div class="table-container" id="table-container" style="display: none;">
+            <table class="leaderboard-table" id="leaderboard-table">
+                <thead>
+                  <tr id="table-header">
+                    <th>Flag</th>
+                    <th>Name</th>
+                    <th id="putr-header">PUTR <span id="putr-arrow">▲</span></th>
+                    <th id="net-header">Net W/L ($) <span id="net-arrow"></span></th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <tr>
+                    <td class="flag-container">
+                      <img src="https://flagsapi.com/US/flat/32.png" class="player-flag"/>
+                    </td>
+                    <td class="player-name"><a href="#">Sample Player 1</a></td>
+                    <td class="player-putr">95.50</td>
+                    <td class="player-net">250.00</td>
+                  </tr>
+                  <tr>
+                    <td class="flag-container">
+                      <img src="https://flagsapi.com/GB/flat/32.png" class="player-flag"/>
+                    </td>
+                    <td class="player-name"><a href="#">Sample Player 2</a></td>
+                    <td class="player-putr">88.75</td>
+                    <td class="player-net">-100.50</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+      `;
+    }
+
+    function showSkeletonDemo() {
+      hideAll();
+      loadingManager.showSkeleton();
+    }
+
+    function showSpinnerDemo() {
+      hideAll();
+      loadingManager.showLoading('Loading player data...');
+    }
+
+    function showErrorDemo() {
+      hideAll();
+      loadingManager.showError(
+        'Failed to load player data. Please check your connection and try again.',
+        () => {
+          alert('Retry clicked! In the real app, this would reload the data.');
+        }
+      );
+    }
+
+    function showEmptyDemo() {
+      hideAll();
+      loadingManager.showEmpty('No player data available');
+    }
+
+    function showTableDemo() {
+      hideAll();
+      loadingManager.hide();
+      loadingManager.hideSkeleton();
+      document.getElementById('table-container').style.display = 'block';
+    }
+
+    // Start with skeleton loader
+    window.addEventListener('load', () => {
+      showSkeletonDemo();
+    });
+  </script>
+</body>
+</html>
