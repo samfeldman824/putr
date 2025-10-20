@@ -46,16 +46,44 @@ class ThemeManager {
   }
 
   setupToggle() {
-    const toggleInput = document.getElementById('theme-toggle');
-    if (toggleInput) {
-      toggleInput.setAttribute('aria-checked', this.theme === 'dark');
-      // Set initial checked state
-      toggleInput.checked = this.theme === 'dark';
+    const toggleElement = document.getElementById('theme-toggle');
+    if (!toggleElement) return;
+    
+    const isButton = toggleElement.tagName === 'BUTTON';
+    
+    if (isButton) {
+      // Button-based toggle (profile.html)
+      toggleElement.setAttribute('aria-pressed', this.theme === 'dark');
       
-      toggleInput.addEventListener('change', () => {
+      toggleElement.addEventListener('click', () => {
         this.toggleTheme();
-        toggleInput.setAttribute('aria-checked', this.theme === 'dark');
+        toggleElement.setAttribute('aria-pressed', this.theme === 'dark');
       });
+    } else {
+      // Checkbox-based toggle (index.html)
+      toggleElement.setAttribute('aria-checked', this.theme === 'dark');
+      toggleElement.checked = this.theme === 'dark';
+      
+      toggleElement.addEventListener('change', () => {
+        this.toggleTheme();
+        toggleElement.setAttribute('aria-checked', this.theme === 'dark');
+      });
+    }
+  }
+
+  updateToggleIcon() {
+    const toggleElement = document.getElementById('theme-toggle');
+    if (!toggleElement) return;
+    
+    const isButton = toggleElement.tagName === 'BUTTON';
+    
+    if (isButton) {
+      // Update button aria-pressed state
+      toggleElement.setAttribute('aria-pressed', this.theme === 'dark');
+    } else {
+      // Update checkbox state
+      toggleElement.setAttribute('aria-checked', this.theme === 'dark');
+      toggleElement.checked = this.theme === 'dark';
     }
   }
 
