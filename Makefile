@@ -28,7 +28,7 @@ help:
 
 # Build the Docker image
 build:
-	docker-compose -f docker/docker-compose.yml build
+	DOCKER_BUILDKIT=1 docker-compose -f docker/docker-compose.yml build --parallel
 
 # Start ALL services for complete development environment
 up:

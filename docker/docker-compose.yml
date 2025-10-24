@@ -1,7 +1,7 @@
 services:
   putr:
     build:
-      context: ../.
+      context: ..
       dockerfile: docker/Dockerfile
     image: putr:latest
     container_name: putr-dev
@@ -21,7 +21,7 @@ services:
   # Service for running tests
   test:
     build:
-      context: ../.
+      context: ..
       dockerfile: docker/Dockerfile
     image: putr:latest
     container_name: putr-test
@@ -38,7 +38,7 @@ services:
   # Service for running coverage
   coverage:
     build:
-      context: ../.
+      context: ..
       dockerfile: docker/Dockerfile
     image: putr:latest
     container_name: putr-coverage
