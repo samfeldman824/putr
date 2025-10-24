@@ -131,7 +131,7 @@ This directory contains Docker configuration files for developing PUTR in a cont
 
 **Frontend shows 500 error**: Hard refresh your browser (Cmd+Shift+R on Mac) to clear cached error pages. Incognito mode works immediately.
 
-**Firebase connection fails**: Check that the Firebase container is running with `docker-compose ps`. Restart with `make firebase`.
+**Firebase connection fails**: Check that the Firebase container is running with `docker compose ps`. Restart with `make firebase`.
 
 **No player data shows**: Run `make seed-cli` to load sample data from ledger files into Firebase.
 
