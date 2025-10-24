@@ -321,25 +321,37 @@ db.collection("players").doc(playerName).get()
         const niceMax = Math.ceil(adjustedMax / 100) * 100;
         const stepSize = niceMax / 4;
 
+        // WCAG AA compliant color palette for accessibility
+        const accessibleColors = {
+          positive: '#2E7D32',  // Dark green - WCAG AA compliant
+          negative: '#C62828',  // Dark red - WCAG AA compliant
+          neutral: '#5C6BC0',   // Blue - WCAG AA compliant
+          line: '#616161'       // Dark gray - WCAG AA compliant
+        };
+
         const data1 = {
           labels: dates,
           datasets: [{
-            label: 'Net Winnings Chart',
+            label: 'Cumulative Net Winnings ($)',
             data: netValues,
-            borderColor: '#888888',
-            borderWidth: 2,
+            borderColor: accessibleColors.line,
+            borderWidth: 2.5,
             fill: false,
-            pointRadius: 2,
-            pointBackgroundColor: '#888888',
-            pointBorderColor: '#888888',
-            pointHoverBackgroundColor: '#888888',
-            pointHoverBorderColor: '#888888',
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: accessibleColors.line,
+            pointBorderColor: accessibleColors.line,
+            pointHoverBackgroundColor: accessibleColors.neutral,
+            pointHoverBorderColor: accessibleColors.neutral,
+            pointBorderWidth: 2,
             segment: {
               borderColor: ctx => {
                 const { p0, p1 } = ctx;
-                if (!p0 || !p1) return 'blue';
-                return p1.parsed.y > p0.parsed.y ? '#00FF00' : (p1.parsed.y < p0.parsed.y ? '#FF0000' : 'gray');
-              }
+                if (!p0 || !p1) return accessibleColors.neutral;
+                return p1.parsed.y > p0.parsed.y ? accessibleColors.positive : 
+                       (p1.parsed.y < p0.parsed.y ? accessibleColors.negative : accessibleColors.neutral);
+              },
+              borderWidth: 2.5
             }
           }]
         };
@@ -353,6 +365,9 @@ db.collection("players").doc(playerName).get()
           type: 'line',
           data: data1,
           options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: window.innerWidth < 768 ? 1.2 : window.innerWidth < 1024 ? 1.8 : 2.5,
             plugins: {
               zoom: {
                 pan: { enabled: true, mode: 'x' },
@@ -364,23 +379,83 @@ db.collection("players").doc(playerName).get()
                 }
               },
               legend: {
+                display: true,
+                position: 'top',
                 labels: {
-                  color: textColor
+                  color: textColor,
+                  font: {
+                    size: window.innerWidth < 768 ? 11 : 13,
+                    weight: '500'
+                  },
+                  padding: window.innerWidth < 768 ? 10 : 15,
+                  usePointStyle: true,
+                  pointStyle: 'line'
+                }
+              },
+              tooltip: {
+                enabled: true,
+                mode: 'index',
+                intersect: false,
+                backgroundColor: isDark ? 'rgba(42, 42, 42, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+                titleColor: isDark ? '#e0e0e0' : '#333',
+                bodyColor: isDark ? '#e0e0e0' : '#333',
+                borderColor: isDark ? '#666' : '#ddd',
+                borderWidth: 1,
+                padding: 12,
+                displayColors: true,
+                callbacks: {
+                  title: function(tooltipItems) {
+                    return 'Game: ' + tooltipItems[0].label;
+                  },
+                  label: function(context) {
+                    const value = context.parsed.y;
+                    const index = context.dataIndex;
+                    const prevValue = index > 0 ? netValues[index - 1] : 0;
+                    const change = value - prevValue;
+                    const changeStr = change >= 0 ? `+$${change.toFixed(2)}` : `-$${Math.abs(change).toFixed(2)}`;
+                    
+                    return [
+                      `Net Total: $${value.toFixed(2)}`,
+                      `Game Change: ${changeStr}`
+                    ];
+                  },
+                  footer: function(tooltipItems) {
+                    const index = tooltipItems[0].dataIndex;
+                    const totalGames = netValues.length;
+                    return `Game ${index + 1} of ${totalGames}`;
+                  }
                 }
               }
+            },
+            interaction: {
+              mode: 'nearest',
+              axis: 'x',
+              intersect: false
             },
             scales: {
               x: {
                 title: { 
                   display: true, 
-                  text: 'Date',
-                  color: textColor
+                  text: 'Game Date (YY_MM_DD)',
+                  color: textColor,
+                  font: {
+                    size: window.innerWidth < 768 ? 11 : 13,
+                    weight: '500'
+                  }
                 },
                 ticks: {
-                  color: textColor
+                  color: textColor,
+                  font: {
+                    size: window.innerWidth < 768 ? 9 : 11
+                  },
+                  maxRotation: window.innerWidth < 768 ? 45 : 45,
+                  minRotation: window.innerWidth < 768 ? 45 : 0,
+                  autoSkip: true,
+                  maxTicksLimit: window.innerWidth < 768 ? 6 : window.innerWidth < 1024 ? 10 : 15
                 },
                 grid: {
-                  color: gridColor
+                  color: gridColor,
+                  display: true
                 },
                 beginAtZero: true
               },
@@ -395,15 +470,27 @@ db.collection("players").doc(playerName).get()
                 }),
                 ticks: { 
                   stepSize: stepSize,
-                  color: textColor
+                  color: textColor,
+                  font: {
+                    size: window.innerWidth < 768 ? 10 : 12
+                  },
+                  callback: function(value) {
+                    return '$' + value.toFixed(0);
+                  }
                 },
                 title: { 
                   display: true, 
-                  text: 'Net Winnings ($)',
-                  color: textColor
+                  text: 'Cumulative Net Winnings ($)',
+                  color: textColor,
+                  font: {
+                    size: window.innerWidth < 768 ? 11 : 13,
+                    weight: '500'
+                  }
                 },
                 grid: {
-                  color: gridColor
+                  color: gridColor,
+                  display: true,
+                  drawTicks: true
                 }
               }
             }
@@ -479,6 +566,25 @@ db.collection("players").doc(playerName).get()
         filterAndRenderChart(defaultRange.startDate, defaultRange.endDate);
         updateMetric(defaultRange, RANGE_KEYS.ALL_TIME);
       }
+
+      // Handle window resize for responsive chart updates
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          if (window.playerChart) {
+            // Get current selected range
+            const selectedBtn = document.querySelector('.range-btn.selected');
+            if (selectedBtn) {
+              const rangeKey = selectedBtn.getAttribute('data-range-key');
+              const currentRange = getRangeForKey(rangeKey);
+              if (currentRange) {
+                filterAndRenderChart(currentRange.startDate, currentRange.endDate);
+              }
+            }
+          }
+        }, 250);
+      });
 
     } else {
       // Player not found
