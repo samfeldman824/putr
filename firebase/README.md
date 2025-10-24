@@ -94,13 +94,13 @@ The frontend (`script.js`) automatically detects `localhost` and connects to the
 
 ## Troubleshooting
 
-**Firebase won't start**: Check Docker logs with `docker-compose logs firebase`. Ensure Java is available in the container.
+**Firebase won't start**: Check Docker logs with `docker compose logs firebase`. Ensure Java is available in the container.
 
 **No data appears in emulator UI**: Data is loaded into Firestore backend. Visit http://localhost:4000/firestore to see collections.
 
 **"Failed to connect" errors**: Verify all containers are running:
    ```bash
-   docker-compose ps
+   docker compose ps
    # Should show: firebase, frontend, putr services running
    ```
 

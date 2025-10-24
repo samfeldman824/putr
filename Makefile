@@ -1,5 +1,9 @@
 .PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down seed-cli clear-data firebase-status sync-data
 
+# Export BuildKit variables for all targets
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 # Default target
 help:
 	@echo "Available commands:"
@@ -28,12 +32,12 @@ help:
 
 # Build the Docker image
 build:
-	docker-compose -f docker/docker-compose.yml build
+	docker compose -f docker/docker-compose.yml build --parallel
 
 # Start ALL services for complete development environment
 up:
 	@echo "Starting complete development environment..."
-	docker-compose -f docker/docker-compose.yml --profile firebase --profile frontend up -d
+	docker compose -f docker/docker-compose.yml --profile firebase --profile frontend up -d
 	@echo ""
 	@echo "🎉 PUTR development environment started!"
 	@echo "📱 Services available:"
@@ -52,90 +56,90 @@ up:
 # Stop and remove containers
 down:
 	@echo "Stopping and removing all services..."
-	docker-compose -f docker/docker-compose.yml --profile firebase --profile frontend down
+	docker compose -f docker/docker-compose.yml --profile firebase --profile frontend down
 
 # Stop all containers without removing them
 stop-all:
 	@echo "Stopping all containers..."
-	docker-compose -f docker/docker-compose.yml --profile firebase --profile frontend stop
+	docker compose -f docker/docker-compose.yml --profile firebase --profile frontend stop
 
 # Start development container only
 dev:
 	@echo "Starting development container only..."
-	docker-compose -f docker/docker-compose.yml up -d putr
+	docker compose -f docker/docker-compose.yml up -d putr
 	@echo "Development container started. Use 'make up' for full environment."
 
 # Open an interactive shell in the running container
 shell:
-	docker-compose -f docker/docker-compose.yml exec putr /bin/bash
+	docker compose -f docker/docker-compose.yml exec putr /bin/bash
 
 # Run tests
 test:
-	docker-compose -f docker/docker-compose.yml run --rm test
+	docker compose -f docker/docker-compose.yml run --rm test
 
 # Run tests with coverage
 coverage:
-	docker-compose -f docker/docker-compose.yml run --rm coverage
+	docker compose -f docker/docker-compose.yml run --rm coverage
 
 # Clean up containers and images
 clean:
 	@echo "Cleaning up all containers, volumes, and images..."
-	docker-compose -f docker/docker-compose.yml --profile firebase --profile frontend --profile test down -v
+	docker compose -f docker/docker-compose.yml --profile firebase --profile frontend --profile test down -v
 	docker system prune -f
 
 # Show logs
 logs:
-	docker-compose -f docker/docker-compose.yml logs -f putr
+	docker compose -f docker/docker-compose.yml logs -f putr
 
 # PUTR CLI commands
 ag:
 	@if [ -z "$(DATE)" ]; then echo "Usage: make ag DATE=24_12_08"; exit 1; fi
-	docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py ag $(DATE)"
+	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py ag $(DATE)"
 
 pg:
 	@if [ -z "$(DATE)" ]; then echo "Usage: make pg DATE=24_12_08"; exit 1; fi
-	docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py pg $(DATE)"
+	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py pg $(DATE)"
 
 pgs:
-	docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py pgs"
+	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py pgs"
 
 plg:
 	@if [ -z "$(NICKNAME)" ]; then echo "Usage: make plg NICKNAME=\"Player Name\""; exit 1; fi
-	docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py plg $(NICKNAME)"
+	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py plg $(NICKNAME)"
 
 # Frontend commands
 frontend:
-	docker-compose -f docker/docker-compose.yml --profile frontend up -d frontend
+	docker compose -f docker/docker-compose.yml --profile frontend up -d frontend
 	@echo "Frontend server started at http://localhost:3000"
 
 frontend-down:
-	docker-compose -f docker/docker-compose.yml --profile frontend down
+	docker compose -f docker/docker-compose.yml --profile frontend down
 
 # Firebase commands
 firebase:
-	docker-compose -f docker/docker-compose.yml --profile firebase up -d firebase
+	docker compose -f docker/docker-compose.yml --profile firebase up -d firebase
 	@echo "Firebase emulator started:"
 	@echo "  UI: http://localhost:4000"
 	@echo "  Firestore: http://localhost:8080"
 	@echo "  Auth: http://localhost:9099"
 
 firebase-down:
-	docker-compose -f docker/docker-compose.yml --profile firebase down
+	docker compose -f docker/docker-compose.yml --profile firebase down
 
 # Seed data commands
 seed-cli:
 	@echo "Seeding Firebase data via CLI (in container)..."
-	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py seed"
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py seed"
 
 clear-data:
 	@echo "Clearing Firebase data via CLI (in container)..."
-	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py clear"
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py clear"
 
 firebase-status:
 	@echo "Checking Firebase emulator status (in container)..."
-	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py status"
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py status"
 
 # Sync data.json to Firebase
 sync-data:
 	@echo "Syncing data.json to Firebase emulator..."
-	@docker-compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py sync"
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py sync"
