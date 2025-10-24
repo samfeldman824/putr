@@ -11,6 +11,7 @@
 <!-- Firestore SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="theme.js"></script>
+    <script src="loading-states.js"></script>
     <script src="script.js?v=ledger-data"></script>
     <title>Poker Leaderboard</title>
 </head>
@@ -42,7 +43,17 @@
 </div>
 <div class="leaderboard-container">
     
-    
+    <!-- Skeleton loader -->
+    <div id="skeleton-loader" class="skeleton-loader" style="display: none;">
+      <div class="skeleton-header"></div>
+      <div class="skeleton-table">
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+        <div class="skeleton-row"></div>
+      </div>
+    </div>
 
     <!-- Loading spinner -->
     <div id="loading-spinner" class="spinner-container">

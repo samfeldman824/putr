@@ -126,6 +126,12 @@ function clearCache() {
 function populateTable() {
   console.log("populateTable called");
 
+  // Show skeleton loader while loading
+  if (typeof loadingManager !== 'undefined') {
+    loadingManager.showSkeleton();
+    loadingManager.showLoading('Loading player data...');
+  }
+
   // Clear cache if we're on localhost (development)
   if (location.hostname === 'localhost') {
     clearCache();
@@ -180,28 +186,40 @@ function renderTable(source = "unknown") {
     return bVal - aVal; // Descending order (highest to lowest)
   });
 
-  let playerCount = 0;
-  sortedEntries.forEach(([key, item]) => {
-    const row = createPlayerRow(key, item);
-    tableBody.appendChild(row);
-    playerCount++;
-  });
-
-  console.log(`Rendered ${playerCount} rows from ${source}`);
+  // Progressive rendering for better perceived performance
+  let rendered = 0;
+  const batchSize = 10;
   
-  // Update the arrow to show current sort state (descending by PUTR)
-  document.getElementById('putr-arrow').textContent = '▲';
-  document.getElementById('net-arrow').textContent = '';
+  function renderBatch() {
+    const batch = sortedEntries.slice(rendered, rendered + batchSize);
+    batch.forEach(([key, item]) => {
+      const row = createPlayerRow(key, item);
+      tableBody.appendChild(row);
+    });
+    rendered += batchSize;
+    
+    if (rendered < sortedEntries.length) {
+      requestAnimationFrame(renderBatch);
+    } else {
+      console.log(`Rendered ${sortedEntries.length} rows from ${source}`);
+      
+      // Update the arrow to show current sort state (descending by PUTR)
+      document.getElementById('putr-arrow').textContent = '▲';
+      document.getElementById('net-arrow').textContent = '';
 
-  // Hide spinner and show table
-  const spinner = document.getElementById('loading-spinner');
-  const tableContainer = document.getElementById('table-container');
-  if (spinner) {
-    spinner.style.display = 'none';
+      // Hide loading states and show table
+      if (typeof loadingManager !== 'undefined') {
+        loadingManager.hide();
+        loadingManager.hideSkeleton();
+      }
+      const tableContainer = document.getElementById('table-container');
+      if (tableContainer) {
+        tableContainer.style.display = 'block';
+      }
+    }
   }
-  if (tableContainer) {
-    tableContainer.style.display = 'block';
-  }
+  
+  renderBatch();
 }
 
 function setupRealtimeListener() {
@@ -230,11 +248,30 @@ function setupRealtimeListener() {
 
     // Save updated cache to sessionStorage
     saveCacheToStorage();
-    renderTable("real-time update");
+    
+    // Check if we have data
+    if (Object.keys(playersCache).length === 0) {
+      if (typeof loadingManager !== 'undefined') {
+        loadingManager.showEmpty('No player data available');
+      }
+    } else {
+      renderTable("real-time update");
+    }
   }, (error) => {
     console.error("Error with real-time listener:", error);
     isListenerActive = false;
     saveCacheToStorage(); // Save the updated state
+    
+    // Show error state with retry option
+    if (typeof loadingManager !== 'undefined') {
+      loadingManager.showError(
+        'Failed to load player data. Please check your connection and try again.',
+        () => {
+          console.log('Retrying data load...');
+          populateTable();
+        }
+      );
+    }
   });
 }
 
