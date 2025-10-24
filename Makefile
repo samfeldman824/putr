@@ -1,5 +1,9 @@
 .PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down seed-cli clear-data firebase-status sync-data
 
+# Export BuildKit variables for all targets
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 # Default target
 help:
 	@echo "Available commands:"
@@ -28,7 +32,7 @@ help:
 
 # Build the Docker image
 build:
-	DOCKER_BUILDKIT=1 COMPOSE_DOCKER_CLI_BUILD=1 docker-compose -f docker/docker-compose.yml build --parallel
+	docker-compose -f docker/docker-compose.yml build --parallel
 
 # Start ALL services for complete development environment
 up:
