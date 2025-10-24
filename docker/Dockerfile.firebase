@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.2
 # Firebase Emulator Dockerfile
 FROM node:18
 
