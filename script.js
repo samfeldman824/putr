@@ -58,10 +58,12 @@ if ((location.hostname === 'localhost' || location.hostname === 'host.docker.int
 let putrAsc = false; // Start false so first sort will be descending (highest to lowest)
 let netAsc = true;
 
-// Animation timing constants (should match CSS animation durations)
+// Animation timing constants (should match CSS animation durations in style.css)
+// shuffle animation: 0.3s, slideIn animation: 0.4s
 const SHUFFLE_DURATION_MS = 300;
 const SLIDE_IN_DURATION_MS = 400;
 const STAGGER_DELAY_MS = 30;
+const SHUFFLE_MIDPOINT_MS = SHUFFLE_DURATION_MS / 2; // Timing for sort operation during shuffle
 
 // Cache for player data with sessionStorage persistence
 let playersCache = null;
@@ -274,7 +276,7 @@ function animateSortedRows(tbody, rows, sortCompareFn) {
         row.style.animationDelay = '';
       });
     }, SLIDE_IN_DURATION_MS + (rows.length * STAGGER_DELAY_MS));
-  }, SHUFFLE_DURATION_MS / 2); // Wait for half of shuffle animation
+  }, SHUFFLE_MIDPOINT_MS);
 }
 
 function sortTableByPutr() {
@@ -294,7 +296,7 @@ function sortTableByPutr() {
   setTimeout(() => {
     document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
     document.getElementById('net-arrow').textContent = '';
-  }, SHUFFLE_DURATION_MS / 2);
+  }, SHUFFLE_MIDPOINT_MS);
 }
 
 function sortTableByNet() {
@@ -314,7 +316,7 @@ function sortTableByNet() {
   setTimeout(() => {
     document.getElementById('net-arrow').textContent = netAsc ? '▼' : '▲';
     document.getElementById('putr-arrow').textContent = '';
-  }, SHUFFLE_DURATION_MS / 2);
+  }, SHUFFLE_MIDPOINT_MS);
 }
 
 // Call the sorting function when the page loads to initially sort the table by PUTR
