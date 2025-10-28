@@ -25,6 +25,11 @@
   
   --link-color: rgb(0,0,238);
   --link-hover: #0000CC;
+  
+  /* Animation durations for consistent timing */
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
 }
 
 [data-theme="dark"] {
@@ -53,6 +58,39 @@
   
   --link-color: #4a9eff;
   --link-hover: #6bb0ff;
+  
+  /* Animation durations inherited from :root */
+}
+
+/* Smooth scrolling for the entire application */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Page fade-in animation on load */
+body {
+  animation: fadeIn var(--transition-slow) ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .leaderboard-container {
@@ -78,6 +116,13 @@
 
 .leaderboard-table tbody tr {
     transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.leaderboard-table tbody tr:hover {
+    background-color: var(--bg-tertiary) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .leaderboard-table tbody tr:nth-child(even) {
@@ -203,12 +248,19 @@
     font-weight: bold;
     padding: 2vh;
     text-align: center;
-    transition: background-color 0.3s ease;
+    transition: all var(--transition-normal) ease;
     cursor: pointer;
 }
 
 #table-header th:hover {
     background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+#table-header th:active {
+    transform: translateY(0);
+    transition-duration: var(--transition-fast);
 }
 
 body {
@@ -265,7 +317,20 @@ button {
     font-size: 2vh;
     background-color: var(--bg-primary);
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: all var(--transition-normal) ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #3498db;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+button:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition-duration: var(--transition-fast);
 }
 
 button.highlight {
@@ -273,9 +338,18 @@ button.highlight {
     color: #e67e22;
 }
 
+button.highlight:hover:not(:disabled) {
+    background-color: #e67e22;
+    color: #fff;
+}
+
 button.selected {
     background-color: #2980b9;
     color: #fff;
+}
+
+button.selected:hover:not(:disabled) {
+    background-color: #21618c;
 }
 
 button.disabled,
