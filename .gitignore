@@ -35,3 +35,12 @@ claude.txt
 gpt.txt
 llama.txt
 
+# BMad Core
+bmad-core/
+.bmad-core
+**/bmad-core/
+**/.bmad-core
+
+# Chat modes
+.github/chatmodes/
+
