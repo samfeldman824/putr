@@ -58,10 +58,24 @@ if ((location.hostname === 'localhost' || location.hostname === 'host.docker.int
 let putrAsc = false; // Start false so first sort will be descending (highest to lowest)
 let netAsc = true;
 
+// Animation timing constants (should match CSS animation durations in style.css)
+// shuffle animation: 0.3s, slideIn animation: 0.4s
+const SHUFFLE_DURATION_MS = 300;
+const SLIDE_IN_DURATION_MS = 400;
+const STAGGER_DELAY_MS = 30;
+const SHUFFLE_MIDPOINT_MS = SHUFFLE_DURATION_MS / 2; // Timing for sort operation during shuffle
+
 // Cache for player data with sessionStorage persistence
 let playersCache = null;
 let isListenerActive = false;
 let realtimeListener = null;
+
+// Track pending sort animations to cancel them if data updates
+let pendingSortTimers = [];
+function cancelPendingSortAnimations() {
+  pendingSortTimers.forEach(timer => clearTimeout(timer));
+  pendingSortTimers = [];
+}
 
 // Load cache from sessionStorage on page load
 function loadCacheFromStorage() {
@@ -170,6 +184,9 @@ function createPlayerRow(key, item) {
 }
 
 function renderTable(source = "unknown") {
+  // Cancel any pending sort animations since we're rendering fresh data
+  cancelPendingSortAnimations();
+  
   const tableBody = document.getElementById("table-body");
   tableBody.innerHTML = ""; // Clear existing rows
 
@@ -242,25 +259,70 @@ function renderTableFromCache() {
   renderTable("cache");
 }
 
+// Helper function to animate table rows during sorting
+function animateSortedRows(tbody, rows, sortCompareFn) {
+  // Add shuffle animation to all rows
+  rows.forEach(row => row.classList.add('shuffling'));
+
+  // Wait for shuffle animation to start, then sort and re-insert with stagger
+  const sortTimer = setTimeout(() => {
+    // Re-read rows from DOM in case Firestore updated during the delay
+    const currentRows = Array.from(tbody.querySelectorAll('tr'));
+    
+    // If row count changed significantly, abort animation (data was refreshed)
+    if (currentRows.length === 0 || Math.abs(currentRows.length - rows.length) > rows.length * 0.1) {
+      console.log('Sort animation cancelled: table was refreshed');
+      return;
+    }
+    
+    // Sort the current rows (not the captured ones)
+    currentRows.sort(sortCompareFn);
+
+    // Clear tbody and remove shuffle class
+    tbody.innerHTML = '';
+    currentRows.forEach(row => row.classList.remove('shuffling'));
+
+    // Re-insert rows with staggered animation
+    currentRows.forEach((row, index) => {
+      row.classList.add('entering');
+      row.style.animationDelay = `${index * (STAGGER_DELAY_MS / 1000)}s`;
+      tbody.appendChild(row);
+    });
+
+    // Clean up animation classes after animation completes
+    const cleanupTimer = setTimeout(() => {
+      // Re-read rows again in case another update happened
+      const finalRows = Array.from(tbody.querySelectorAll('tr'));
+      finalRows.forEach(row => {
+        row.classList.remove('entering');
+        row.style.animationDelay = '';
+      });
+    }, SLIDE_IN_DURATION_MS + (currentRows.length * STAGGER_DELAY_MS));
+    
+    pendingSortTimers.push(cleanupTimer);
+  }, SHUFFLE_MIDPOINT_MS);
+  
+  pendingSortTimers.push(sortTimer);
+}
+
 function sortTableByPutr() {
   const tbody = document.querySelector('#leaderboard-table tbody');
   const rows = Array.from(tbody.querySelectorAll('tr'));
   putrAsc = !putrAsc;
   netAsc = true;
 
-  rows.sort((a, b) => {
+  // Sort and animate rows
+  animateSortedRows(tbody, rows, (a, b) => {
     const aVal = parseFloat(a.querySelector('.player-putr').textContent);
     const bVal = parseFloat(b.querySelector('.player-putr').textContent);
     return putrAsc ? aVal - bVal : bVal - aVal;
   });
 
-  // re‑populate
-  tbody.innerHTML = '';
-  rows.forEach(r => tbody.appendChild(r));
-
-  // **only** show the PUTR arrow, clear the NET arrow
-  document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
-  document.getElementById('net-arrow').textContent = '';
+  // Update arrow indicators (with delay to match animation start)
+  setTimeout(() => {
+    document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
+    document.getElementById('net-arrow').textContent = '';
+  }, SHUFFLE_MIDPOINT_MS);
 }
 
 function sortTableByNet() {
@@ -269,19 +331,18 @@ function sortTableByNet() {
   netAsc = !netAsc;
   putrAsc = true;
 
-  rows.sort((a, b) => {
+  // Sort and animate rows
+  animateSortedRows(tbody, rows, (a, b) => {
     const aVal = parseFloat(a.querySelector('.player-net').textContent);
     const bVal = parseFloat(b.querySelector('.player-net').textContent);
     return netAsc ? aVal - bVal : bVal - aVal;
   });
 
-  // re‑populate
-  tbody.innerHTML = '';
-  rows.forEach(r => tbody.appendChild(r));
-
-  // **only** show the NET arrow, clear the PUTR arrow
-  document.getElementById('net-arrow').textContent = netAsc ? '▼' : '▲';
-  document.getElementById('putr-arrow').textContent = '';
+  // Update arrow indicators (with delay to match animation start)
+  setTimeout(() => {
+    document.getElementById('net-arrow').textContent = netAsc ? '▼' : '▲';
+    document.getElementById('putr-arrow').textContent = '';
+  }, SHUFFLE_MIDPOINT_MS);
 }
 
 // Call the sorting function when the page loads to initially sort the table by PUTR
