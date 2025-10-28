@@ -76,14 +76,54 @@
 }
 
 
+.leaderboard-table tbody tr {
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
 .leaderboard-table tbody tr:nth-child(even) {
     background-color: var(--table-even);
-    transition: background-color 0.3s ease;
 }
 
 .leaderboard-table tbody tr:nth-child(odd) {
     background-color: var(--table-odd);
-    transition: background-color 0.3s ease;
+}
+
+/* Shuffle animation for sorting */
+.leaderboard-table tbody tr.shuffling {
+    animation: shuffle 0.3s ease-in-out;
+}
+
+@keyframes shuffle {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    25% {
+        transform: translateX(-8px);
+        opacity: 0.7;
+    }
+    75% {
+        transform: translateX(8px);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Staggered entry animation */
+.leaderboard-table tbody tr.entering {
+    animation: slideIn 0.4s ease-out forwards;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .Leaderboard-header {

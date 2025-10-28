@@ -248,19 +248,40 @@ function sortTableByPutr() {
   putrAsc = !putrAsc;
   netAsc = true;
 
-  rows.sort((a, b) => {
-    const aVal = parseFloat(a.querySelector('.player-putr').textContent);
-    const bVal = parseFloat(b.querySelector('.player-putr').textContent);
-    return putrAsc ? aVal - bVal : bVal - aVal;
-  });
+  // Add shuffle animation to all rows
+  rows.forEach(row => row.classList.add('shuffling'));
 
-  // re‑populate
-  tbody.innerHTML = '';
-  rows.forEach(r => tbody.appendChild(r));
+  // Wait for shuffle animation to start, then sort and re-insert with stagger
+  setTimeout(() => {
+    rows.sort((a, b) => {
+      const aVal = parseFloat(a.querySelector('.player-putr').textContent);
+      const bVal = parseFloat(b.querySelector('.player-putr').textContent);
+      return putrAsc ? aVal - bVal : bVal - aVal;
+    });
 
-  // **only** show the PUTR arrow, clear the NET arrow
-  document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
-  document.getElementById('net-arrow').textContent = '';
+    // Clear tbody and remove shuffle class
+    tbody.innerHTML = '';
+    rows.forEach(row => row.classList.remove('shuffling'));
+
+    // Re-insert rows with staggered animation
+    rows.forEach((row, index) => {
+      row.classList.add('entering');
+      row.style.animationDelay = `${index * 0.03}s`; // 30ms stagger between rows
+      tbody.appendChild(row);
+    });
+
+    // Clean up animation classes after animation completes
+    setTimeout(() => {
+      rows.forEach(row => {
+        row.classList.remove('entering');
+        row.style.animationDelay = '';
+      });
+    }, 400 + (rows.length * 30)); // Wait for all animations to complete
+
+    // **only** show the PUTR arrow, clear the NET arrow
+    document.getElementById('putr-arrow').textContent = putrAsc ? '▼' : '▲';
+    document.getElementById('net-arrow').textContent = '';
+  }, 150); // Half of shuffle animation duration
 }
 
 function sortTableByNet() {
@@ -269,19 +290,40 @@ function sortTableByNet() {
   netAsc = !netAsc;
   putrAsc = true;
 
-  rows.sort((a, b) => {
-    const aVal = parseFloat(a.querySelector('.player-net').textContent);
-    const bVal = parseFloat(b.querySelector('.player-net').textContent);
-    return netAsc ? aVal - bVal : bVal - aVal;
-  });
+  // Add shuffle animation to all rows
+  rows.forEach(row => row.classList.add('shuffling'));
 
-  // re‑populate
-  tbody.innerHTML = '';
-  rows.forEach(r => tbody.appendChild(r));
+  // Wait for shuffle animation to start, then sort and re-insert with stagger
+  setTimeout(() => {
+    rows.sort((a, b) => {
+      const aVal = parseFloat(a.querySelector('.player-net').textContent);
+      const bVal = parseFloat(b.querySelector('.player-net').textContent);
+      return netAsc ? aVal - bVal : bVal - aVal;
+    });
 
-  // **only** show the NET arrow, clear the PUTR arrow
-  document.getElementById('net-arrow').textContent = netAsc ? '▼' : '▲';
-  document.getElementById('putr-arrow').textContent = '';
+    // Clear tbody and remove shuffle class
+    tbody.innerHTML = '';
+    rows.forEach(row => row.classList.remove('shuffling'));
+
+    // Re-insert rows with staggered animation
+    rows.forEach((row, index) => {
+      row.classList.add('entering');
+      row.style.animationDelay = `${index * 0.03}s`; // 30ms stagger between rows
+      tbody.appendChild(row);
+    });
+
+    // Clean up animation classes after animation completes
+    setTimeout(() => {
+      rows.forEach(row => {
+        row.classList.remove('entering');
+        row.style.animationDelay = '';
+      });
+    }, 400 + (rows.length * 30)); // Wait for all animations to complete
+
+    // **only** show the NET arrow, clear the PUTR arrow
+    document.getElementById('net-arrow').textContent = netAsc ? '▼' : '▲';
+    document.getElementById('putr-arrow').textContent = '';
+  }, 150); // Half of shuffle animation duration
 }
 
 // Call the sorting function when the page loads to initially sort the table by PUTR
