@@ -70,6 +70,13 @@ let playersCache = null;
 let isListenerActive = false;
 let realtimeListener = null;
 
+// Track pending sort animations to cancel them if data updates
+let pendingSortTimers = [];
+function cancelPendingSortAnimations() {
+  pendingSortTimers.forEach(timer => clearTimeout(timer));
+  pendingSortTimers = [];
+}
+
 // Load cache from sessionStorage on page load
 function loadCacheFromStorage() {
   try {
@@ -177,6 +184,9 @@ function createPlayerRow(key, item) {
 }
 
 function renderTable(source = "unknown") {
+  // Cancel any pending sort animations since we're rendering fresh data
+  cancelPendingSortAnimations();
+  
   const tableBody = document.getElementById("table-body");
   tableBody.innerHTML = ""; // Clear existing rows
 
@@ -255,28 +265,44 @@ function animateSortedRows(tbody, rows, sortCompareFn) {
   rows.forEach(row => row.classList.add('shuffling'));
 
   // Wait for shuffle animation to start, then sort and re-insert with stagger
-  setTimeout(() => {
-    rows.sort(sortCompareFn);
+  const sortTimer = setTimeout(() => {
+    // Re-read rows from DOM in case Firestore updated during the delay
+    const currentRows = Array.from(tbody.querySelectorAll('tr'));
+    
+    // If row count changed significantly, abort animation (data was refreshed)
+    if (currentRows.length === 0 || Math.abs(currentRows.length - rows.length) > rows.length * 0.1) {
+      console.log('Sort animation cancelled: table was refreshed');
+      return;
+    }
+    
+    // Sort the current rows (not the captured ones)
+    currentRows.sort(sortCompareFn);
 
     // Clear tbody and remove shuffle class
     tbody.innerHTML = '';
-    rows.forEach(row => row.classList.remove('shuffling'));
+    currentRows.forEach(row => row.classList.remove('shuffling'));
 
     // Re-insert rows with staggered animation
-    rows.forEach((row, index) => {
+    currentRows.forEach((row, index) => {
       row.classList.add('entering');
       row.style.animationDelay = `${index * (STAGGER_DELAY_MS / 1000)}s`;
       tbody.appendChild(row);
     });
 
     // Clean up animation classes after animation completes
-    setTimeout(() => {
-      rows.forEach(row => {
+    const cleanupTimer = setTimeout(() => {
+      // Re-read rows again in case another update happened
+      const finalRows = Array.from(tbody.querySelectorAll('tr'));
+      finalRows.forEach(row => {
         row.classList.remove('entering');
         row.style.animationDelay = '';
       });
-    }, SLIDE_IN_DURATION_MS + (rows.length * STAGGER_DELAY_MS));
+    }, SLIDE_IN_DURATION_MS + (currentRows.length * STAGGER_DELAY_MS));
+    
+    pendingSortTimers.push(cleanupTimer);
   }, SHUFFLE_MIDPOINT_MS);
+  
+  pendingSortTimers.push(sortTimer);
 }
 
 function sortTableByPutr() {
