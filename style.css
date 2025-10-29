@@ -817,6 +817,625 @@ button:disabled {
   filter: brightness(0.9);
 }
 
+/* ============================================================================
+   MODAL AND NOTIFICATION ANIMATIONS FRAMEWORK
+   ============================================================================
+   
+   Story #93 - Comprehensive reusable animation framework for modal dialogs 
+   and toast notifications. Combines features from both implementation approaches.
+   
+   FEATURES:
+   - Modal animations with backdrop blur effects
+   - 10 toast notification positions (6 edge-based + 4 corner-based)
+   - Type-based styling (success, error, info)
+   - GPU-accelerated properties only (transform + opacity)
+   - Full accessibility support (prefers-reduced-motion)
+   - Theme-agnostic (works with light/dark modes)
+   
+   USAGE EXAMPLES:
+   
+   Modal:
+     overlay.classList.add('modal-backdrop', 'backdrop-enter');
+     dialog.classList.add('modal-content', 'modal-enter');
+   
+   Toast:
+     toast.classList.add('toast', 'toast-slide-top-right', 'success');
+   
+   Exit animations:
+     element.classList.remove('modal-enter');
+     element.classList.add('modal-exit');
+   
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   MODAL DIALOG ANIMATIONS
+   ---------------------------------------------------------------------------- */
+
+/* Modal container - fixed positioned wrapper for centering */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.modal-container.active {
+  pointer-events: auto;
+}
+
+/* Modal content wrapper - the actual modal box */
+.modal-content {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px var(--shadow-color);
+  padding: 24px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  z-index: 10000;
+}
+
+/* Modal backdrop - semi-transparent overlay with blur */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  backdrop-filter: blur(4px);
+}
+
+/* Modal overlay animations (backdrop) */
+.modal-overlay-enter,
+.backdrop-enter {
+  animation: backdropFadeIn 300ms ease-out forwards;
+}
+
+.modal-overlay-exit,
+.backdrop-exit {
+  animation: backdropFadeOut 300ms ease-in forwards;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes backdropFadeOut {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Modal dialog enter/exit animations - fade + scale */
+.modal-enter {
+  animation: modalFadeIn 300ms ease-out forwards;
+}
+
+.modal-exit {
+  animation: modalFadeOut 300ms ease-in forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* Modal helper classes for structure */
+.modal-header {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.modal-body {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* ----------------------------------------------------------------------------
+   TOAST NOTIFICATION ANIMATIONS
+   ---------------------------------------------------------------------------- */
+
+/* Toast base styles */
+.toast {
+  position: fixed;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 16px 20px;
+  min-width: 250px;
+  max-width: 400px;
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+/* Toast type variants - color-coded borders */
+.toast.success {
+  border-left: 4px solid var(--success-color);
+}
+
+.toast.error {
+  border-left: 4px solid var(--error-color);
+}
+
+.toast.info {
+  border-left: 4px solid var(--accent-primary);
+}
+
+/* ----------------------------------------------------------------------------
+   TOAST EDGE POSITIONS (6 positions)
+   ---------------------------------------------------------------------------- */
+
+/* Slide down from top center */
+.toast-slide-top,
+.toast-slide-down {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slideDownFromTop 400ms ease-out forwards;
+}
+
+.toast-slide-down-exit {
+  animation: slideDownFromTopExit 400ms ease-in forwards;
+}
+
+@keyframes slideDownFromTop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideDownFromTopExit {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+}
+
+/* Slide up from bottom center */
+.toast-slide-bottom,
+.toast-slide-up {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slideUpFromBottom 400ms ease-out forwards;
+}
+
+.toast-slide-up-exit {
+  animation: slideUpFromBottomExit 400ms ease-in forwards;
+}
+
+@keyframes slideUpFromBottom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideUpFromBottomExit {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, 100%);
+  }
+}
+
+/* Slide left from right side */
+.toast-slide-left {
+  top: 20px;
+  right: 20px;
+  animation: slideLeftFromRight 400ms ease-out forwards;
+}
+
+.toast-slide-left-exit {
+  animation: slideLeftFromRightExit 400ms ease-in forwards;
+}
+
+@keyframes slideLeftFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeftFromRightExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Slide right from left side */
+.toast-slide-right {
+  top: 20px;
+  left: 20px;
+  animation: slideRightFromLeft 400ms ease-out forwards;
+}
+
+.toast-slide-right-exit {
+  animation: slideRightFromLeftExit 400ms ease-in forwards;
+}
+
+@keyframes slideRightFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRightFromLeftExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   TOAST CORNER POSITIONS (4 corners)
+   ---------------------------------------------------------------------------- */
+
+/* Top-left corner - diagonal slide */
+.toast-slide-top-left,
+.toast-corner-top-left {
+  top: 20px;
+  left: 20px;
+  animation: slideInFromTopLeft 400ms ease-out forwards;
+}
+
+.toast-corner-top-left-exit {
+  animation: slideInFromTopLeftExit 400ms ease-in forwards;
+}
+
+@keyframes slideInFromTopLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideInFromTopLeftExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-100%, -100%);
+  }
+}
+
+/* Top-right corner - diagonal slide */
+.toast-slide-top-right,
+.toast-corner-top-right {
+  top: 20px;
+  right: 20px;
+  animation: slideInFromTopRight 400ms ease-out forwards;
+}
+
+.toast-corner-top-right-exit {
+  animation: slideInFromTopRightExit 400ms ease-in forwards;
+}
+
+@keyframes slideInFromTopRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideInFromTopRightExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(100%, -100%);
+  }
+}
+
+/* Bottom-left corner - diagonal slide */
+.toast-slide-bottom-left,
+.toast-corner-bottom-left {
+  bottom: 20px;
+  left: 20px;
+  animation: slideInFromBottomLeft 400ms ease-out forwards;
+}
+
+.toast-corner-bottom-left-exit {
+  animation: slideInFromBottomLeftExit 400ms ease-in forwards;
+}
+
+@keyframes slideInFromBottomLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideInFromBottomLeftExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-100%, 100%);
+  }
+}
+
+/* Bottom-right corner - diagonal slide */
+.toast-slide-bottom-right,
+.toast-corner-bottom-right {
+  bottom: 20px;
+  right: 20px;
+  animation: slideInFromBottomRight 400ms ease-out forwards;
+}
+
+.toast-corner-bottom-right-exit {
+  animation: slideInFromBottomRightExit 400ms ease-in forwards;
+}
+
+@keyframes slideInFromBottomRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slideInFromBottomRightExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(100%, 100%);
+  }
+}
+
+/* Universal toast exit animation - fade + scale */
+.toast-exit {
+  animation: toastFadeOut 300ms ease-in forwards;
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION SUPPORT
+   ---------------------------------------------------------------------------- */
+
+/*
+   For users with motion sensitivity, all animations are disabled and replaced
+   with instant transitions. This ensures full functionality without causing
+   discomfort or vestibular issues.
+   
+   Testing: Enable "Reduce motion" in system accessibility settings or use
+   Chrome DevTools to emulate prefers-reduced-motion.
+*/
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all modal animations */
+  .modal-enter,
+  .modal-exit,
+  .modal-overlay-enter,
+  .modal-overlay-exit,
+  .backdrop-enter,
+  .backdrop-exit {
+    animation: none !important;
+  }
+  
+  /* Instant show states */
+  .modal-enter {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .modal-overlay-enter,
+  .backdrop-enter {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+  
+  /* Instant hide states */
+  .modal-exit {
+    opacity: 0;
+  }
+  
+  .modal-overlay-exit,
+  .backdrop-exit {
+    opacity: 0;
+  }
+  
+  /* Disable all toast animations */
+  .toast-slide-top,
+  .toast-slide-down,
+  .toast-slide-bottom,
+  .toast-slide-up,
+  .toast-slide-left,
+  .toast-slide-right,
+  .toast-slide-top-left,
+  .toast-slide-top-right,
+  .toast-slide-bottom-left,
+  .toast-slide-bottom-right,
+  .toast-corner-top-left,
+  .toast-corner-top-right,
+  .toast-corner-bottom-left,
+  .toast-corner-bottom-right,
+  .toast-exit,
+  .toast-slide-down-exit,
+  .toast-slide-up-exit,
+  .toast-slide-left-exit,
+  .toast-slide-right-exit,
+  .toast-corner-top-left-exit,
+  .toast-corner-top-right-exit,
+  .toast-corner-bottom-left-exit,
+  .toast-corner-bottom-right-exit {
+    animation: none !important;
+  }
+  
+  /* Instant show states for toasts */
+  .toast-slide-top,
+  .toast-slide-down,
+  .toast-slide-bottom,
+  .toast-slide-up,
+  .toast-slide-left,
+  .toast-slide-right,
+  .toast-slide-top-left,
+  .toast-slide-top-right,
+  .toast-slide-bottom-left,
+  .toast-slide-bottom-right,
+  .toast-corner-top-left,
+  .toast-corner-top-right,
+  .toast-corner-bottom-left,
+  .toast-corner-bottom-right {
+    opacity: 1;
+  }
+  
+  /* Maintain proper positioning for center-aligned toasts */
+  .toast-slide-top,
+  .toast-slide-down {
+    transform: translateX(-50%);
+  }
+  
+  .toast-slide-bottom,
+  .toast-slide-up {
+    transform: translateX(-50%);
+  }
+  
+  /* Corner and edge toasts use default positioning */
+  .toast-slide-left,
+  .toast-slide-right,
+  .toast-slide-top-left,
+  .toast-slide-top-right,
+  .toast-slide-bottom-left,
+  .toast-slide-bottom-right,
+  .toast-corner-top-left,
+  .toast-corner-top-right,
+  .toast-corner-bottom-left,
+  .toast-corner-bottom-right {
+    transform: translate(0, 0);
+  }
+  
+  /* Instant hide state for all toast exits */
+  .toast-exit,
+  .toast-slide-down-exit,
+  .toast-slide-up-exit,
+  .toast-slide-left-exit,
+  .toast-slide-right-exit,
+  .toast-corner-top-left-exit,
+  .toast-corner-top-right-exit,
+  .toast-corner-bottom-left-exit,
+  .toast-corner-bottom-right-exit {
+    opacity: 0;
+  }
+}
+
 
 
 

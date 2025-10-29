@@ -43,3 +43,7 @@ bmad-core/
 
 # IDE and editor config
 .github/chatmodes/
+
+# Animation framework test files
+test-animations.html
+test-*.html
