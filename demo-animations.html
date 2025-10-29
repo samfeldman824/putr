@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="theme.js"></script>
+    <title>Modal & Toast Animations Demo</title>
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .demo-section {
+            margin-bottom: 60px;
+        }
+        
+        .demo-section h2 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-primary);
+            padding-bottom: 10px;
+        }
+        
+        .demo-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-info {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .demo-info h3 {
+            color: var(--text-primary);
+            margin-top: 0;
+        }
+        
+        .demo-info code {
+            background-color: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        /* Sample modal styling */
+        .sample-modal {
+            min-width: 400px;
+            max-width: 500px;
+        }
+        
+        .modal-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+        
+        .modal-body {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme toggle switch -->
+    <div class="theme-toggle-wrapper">
+      <label class="theme-switch">
+        <input type="checkbox" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="theme-slider">
+          <span class="theme-slider-label light">☀️</span>
+          <span class="theme-slider-label dark">🌙</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="demo-container">
+        <h1 style="text-align: center; color: var(--text-primary); margin-bottom: 40px;">
+            Modal & Toast Animations Demo
+        </h1>
+
+        <!-- Modal Demo Section -->
+        <div class="demo-section">
+            <h2>Modal Dialog Animations</h2>
+            
+            <div class="demo-info">
+                <h3>Usage</h3>
+                <p>Apply <code>.modal-enter</code> class for fade-in with scale effect (300ms).</p>
+                <p>Apply <code>.modal-exit</code> class for fade-out with reverse scale (300ms).</p>
+                <p>Use <code>.backdrop-enter</code> and <code>.backdrop-exit</code> for overlay backgrounds.</p>
+                <p><strong>Performance:</strong> Uses GPU-accelerated transform and opacity properties.</p>
+            </div>
+            
+            <div class="demo-controls">
+                <button onclick="showModal()">Show Modal</button>
+                <button onclick="showModalWithBackdrop()">Show Modal with Backdrop</button>
+            </div>
+        </div>
+
+        <!-- Toast Demo Section -->
+        <div class="demo-section">
+            <h2>Toast Notification Animations</h2>
+            
+            <div class="demo-info">
+                <h3>Usage</h3>
+                <p>Toast notifications slide in from configurable positions (400ms).</p>
+                <p>Available classes:</p>
+                <ul style="margin: 8px 0;">
+                    <li><code>.toast-slide-top</code> - Slides down from top center</li>
+                    <li><code>.toast-slide-bottom</code> - Slides up from bottom center</li>
+                    <li><code>.toast-slide-top-left</code> - Slides from top-left corner</li>
+                    <li><code>.toast-slide-top-right</code> - Slides from top-right corner</li>
+                    <li><code>.toast-slide-bottom-left</code> - Slides from bottom-left corner</li>
+                    <li><code>.toast-slide-bottom-right</code> - Slides from bottom-right corner</li>
+                </ul>
+                <p>Apply <code>.toast-exit</code> class to fade out smoothly.</p>
+            </div>
+            
+            <div class="demo-controls">
+                <button onclick="showToast('top')">Toast from Top</button>
+                <button onclick="showToast('bottom')">Toast from Bottom</button>
+                <button onclick="showToast('top-left')">Toast Top-Left</button>
+                <button onclick="showToast('top-right')">Toast Top-Right</button>
+                <button onclick="showToast('bottom-left')">Toast Bottom-Left</button>
+                <button onclick="showToast('bottom-right')">Toast Bottom-Right</button>
+            </div>
+            
+            <div class="demo-controls">
+                <button onclick="showToast('top', 'success')">Success Toast</button>
+                <button onclick="showToast('top', 'error')">Error Toast</button>
+                <button onclick="showToast('top', 'info')">Info Toast</button>
+            </div>
+        </div>
+
+        <!-- Accessibility Demo Section -->
+        <div class="demo-section">
+            <h2>Accessibility Support</h2>
+            
+            <div class="demo-info">
+                <h3>prefers-reduced-motion</h3>
+                <p>All animations respect the user's motion preferences. Users with <code>prefers-reduced-motion: reduce</code> enabled will see instant show/hide transitions instead of animations.</p>
+                <p><strong>To test:</strong> Enable "Reduce motion" in your system accessibility settings or browser preferences.</p>
+                <ul style="margin: 8px 0;">
+                    <li><strong>macOS:</strong> System Preferences → Accessibility → Display → Reduce motion</li>
+                    <li><strong>Windows:</strong> Settings → Ease of Access → Display → Show animations</li>
+                    <li><strong>Chrome DevTools:</strong> CMD/CTRL+Shift+P → "Emulate CSS prefers-reduced-motion"</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Performance Info -->
+        <div class="demo-section">
+            <h2>Performance Notes</h2>
+            
+            <div class="demo-info">
+                <h3>60fps Target</h3>
+                <p>All animations use only GPU-accelerated properties:</p>
+                <ul style="margin: 8px 0;">
+                    <li><strong>transform:</strong> For positioning and scaling</li>
+                    <li><strong>opacity:</strong> For fading effects</li>
+                </ul>
+                <p>We avoid animating layout properties (width, height, top, left, margin, padding) which would trigger reflows and hurt performance.</p>
+                <p><strong>Test Performance:</strong> Open Chrome DevTools → Performance tab → Record while triggering animations → Check frame rate.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modal Demo Functions
+        function showModal() {
+            // Create modal container
+            const modalContainer = document.createElement('div');
+            modalContainer.className = 'modal-container active';
+            
+            // Create modal content
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content modal-enter sample-modal';
+            modalContent.innerHTML = `
+                <div class="modal-header">Sample Modal Dialog</div>
+                <div class="modal-body">
+                    This modal uses the <code>.modal-enter</code> animation class for a smooth fade-in with scale effect.
+                    It will automatically close after 3 seconds, or you can click the button below.
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeModal(this)">Close</button>
+                </div>
+            `;
+            
+            modalContainer.appendChild(modalContent);
+            document.body.appendChild(modalContainer);
+            
+            // Auto-close after 3 seconds
+            setTimeout(() => {
+                if (document.body.contains(modalContainer)) {
+                    closeModalElement(modalContainer);
+                }
+            }, 3000);
+        }
+        
+        function showModalWithBackdrop() {
+            // Create backdrop
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop backdrop-enter';
+            backdrop.onclick = () => {
+                closeModalElement(modalContainer);
+            };
+            
+            // Create modal container
+            const modalContainer = document.createElement('div');
+            modalContainer.className = 'modal-container active';
+            
+            // Create modal content
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content modal-enter sample-modal';
+            modalContent.innerHTML = `
+                <div class="modal-header">Modal with Backdrop</div>
+                <div class="modal-body">
+                    This modal includes a backdrop with blur effect. Click the backdrop or the close button to dismiss.
+                </div>
+                <div class="modal-footer">
+                    <button onclick="closeModal(this)">Close</button>
+                </div>
+            `;
+            
+            modalContainer.appendChild(modalContent);
+            
+            document.body.appendChild(backdrop);
+            document.body.appendChild(modalContainer);
+            
+            // Store backdrop reference for cleanup
+            modalContainer.dataset.hasBackdrop = 'true';
+        }
+        
+        function closeModal(button) {
+            const modalContainer = button.closest('.modal-container');
+            closeModalElement(modalContainer);
+        }
+        
+        function closeModalElement(modalContainer) {
+            const modalContent = modalContainer.querySelector('.modal-content');
+            
+            // Find backdrop if exists
+            const backdrop = modalContainer.dataset.hasBackdrop === 'true' 
+                ? document.querySelector('.modal-backdrop')
+                : null;
+            
+            // Apply exit animations
+            modalContent.classList.remove('modal-enter');
+            modalContent.classList.add('modal-exit');
+            
+            if (backdrop) {
+                backdrop.classList.remove('backdrop-enter');
+                backdrop.classList.add('backdrop-exit');
+            }
+            
+            // Remove from DOM after animation completes
+            setTimeout(() => {
+                modalContainer.remove();
+                if (backdrop) {
+                    backdrop.remove();
+                }
+            }, 300);
+        }
+        
+        // Toast Demo Functions
+        let toastCounter = 0;
+        
+        function showToast(position, type = 'info') {
+            toastCounter++;
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            const positionClass = `toast-slide-${position}`;
+            toast.className = `toast ${positionClass} ${type}`;
+            toast.id = `toast-${toastCounter}`;
+            
+            // Determine message based on type
+            let message = '';
+            switch(type) {
+                case 'success':
+                    message = '✓ Success! Operation completed successfully.';
+                    break;
+                case 'error':
+                    message = '✗ Error! Something went wrong.';
+                    break;
+                default:
+                    message = `ℹ This is a toast notification from ${position}.`;
+            }
+            
+            toast.innerHTML = message;
+            
+            document.body.appendChild(toast);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    dismissToast(toast.id);
+                }
+            }, 4000);
+        }
+        
+        function dismissToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (!toast) return;
+            
+            // Remove position animation class and add exit animation
+            toast.className = 'toast toast-exit';
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }
+    </script>
+</body>
+</html>

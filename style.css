@@ -817,6 +817,369 @@ button:disabled {
   filter: brightness(0.9);
 }
 
+/* ============================================================================
+   MODAL AND NOTIFICATION ANIMATIONS FRAMEWORK
+   ============================================================================
+   
+   Reusable CSS animation framework for future modal dialogs and toast 
+   notifications. All animations use GPU-accelerated properties (transform 
+   and opacity) for optimal 60fps performance.
+   
+   USAGE:
+   - Apply .modal-enter class to modal containers for fade-in effect
+   - Apply .modal-exit class for fade-out effect  
+   - Apply .backdrop-enter / .backdrop-exit for overlay backgrounds
+   - Apply .toast-slide-* classes for notification positioning
+   
+   ACCESSIBILITY:
+   - All animations respect prefers-reduced-motion preference
+   - Motion-sensitive users get instant show/hide transitions
+   
+   COMPATIBILITY:
+   - Works with both dark and light themes
+   - Cross-browser compatible (Chrome, Firefox, Safari)
+   ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+   MODAL ANIMATIONS
+   ---------------------------------------------------------------------------- */
+
+/* Modal container base styles */
+.modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.modal-container.active {
+  pointer-events: auto;
+}
+
+/* Modal content wrapper */
+.modal-content {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px var(--shadow-color);
+  padding: 24px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+  z-index: 10000;
+}
+
+/* Modal fade-in with scale animation */
+.modal-enter {
+  animation: modalFadeIn 300ms ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal fade-out with reverse scale animation */
+.modal-exit {
+  animation: modalFadeOut 300ms ease-in forwards;
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   BACKDROP ANIMATIONS
+   ---------------------------------------------------------------------------- */
+
+/* Backdrop overlay base styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  backdrop-filter: blur(4px);
+}
+
+/* Backdrop fade-in */
+.backdrop-enter {
+  animation: backdropFadeIn 300ms ease-out forwards;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Backdrop fade-out */
+.backdrop-exit {
+  animation: backdropFadeOut 300ms ease-in forwards;
+}
+
+@keyframes backdropFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   TOAST NOTIFICATION ANIMATIONS
+   ---------------------------------------------------------------------------- */
+
+/* Toast notification base styles */
+.toast {
+  position: fixed;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 16px 20px;
+  min-width: 250px;
+  max-width: 400px;
+  z-index: 10001;
+  pointer-events: auto;
+}
+
+/* Toast variants for different message types */
+.toast.success {
+  border-left: 4px solid var(--success-color);
+}
+
+.toast.error {
+  border-left: 4px solid var(--error-color);
+}
+
+.toast.info {
+  border-left: 4px solid var(--accent-primary);
+}
+
+/* Slide from top */
+.toast-slide-top {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slideDownFromTop 400ms ease-out forwards;
+}
+
+@keyframes slideDownFromTop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Slide from bottom */
+.toast-slide-bottom {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: slideUpFromBottom 400ms ease-out forwards;
+}
+
+@keyframes slideUpFromBottom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Slide from top-left corner */
+.toast-slide-top-left {
+  top: 20px;
+  left: 20px;
+  animation: slideInFromTopLeft 400ms ease-out forwards;
+}
+
+@keyframes slideInFromTopLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Slide from top-right corner */
+.toast-slide-top-right {
+  top: 20px;
+  right: 20px;
+  animation: slideInFromTopRight 400ms ease-out forwards;
+}
+
+@keyframes slideInFromTopRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Slide from bottom-left corner */
+.toast-slide-bottom-left {
+  bottom: 20px;
+  left: 20px;
+  animation: slideInFromBottomLeft 400ms ease-out forwards;
+}
+
+@keyframes slideInFromBottomLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Slide from bottom-right corner */
+.toast-slide-bottom-right {
+  bottom: 20px;
+  right: 20px;
+  animation: slideInFromBottomRight 400ms ease-out forwards;
+}
+
+@keyframes slideInFromBottomRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* Toast exit animations - can be applied to any position */
+.toast-exit {
+  animation: toastFadeOut 300ms ease-in forwards;
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   ACCESSIBILITY: PREFERS-REDUCED-MOTION SUPPORT
+   ---------------------------------------------------------------------------- */
+
+/* 
+   For users with motion sensitivity, provide instant transitions
+   instead of animated effects. This ensures functionality without
+   causing discomfort or vestibular issues.
+*/
+@media (prefers-reduced-motion: reduce) {
+  /* Disable modal animations - instant show/hide */
+  .modal-enter,
+  .modal-exit {
+    animation: none !important;
+  }
+  
+  .modal-enter {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .modal-exit {
+    opacity: 0;
+  }
+  
+  /* Disable backdrop animations - instant show/hide */
+  .backdrop-enter,
+  .backdrop-exit {
+    animation: none !important;
+  }
+  
+  .backdrop-enter {
+    opacity: 1;
+  }
+  
+  .backdrop-exit {
+    opacity: 0;
+  }
+  
+  /* Disable toast animations - instant show/hide */
+  .toast-slide-top,
+  .toast-slide-bottom,
+  .toast-slide-top-left,
+  .toast-slide-top-right,
+  .toast-slide-bottom-left,
+  .toast-slide-bottom-right,
+  .toast-exit {
+    animation: none !important;
+  }
+  
+  .toast-slide-top,
+  .toast-slide-bottom,
+  .toast-slide-top-left,
+  .toast-slide-top-right,
+  .toast-slide-bottom-left,
+  .toast-slide-bottom-right {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  
+  .toast-slide-top,
+  .toast-slide-bottom {
+    transform: translateX(-50%);
+  }
+  
+  .toast-exit {
+    opacity: 0;
+  }
+}
+
 
 
 
