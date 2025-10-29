@@ -349,10 +349,93 @@ db.collection("players").doc(playerName).get()
         const gridColor = isDark ? '#444' : '#ddd';
         const textColor = isDark ? '#e0e0e0' : '#333';
 
+        // Detect user's motion preference for accessibility
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Configure animation settings based on accessibility preferences
+        const animationDuration = prefersReducedMotion ? 0 : 750;
+        const animationEasing = 'easeInOutQuart';
+        
         const config = {
           type: 'line',
           data: data1,
           options: {
+            // Animation configuration for smooth chart entry and updates
+            animation: {
+              duration: animationDuration,
+              easing: animationEasing,
+              // Animate from center for a smooth entry effect
+              animateScale: true,
+              animateRotate: true
+            },
+            // Specific animations for different update modes
+            animations: {
+              // Smooth animations when data changes
+              x: {
+                type: 'number',
+                easing: animationEasing,
+                duration: animationDuration,
+                from: (ctx) => {
+                  if (ctx.type === 'data') {
+                    // Animate from previous position
+                    if (ctx.mode === 'default' && !ctx.dropped) {
+                      ctx.dropped = true;
+                      return ctx.chart.scales.x.getPixelForValue(ctx.index);
+                    }
+                  }
+                }
+              },
+              y: {
+                type: 'number',
+                easing: animationEasing,
+                duration: animationDuration,
+                from: (ctx) => {
+                  if (ctx.type === 'data') {
+                    // Animate from zero for a smooth rise effect
+                    if (ctx.mode === 'default' && !ctx.dropped) {
+                      ctx.dropped = true;
+                      return ctx.chart.scales.y.getPixelForValue(0);
+                    }
+                  }
+                }
+              }
+            },
+            // Smooth transitions between data updates
+            transitions: {
+              // Active transition when hovering
+              active: {
+                animation: {
+                  duration: prefersReducedMotion ? 0 : 200
+                }
+              },
+              // Resize transition
+              resize: {
+                animation: {
+                  duration: prefersReducedMotion ? 0 : 400
+                }
+              },
+              // Show/hide transitions
+              show: {
+                animations: {
+                  x: {
+                    from: 0
+                  },
+                  y: {
+                    from: 0
+                  }
+                }
+              },
+              hide: {
+                animations: {
+                  x: {
+                    to: 0
+                  },
+                  y: {
+                    to: 0
+                  }
+                }
+              }
+            },
             plugins: {
               zoom: {
                 pan: { enabled: true, mode: 'x' },
@@ -406,16 +489,26 @@ db.collection("players").doc(playerName).get()
                   color: gridColor
                 }
               }
-            }
+            },
+            // Responsive and maintain aspect ratio
+            responsive: true,
+            maintainAspectRatio: true
           }
         };
 
-        // Remove old chart if present
+        // Update existing chart if present, otherwise create new one
+        // This allows for smooth transitions between data updates
         if (window.playerChart) {
-          window.playerChart.destroy();
+          // Update chart data and options for smooth animated transitions
+          window.playerChart.data = data1;
+          window.playerChart.options = config.options;
+          // Update with animation mode 'default' for smooth transitions
+          window.playerChart.update('default');
+        } else {
+          // Create new chart on first render
+          const ctx = document.getElementById('lineChart').getContext('2d');
+          window.playerChart = new Chart(ctx, config);
         }
-        const ctx = document.getElementById('lineChart').getContext('2d');
-        window.playerChart = new Chart(ctx, config);
       }
 
       // Set up date pickers and initial range (all dates)

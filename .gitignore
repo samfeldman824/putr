@@ -41,5 +41,5 @@ bmad-core/
 **/bmad-core/
 **/.bmad-core
 
-# Chat modes
+# IDE and editor config
 .github/chatmodes/
