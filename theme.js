@@ -115,7 +115,11 @@ class ThemeManager {
         chart.options.plugins.legend.labels.color = isDark ? '#e0e0e0' : '#333';
       }
       
-      chart.update();
+      // Update chart with animation matching theme transition duration (350ms)
+      chart.update({
+        duration: 350,
+        easing: 'easeInOutQuart'
+      });
     }
   }
 

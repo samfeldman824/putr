@@ -30,6 +30,7 @@
   --transition-fast: 0.15s;
   --transition-normal: 0.3s;
   --transition-slow: 0.5s;
+  --transition-theme: 0.35s;
 }
 
 [data-theme="dark"] {
@@ -70,6 +71,21 @@ html {
 /* Page fade-in animation on load */
 body {
   animation: fadeIn var(--transition-slow) ease-in;
+  /* Smooth theme transitions - using individual properties for better performance */
+  transition: 
+    background-color var(--transition-theme) ease-in-out,
+    color var(--transition-theme) ease-in-out;
+}
+
+/* Enable smooth theme transitions on all elements that use CSS variables */
+*,
+*::before,
+*::after {
+  transition: 
+    background-color var(--transition-theme) ease-in-out,
+    color var(--transition-theme) ease-in-out,
+    border-color var(--transition-theme) ease-in-out,
+    box-shadow var(--transition-theme) ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -91,6 +107,11 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  
+  /* Ensure theme changes are instant for motion-sensitive users */
+  body {
+    transition: none !important;
+  }
 }
 
 .leaderboard-container {
@@ -101,7 +122,6 @@ body {
     margin: 1vh;
     box-shadow: 0 0 1vh var(--shadow-color);
     background-color: var(--bg-secondary);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .leaderboard-table {
@@ -110,12 +130,12 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     margin: 1%;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
 .leaderboard-table tbody tr {
-    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    /* Keep explicit transitions for hover effects which are different from theme transitions */
+    transition: transform 0.3s ease, opacity 0.3s ease;
     cursor: pointer;
 }
 
@@ -179,7 +199,6 @@ body {
     color: var(--text-primary);
     font-weight: bold;
     font-size: 2rem;
-    transition: color 0.3s ease;
 }
 
 #header-text {
@@ -230,6 +249,7 @@ body {
 .player-name a {
     text-decoration: none;
     color: var(--link-color);
+    /* Keep explicit transition for hover effect */
     transition: color 0.3s ease;
 }
 
@@ -266,7 +286,6 @@ body {
 body {
     background-color: var(--bg-secondary);
     color: var(--text-primary);
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Loading spinner styles (deprecated - use skeleton screens instead) */
@@ -286,7 +305,6 @@ body {
     width: 8vh;
     height: 8vh;
     animation: spin 1s linear infinite;
-    transition: border-color 0.3s ease;
 }
 
 @keyframes spin {
@@ -298,7 +316,6 @@ body {
     margin-top: 2vh;
     font-size: 2rem;
     color: var(--text-secondary);
-    transition: color 0.3s ease;
 }
 
 /* Skeleton Loading Animations */
@@ -361,7 +378,6 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     margin: 1%;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .skeleton-table tbody tr {
@@ -413,7 +429,8 @@ body {
     box-shadow: 0 2px 4px var(--shadow-color);
     padding: 20px;
     text-align: center;
-    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
+    /* Keep explicit hover transition */
+    transition: box-shadow 0.3s ease-in-out;
 }
 
 .skeleton-stat-value {
@@ -539,7 +556,8 @@ button:disabled {
     padding: 4px 12px;
     min-height: 1.6em;
     min-width: 96px;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    /* Keep explicit transform transition for interactive effects */
+    transition: transform 0.2s ease;
 }
 
 .range-metric.positive {
@@ -568,7 +586,6 @@ button:disabled {
     color: var(--text-muted);
     font-size: 0.95em;
     min-height: 1.5em;
-    transition: color 0.3s ease;
 }
 
 
@@ -600,7 +617,8 @@ button:disabled {
     box-shadow: 0 2px 4px var(--shadow-color);
     padding: 20px;
     text-align: center;
-    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
+    /* Keep explicit hover transition */
+    transition: box-shadow 0.3s ease-in-out;
   }
   
   .stat-card:hover {
@@ -612,13 +630,11 @@ button:disabled {
     font-weight: bold;
     color: var(--text-primary);
     margin: 10px 0;
-    transition: color 0.3s ease;
   }
   
   .stat-label {
     font-size: 1em;
     color: var(--text-muted);
-    transition: color 0.3s ease;
   }
 
 /* Theme Toggle Button (for profile.html) */
@@ -636,9 +652,10 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
   box-shadow: 0 2px 4px var(--shadow-color);
   padding: 8px;
+  /* Explicit transitions for interactive effects */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .theme-toggle:hover {
@@ -649,6 +666,8 @@ button:disabled {
 
 .theme-toggle:active {
   transform: scale(0.95);
+  box-shadow: 0 1px 2px var(--shadow-color);
+  transition-duration: 0.1s;
 }
 
 /* Theme Toggle Switch (for index.html) */
@@ -656,7 +675,6 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
   position: fixed;
   top: 20px;
   right: 20px;
@@ -685,13 +703,14 @@ button:disabled {
   right: 0;
   bottom: 0;
   background-color: var(--accent-primary);
-  transition: background-color 0.3s ease;
   border-radius: 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 6px;
   box-shadow: 0 2px 4px var(--shadow-color);
+  /* Explicit transition for the slider itself */
+  transition: box-shadow 0.2s ease;
 }
 
 /* Sliding indicator */
@@ -704,10 +723,11 @@ button:disabled {
   top: 50%;
   transform: translateY(-50%);
   background-color: white;
-  transition: all 0.3s ease;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 2;
+  /* Smooth sliding animation */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
 }
 
 .theme-switch input:checked + .theme-slider {
@@ -716,6 +736,16 @@ button:disabled {
 
 .theme-switch input:checked + .theme-slider:before {
   transform: translate(44px, -50%);
+}
+
+/* Active state for press animation */
+.theme-switch input:active + .theme-slider:before {
+  transform: translateY(-50%) scale(0.95);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.theme-switch input:checked:active + .theme-slider:before {
+  transform: translate(44px, -50%) scale(0.95);
 }
 
 .theme-slider-label {
