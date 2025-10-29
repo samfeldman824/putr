@@ -817,6 +817,334 @@ button:disabled {
   filter: brightness(0.9);
 }
 
+/* ==================================
+   MODAL AND NOTIFICATION ANIMATIONS
+   Story #93 - Reusable animation framework for future modals and notifications
+   
+   Usage examples:
+   - Add .modal-enter to show a modal
+   - Add .modal-exit to hide a modal
+   - Add .modal-overlay-enter for backdrop fade-in
+   - Add .toast-slide-down / .toast-slide-up / .toast-slide-left / .toast-slide-right for notifications
+   
+   All animations use GPU-accelerated properties (transform + opacity) for 60fps performance
+   All animations respect prefers-reduced-motion for accessibility
+   ================================== */
+
+/* ============================
+   MODAL ANIMATIONS
+   ============================ */
+
+/* Modal overlay backdrop - fades in from transparent */
+.modal-overlay-enter {
+  animation: modalOverlayFadeIn 300ms ease-out forwards;
+}
+
+.modal-overlay-exit {
+  animation: modalOverlayFadeOut 300ms ease-in forwards;
+}
+
+@keyframes modalOverlayFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes modalOverlayFadeOut {
+  from {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+  to {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+}
+
+/* Modal dialog - fades in with scale effect */
+.modal-enter {
+  animation: modalFadeIn 300ms ease-out forwards;
+}
+
+.modal-exit {
+  animation: modalFadeOut 300ms ease-in forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* ============================
+   TOAST NOTIFICATION ANIMATIONS
+   ============================ */
+
+/* Slide down from top */
+.toast-slide-down {
+  animation: toastSlideDown 400ms ease-out forwards;
+}
+
+.toast-slide-down-exit {
+  animation: toastSlideDownExit 400ms ease-in forwards;
+}
+
+@keyframes toastSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastSlideDownExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+}
+
+/* Slide up from bottom */
+.toast-slide-up {
+  animation: toastSlideUp 400ms ease-out forwards;
+}
+
+.toast-slide-up-exit {
+  animation: toastSlideUpExit 400ms ease-in forwards;
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastSlideUpExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+/* Slide left from right side */
+.toast-slide-left {
+  animation: toastSlideLeft 400ms ease-out forwards;
+}
+
+.toast-slide-left-exit {
+  animation: toastSlideLeftExit 400ms ease-in forwards;
+}
+
+@keyframes toastSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastSlideLeftExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Slide right from left side */
+.toast-slide-right {
+  animation: toastSlideRight 400ms ease-out forwards;
+}
+
+.toast-slide-right-exit {
+  animation: toastSlideRightExit 400ms ease-in forwards;
+}
+
+@keyframes toastSlideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastSlideRightExit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+/* Corner toast variants - slide in diagonally from corners */
+.toast-corner-top-right {
+  animation: toastCornerTopRight 400ms ease-out forwards;
+}
+
+.toast-corner-top-right-exit {
+  animation: toastCornerTopRightExit 400ms ease-in forwards;
+}
+
+@keyframes toastCornerTopRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes toastCornerTopRightExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(100%, -100%);
+  }
+}
+
+.toast-corner-top-left {
+  animation: toastCornerTopLeft 400ms ease-out forwards;
+}
+
+.toast-corner-top-left-exit {
+  animation: toastCornerTopLeftExit 400ms ease-in forwards;
+}
+
+@keyframes toastCornerTopLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, -100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes toastCornerTopLeftExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-100%, -100%);
+  }
+}
+
+.toast-corner-bottom-right {
+  animation: toastCornerBottomRight 400ms ease-out forwards;
+}
+
+.toast-corner-bottom-right-exit {
+  animation: toastCornerBottomRightExit 400ms ease-in forwards;
+}
+
+@keyframes toastCornerBottomRight {
+  from {
+    opacity: 0;
+    transform: translate(100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes toastCornerBottomRightExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(100%, 100%);
+  }
+}
+
+.toast-corner-bottom-left {
+  animation: toastCornerBottomLeft 400ms ease-out forwards;
+}
+
+.toast-corner-bottom-left-exit {
+  animation: toastCornerBottomLeftExit 400ms ease-in forwards;
+}
+
+@keyframes toastCornerBottomLeft {
+  from {
+    opacity: 0;
+    transform: translate(-100%, 100%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes toastCornerBottomLeftExit {
+  from {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-100%, 100%);
+  }
+}
 
 
 
