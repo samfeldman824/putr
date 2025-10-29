@@ -210,11 +210,11 @@ function renderTable(source = "unknown") {
   document.getElementById('putr-arrow').textContent = '▲';
   document.getElementById('net-arrow').textContent = '';
 
-  // Hide spinner and show table
-  const spinner = document.getElementById('loading-spinner');
+  // Hide skeleton loader and show table
+  const skeletonLoader = document.getElementById('skeleton-loader');
   const tableContainer = document.getElementById('table-container');
-  if (spinner) {
-    spinner.style.display = 'none';
+  if (skeletonLoader) {
+    skeletonLoader.style.display = 'none';
   }
   if (tableContainer) {
     tableContainer.style.display = 'block';
