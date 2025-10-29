@@ -256,6 +256,16 @@ db.collection("players").doc(playerName).get()
       const player = doc.data();
       console.log("Player data:", player);
 
+      // Hide skeleton and show content
+      const skeleton = document.getElementById('profile-skeleton');
+      const content = document.getElementById('profile-content');
+      if (skeleton) {
+        skeleton.style.display = 'none';
+      }
+      if (content) {
+        content.style.display = 'block';
+      }
+
       const statsContainer = document.getElementById("stats-container");
       const nameDiv = document.getElementById("playerInfo");
       nameDiv.innerHTML = `
@@ -481,7 +491,16 @@ db.collection("players").doc(playerName).get()
       }
 
     } else {
-      // Player not found
+      // Player not found - hide skeleton
+      const skeleton = document.getElementById('profile-skeleton');
+      const content = document.getElementById('profile-content');
+      if (skeleton) {
+        skeleton.style.display = 'none';
+      }
+      if (content) {
+        content.style.display = 'block';
+      }
+      
       console.log("No player found with name:", playerName);
       document.getElementById("playerInfo").innerHTML = `
         <h1>Player "${escapeHTML(playerName)}" not found</h1>
@@ -492,6 +511,16 @@ db.collection("players").doc(playerName).get()
     }
   })
   .catch((error) => {
+    // Error loading - hide skeleton
+    const skeleton = document.getElementById('profile-skeleton');
+    const content = document.getElementById('profile-content');
+    if (skeleton) {
+      skeleton.style.display = 'none';
+    }
+    if (content) {
+      content.style.display = 'block';
+    }
+    
     console.error("Error fetching player data from Firestore:", error);
     document.getElementById("playerInfo").innerHTML = `
       <h1>Error loading player data</h1>

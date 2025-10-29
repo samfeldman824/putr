@@ -269,7 +269,7 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Loading spinner styles */
+/* Loading spinner styles (deprecated - use skeleton screens instead) */
 .spinner-container {
     display: flex;
     flex-direction: column;
@@ -299,6 +299,147 @@ body {
     font-size: 2rem;
     color: var(--text-secondary);
     transition: color 0.3s ease;
+}
+
+/* Skeleton Loading Animations */
+/* Shimmer effect for loading states */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Base skeleton styles */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-tertiary) 0%,
+        var(--bg-secondary) 50%,
+        var(--bg-tertiary) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Skeleton utility classes for different shapes and sizes */
+.skeleton-text {
+    height: 1em;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+.skeleton-text-short {
+    width: 60%;
+}
+
+.skeleton-text-medium {
+    width: 80%;
+}
+
+.skeleton-circle {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+}
+
+.skeleton-rect {
+    width: 100%;
+    height: 100px;
+}
+
+/* Skeleton table loading */
+.skeleton-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    margin: 1%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.skeleton-table tbody tr {
+    height: 60px;
+}
+
+.skeleton-table tbody tr:nth-child(even) {
+    background-color: var(--table-even);
+}
+
+.skeleton-table tbody tr:nth-child(odd) {
+    background-color: var(--table-odd);
+}
+
+.skeleton-table td {
+    padding: 2vh;
+    text-align: center;
+}
+
+.skeleton-flag {
+    width: 5vw;
+    height: 3vw;
+    margin: 0 auto;
+}
+
+.skeleton-name {
+    height: 1.5em;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.skeleton-stat {
+    height: 1.5em;
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* Skeleton for profile page */
+.skeleton-header {
+    width: 300px;
+    height: 3em;
+    margin: 20px auto;
+}
+
+.skeleton-stat-card {
+    flex: 1 1 24%;
+    background-color: var(--bg-primary);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    padding: 20px;
+    text-align: center;
+    transition: box-shadow 0.3s ease-in-out, background-color 0.3s ease;
+}
+
+.skeleton-stat-value {
+    height: 2em;
+    width: 80%;
+    margin: 10px auto;
+}
+
+.skeleton-stat-label {
+    height: 1em;
+    width: 60%;
+    margin: 10px auto;
+}
+
+.skeleton-chart {
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+}
+
+/* Accessibility: Respect user's motion preferences for skeleton animations */
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+        background: var(--bg-tertiary);
+    }
 }
 
 

@@ -31,38 +31,99 @@
         <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
             <button><a href="index.html">Home</a></button>
         </div>
-        <div id="playerInfo">
-
-        </div>
-    <div id="stats-container">
-
         
-    </div>
+        <!-- Skeleton loading screen for profile -->
+        <div id="profile-skeleton">
+            <div class="skeleton skeleton-header"></div>
+            <div id="stats-skeleton" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 50px;">
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+                <div class="skeleton-stat-card">
+                    <div class="skeleton skeleton-stat-value"></div>
+                    <div class="skeleton skeleton-stat-label"></div>
+                </div>
+            </div>
+            <div class="skeleton skeleton-chart"></div>
+        </div>
+        
+        <!-- Actual content (hidden initially) -->
+        <div id="profile-content" style="display: none;">
+            <div id="playerInfo">
 
-    <div id="range-bar" class="range-bar">
-      <div class="range-row">
-        <div class="range-option" data-range-key="last-5">
-          <button class="range-btn" data-range-key="last-5">Last 5 Games</button>
-          <div class="range-metric" aria-live="polite"></div>
+            </div>
+        <div id="stats-container">
+
+            
         </div>
-        <div class="range-option" data-range-key="last-10">
-          <button class="range-btn" data-range-key="last-10">Last 10 Games</button>
-          <div class="range-metric" aria-live="polite"></div>
+
+        <div id="range-bar" class="range-bar">
+          <div class="range-row">
+            <div class="range-option" data-range-key="last-5">
+              <button class="range-btn" data-range-key="last-5">Last 5 Games</button>
+              <div class="range-metric" aria-live="polite"></div>
+            </div>
+            <div class="range-option" data-range-key="last-10">
+              <button class="range-btn" data-range-key="last-10">Last 10 Games</button>
+              <div class="range-metric" aria-live="polite"></div>
+            </div>
+            <div class="range-option" data-range-key="last-30">
+              <button class="range-btn" data-range-key="last-30">Last 30 Games</button>
+              <div class="range-metric" aria-live="polite"></div>
+            </div>
+            <div class="range-option" data-range-key="all-time">
+              <button class="range-btn" data-range-key="all-time">All Time</button>
+              <div class="range-metric" aria-live="polite"></div>
+            </div>
+            <div class="range-option" data-range-key="best-5-streak">
+              <button class="range-btn highlight" data-range-key="best-5-streak">Best 5-Game Streak</button>
+              <div class="range-metric" aria-live="polite"></div>
+            </div>
+          </div>
         </div>
-        <div class="range-option" data-range-key="last-30">
-          <button class="range-btn" data-range-key="last-30">Last 30 Games</button>
-          <div class="range-metric" aria-live="polite"></div>
+        <canvas id="lineChart"></canvas>
         </div>
-        <div class="range-option" data-range-key="all-time">
-          <button class="range-btn" data-range-key="all-time">All Time</button>
-          <div class="range-metric" aria-live="polite"></div>
-        </div>
-        <div class="range-option" data-range-key="best-5-streak">
-          <button class="range-btn highlight" data-range-key="best-5-streak">Best 5-Game Streak</button>
-          <div class="range-metric" aria-live="polite"></div>
-        </div>
-      </div>
     </div>
-    <canvas id="lineChart"></canvas>
 </body>
 </html>
