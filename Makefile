@@ -1,4 +1,4 @@
-.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down seed-cli clear-data firebase-status sync-data
+.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down clear-data sync-data firebase-status
 
 # Export BuildKit variables for all targets
 export DOCKER_BUILDKIT=1
@@ -21,13 +21,13 @@ help:
 	@echo "  frontend-down - Stop frontend server"
 	@echo "  firebase  - Start Firebase emulator (UI: http://localhost:4000)"
 	@echo "  firebase-down - Stop Firebase emulator"
-	@echo "  seed-cli  - Seed Firebase data via CLI"
-	@echo "  clear-data - Clear all Firebase data via CLI"
-	@echo "  sync-data - Sync data.json to Firebase emulator"
 	@echo "  firebase-status - Show Firebase emulator status"
+	@echo "  sync-data - Sync data.json to Firebase emulator"
+	@echo "  clear-data - Clear all Firebase data"
 	@echo "  ag        - Add game (usage: make ag DATE=24_12_08)"
 	@echo "  pg        - Print game (usage: make pg DATE=24_12_08)"
 	@echo "  pgs       - Print all games"
+	@echo "  plg       - Print player games (usage: make plg NICKNAME=\"Player Name\")"
 	
 
 # Build the Docker image
@@ -48,7 +48,7 @@ up:
 	@echo "   • Firebase Auth: http://localhost:9099"
 	@echo ""
 	@echo "🔧 Quick commands:"
-	@echo "   • Seed data: make seed-cli"
+	@echo "   • Sync data: make sync-data"
 	@echo "   • Run tests: make test"
 	@echo "   • View logs: make logs"
 	@echo "   • Shell access: make shell"
@@ -105,7 +105,7 @@ pgs:
 
 plg:
 	@if [ -z "$(NICKNAME)" ]; then echo "Usage: make plg NICKNAME=\"Player Name\""; exit 1; fi
-	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py plg $(NICKNAME)"
+	docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python backend/main.py plg \"$(NICKNAME)\""
 
 # Frontend commands
 frontend:
@@ -126,20 +126,15 @@ firebase:
 firebase-down:
 	docker compose -f docker/docker-compose.yml --profile firebase down
 
-# Seed data commands
-seed-cli:
-	@echo "Seeding Firebase data via CLI (in container)..."
-	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py seed"
-
-clear-data:
-	@echo "Clearing Firebase data via CLI (in container)..."
-	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py clear"
-
-firebase-status:
-	@echo "Checking Firebase emulator status (in container)..."
-	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/seed_cli.py status"
-
 # Sync data.json to Firebase
 sync-data:
 	@echo "Syncing data.json to Firebase emulator..."
 	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py sync"
+
+clear-data:
+	@echo "Clearing Firebase data (in container)..."
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py clear"
+
+firebase-status:
+	@echo "Checking Firebase emulator status..."
+	@docker compose -f docker/docker-compose.yml exec putr bash -c "cd /app && python firebase/sync_data.py status"
