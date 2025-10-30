@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Simple script to sync data.json to Firebase emulator
-Usage: python firebase/sync_data.py [sync|clear]
+Usage: python firebase/sync_data.py [sync|clear|status]
 """
 
 import json
@@ -51,6 +51,63 @@ def test_connection() -> bool:
     except requests.exceptions.RequestException:
         print("❌ Firebase emulator not reachable")
         print("   Run: make firebase")
+        return False
+
+def status():
+    """Show Firebase emulator status and data summary"""
+    print("📊 Firebase Emulator Status")
+    print("=" * 50)
+    
+    if not test_connection():
+        print("❌ Firebase emulator is not running")
+        print("   Run: make firebase")
+        return False
+    
+    print("✅ Firebase emulator is running")
+    print(f"   Firestore URL: {FIRESTORE_URL}")
+    
+    try:
+        # Get players
+        response = requests.get(f"{FIRESTORE_URL}/players", timeout=5)
+        if response.status_code == 200:
+            players = response.json().get("documents", [])
+            print(f"\n👥 Players: {len(players)}")
+            if players:
+                for doc in players[:5]:  # Show first 5
+                    player_name = doc["name"].split("/")[-1]
+                    fields = doc.get("fields", {})
+                    net = fields.get("net", {}).get("doubleValue", 0)
+                    print(f"   • {player_name}: ${net:.2f}")
+                if len(players) > 5:
+                    print(f"   ... and {len(players) - 5} more")
+        
+        # Get games
+        response = requests.get(f"{FIRESTORE_URL}/games", timeout=5)
+        if response.status_code == 200:
+            games = response.json().get("documents", [])
+            print(f"\n🎮 Games: {len(games)}")
+        
+        # Get stats
+        response = requests.get(f"{FIRESTORE_URL}/stats", timeout=5)
+        if response.status_code == 200:
+            stats = response.json().get("documents", [])
+            if stats:
+                print(f"\n📈 Stats:")
+                fields = stats[0].get("fields", {})
+                total_players = fields.get("totalPlayers", {}).get("integerValue", 0)
+                total_games = fields.get("totalGames", {}).get("integerValue", 0)
+                total_net = fields.get("totalNet", {}).get("doubleValue", 0)
+                last_sync = fields.get("lastSync", {}).get("stringValue", "N/A")
+                print(f"   Total Players: {total_players}")
+                print(f"   Total Games: {total_games}")
+                print(f"   Total Net: ${total_net:.2f}")
+                print(f"   Last Sync: {last_sync}")
+        
+        print("\n" + "=" * 50)
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error checking status: {e}")
         return False
 
 def clear_data():
@@ -185,6 +242,7 @@ def main():
 Examples:
   python firebase/sync_data.py sync     # Sync data.json to Firebase
   python firebase/sync_data.py clear    # Clear all Firebase data
+  python firebase/sync_data.py status   # Show Firebase status
   
 Make sure Firebase emulator is running first:
   make firebase
@@ -193,7 +251,7 @@ Make sure Firebase emulator is running first:
     
     parser.add_argument(
         'command',
-        choices=['sync', 'clear'],
+        choices=['sync', 'clear', 'status'],
         help='Command to execute'
     )
     
@@ -204,6 +262,8 @@ Make sure Firebase emulator is running first:
         success = sync_data()
     elif args.command == 'clear':
         success = clear_data()
+    elif args.command == 'status':
+        success = status()
     
     sys.exit(0 if success else 1)
 
