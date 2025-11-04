@@ -1,4 +1,9 @@
-.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down clear-data sync-data firebase-status
+.PHONY: \
+    help build up down stop-all dev shell \
+    frontend frontend-down firebase firebase-down \
+    clear-data sync-data firebase-status \
+    test coverage clean logs \
+    format isort type-check lint
 
 # Export BuildKit variables for all targets
 export DOCKER_BUILDKIT=1
@@ -7,14 +12,24 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # Default target
 help:
 	@echo "Available commands:"
+	@echo ""
+	@echo "Core Services:"
 	@echo "  build     - Build the Docker image"
 	@echo "  up        - Start ALL services (dev + frontend + firebase)"
 	@echo "  dev       - Start development container only"
 	@echo "  down      - Stop and remove ALL containers (including firebase, frontend)"
 	@echo "  stop-all  - Stop all containers without removing them"
 	@echo "  shell     - Open an interactive shell in the container"
+	@echo ""
+	@echo "Testing & Code Quality:"
 	@echo "  test      - Run tests in container"
 	@echo "  coverage  - Run tests with coverage report"
+	@echo "  format    - Format code with Black"
+	@echo "  isort     - Sort imports with isort"
+	@echo "  type-check - Run type checking with mypy"
+	@echo "  lint      - Run pylint (via container)"
+	@echo ""
+	@echo "Other Commands:"
 	@echo "  clean     - Remove ALL containers, volumes, and unused images"
 	@echo "  logs      - Show container logs"
 	@echo "  frontend  - Start frontend server on http://localhost:3000"
@@ -80,6 +95,22 @@ test:
 # Run tests with coverage
 coverage:
 	docker compose -f docker/docker-compose.yml run --rm coverage
+
+# Format code with Black
+format:
+	docker compose -f docker/docker-compose.yml run --rm format
+
+# Sort imports with isort
+isort:
+	docker compose -f docker/docker-compose.yml run --rm isort
+
+# Run type checking with mypy
+type-check:
+	docker compose -f docker/docker-compose.yml run --rm type-check
+
+# Run pylint
+lint:
+	docker compose -f docker/docker-compose.yml run --rm lint
 
 # Clean up containers and images
 clean:
