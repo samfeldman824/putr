@@ -140,7 +140,7 @@ class Poker:
         Returns:
             The player's data if found, otherwise None.
         """
-        for player_id, player_data in json_data.items():
+        for _, player_data in json_data.items():
             if nickname in player_data["player_nicknames"]:
                 return player_data
         return None

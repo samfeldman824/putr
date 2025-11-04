@@ -6,6 +6,16 @@ from poker import Poker
 
 
 def main():
+    """
+    Initialize and run the main application.
+
+    This function serves as the entry point for the Poker application.
+    It is currently configured to work with poker game data and player information.
+
+    Note:
+        The initialization code for creating a Poker instance and processing
+        game data is currently commented out pending further configuration.
+    """
 
     # poker = Poker("ledgers", "data.json")
     # poker.reset_net_fields()
@@ -13,13 +23,10 @@ def main():
     #  "grant lumkong", "N52MC", "aapexx13", "GRANT LUMKONG",
     #  "Ed", "ZestyZander", "lukas_recruit"])
 
-    pass
-
 
 @click.group()
 def cli():
     """Poker Game Management System."""
-    pass
 
 
 @cli.command()
