@@ -1,4 +1,9 @@
-.PHONY: help build up down stop-all dev shell test coverage clean logs frontend frontend-down firebase firebase-down clear-data sync-data firebase-status format isort type-check lint
+.PHONY: \
+    help build up down stop-all dev shell \
+    frontend frontend-down firebase firebase-down \
+    clear-data sync-data firebase-status \
+    test coverage clean logs \
+    format isort type-check lint
 
 # Export BuildKit variables for all targets
 export DOCKER_BUILDKIT=1
