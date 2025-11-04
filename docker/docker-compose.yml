@@ -53,6 +53,74 @@ services:
     profiles:
       - test
 
+  # Service for formatting with Black
+  format:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-format
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: black backend/
+    profiles:
+      - test
+
+  # Service for sorting imports with isort
+  isort:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-isort
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: isort backend/
+    profiles:
+      - test
+
+  # Service for type checking with mypy
+  type-check:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-type-check
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: mypy backend/
+    profiles:
+      - test
+
+  # Service for linting with pylint
+  lint:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: putr:latest
+    container_name: putr-lint
+    volumes:
+      - ../:/app
+      - python-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/app
+    working_dir: /app
+    command: pylint backend/
+    profiles:
+      - test
+
   # Frontend server
   frontend:
     image: python:3.11-slim

@@ -1,6 +1,10 @@
+black
 click
 coverage
+isort
+mypy
 pandas
+pylint
 pytest
 pytest-cov
 requests
