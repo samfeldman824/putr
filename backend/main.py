@@ -1,12 +1,8 @@
-from poker import Poker
-import click
 from typing import List
 
-from constants import (
-    DEFAULT_GAMES_TO_SHOW,
-    DEFAULT_LEDGER_FOLDER,
-    DEFAULT_JSON_PATH
-)
+import click
+from constants import DEFAULT_GAMES_TO_SHOW, DEFAULT_JSON_PATH, DEFAULT_LEDGER_FOLDER
+from poker import Poker
 
 
 def main():

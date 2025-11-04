@@ -1,12 +1,10 @@
 import json
 import os
 import re
-from typing import Dict, List, Tuple, Optional, Set
 from collections import defaultdict
-
+from typing import Dict, List, Optional, Set, Tuple
 
 import pandas as pd
-
 from constants import CENTS_TO_DOLLARS, INITIAL_DATE_KEY
 
 

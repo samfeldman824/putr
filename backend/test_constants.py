@@ -3,11 +3,11 @@ Tests to verify constants are properly defined and used throughout the applicati
 """
 import pytest
 from constants import (
-    DEFAULT_GAMES_TO_SHOW,
     CENTS_TO_DOLLARS,
-    INITIAL_DATE_KEY,
+    DEFAULT_GAMES_TO_SHOW,
+    DEFAULT_JSON_PATH,
     DEFAULT_LEDGER_FOLDER,
-    DEFAULT_JSON_PATH
+    INITIAL_DATE_KEY,
 )
 
 

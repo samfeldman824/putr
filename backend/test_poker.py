@@ -1,9 +1,9 @@
-import pytest
-import shutil
-import os
 import json
+import os
+import shutil
 from tempfile import TemporaryDirectory
 
+import pytest
 from poker import Poker
 
 

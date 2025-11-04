@@ -1,9 +1,9 @@
 import runpy
 import sys
-import pytest
-from click.testing import CliRunner
 
 import main
+import pytest
+from click.testing import CliRunner
 
 
 def test_main_does_nothing():
