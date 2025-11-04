@@ -62,7 +62,7 @@ suggestion-mode = true
 unsafe-load-any-extension = false
 extension-pkg-allow-list = []
 ignore = ["CVS"]
-ignore-patterns = ["^\.#"]
+ignore-patterns = ["^\\.#"]
 recursive = false
 
 [tool.pylint.basic]
