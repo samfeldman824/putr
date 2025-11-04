@@ -31,9 +31,7 @@ class Poker:
         if not isinstance(json_path, str):
             raise TypeError("json_path must be a string")
         if not ledger_folder_path:
-            raise ValueError(
-                "The ledger folder path cannot be an empty string."
-            )
+            raise ValueError("The ledger folder path cannot be an empty string.")
         if not json_path:
             raise ValueError("The JSON path cannot be an empty string.")
 
@@ -54,9 +52,7 @@ class Poker:
             FileNotFoundError: If the specified JSON or ledger folder path does not exist.
         """
         if not os.path.exists(json_path):
-            raise FileNotFoundError(
-                f"The specified JSON path does not exist: {json_path}"
-            )
+            raise FileNotFoundError(f"The specified JSON path does not exist: {json_path}")
         if not os.path.exists(ledger_folder_path):
             raise FileNotFoundError(
                 f"The specified ledger folder path does not exist: {ledger_folder_path}"
@@ -98,18 +94,14 @@ class Poker:
             ValueError: If unable to extract the date from the ledger file name.
         """
         if not os.path.exists(ledger_csv_path):
-            raise FileNotFoundError(
-                f"The specified ledger path does not exist: {ledger_csv_path}"
-            )
+            raise FileNotFoundError(f"The specified ledger path does not exist: {ledger_csv_path}")
 
         if not ledger_csv_path.endswith(".csv"):
             raise ValueError("Error: Game ledger file must be a CSV File")
 
         match = re.search(r"ledger(.*?)\.csv", ledger_csv_path.split("/")[-1])
         if match is None:
-            raise ValueError(
-                f"Unable to extract date from ledger file name: {ledger_csv_path}"
-            )
+            raise ValueError(f"Unable to extract date from ledger file name: {ledger_csv_path}")
 
         game_data: pd.DataFrame = pd.read_csv(ledger_csv_path)
         day: str = match.group(1)
@@ -134,9 +126,7 @@ class Poker:
             exclude_list = []
 
         game_data = game_data[~game_data["player_nickname"].isin(exclude_list)]
-        return (
-            game_data.groupby("player_nickname")["net"].sum().div(CENTS_TO_DOLLARS).to_dict()
-        )
+        return game_data.groupby("player_nickname")["net"].sum().div(CENTS_TO_DOLLARS).to_dict()
 
     @staticmethod
     def _search_for_nickname(json_data: Dict, nickname: str) -> Optional[Dict]:
@@ -154,7 +144,7 @@ class Poker:
             if nickname in player_data["player_nicknames"]:
                 return player_data
         return None
-    
+
     @staticmethod
     def _search_for_nickname_clean(json_data: Dict, nickname: str) -> Optional[Dict]:
         """
@@ -200,9 +190,7 @@ class Poker:
         for nickname, winnings in net_winnings_by_player.items():
             player = self._search_for_nickname(json_data, nickname)
             if player is not None:
-                self._update_individual_stats(
-                    player, nickname, winnings, day, up_most, down_most
-                )
+                self._update_individual_stats(player, nickname, winnings, day, up_most, down_most)
                 players_updated += 1
                 players_updated_list.append(nickname)
         return players_updated, players_updated_list
@@ -263,15 +251,13 @@ class Poker:
             return [], []
         max_amount = max(amount_dict.values())
         min_amount = min(amount_dict.values())
-        max_names = [
-            name for name, amount in amount_dict.items() if amount == max_amount
-        ]
-        min_names = [
-            name for name, amount in amount_dict.items() if amount == min_amount
-        ]
+        max_names = [name for name, amount in amount_dict.items() if amount == max_amount]
+        min_names = [name for name, amount in amount_dict.items() if amount == min_amount]
         return max_names, min_names
 
-    def add_poker_game(self, ledger_csv_path: str, exclude_list: Optional[List[str]] = None) -> None:
+    def add_poker_game(
+        self, ledger_csv_path: str, exclude_list: Optional[List[str]] = None
+    ) -> None:
         """
         Adds a poker game to the ledger.
 
@@ -336,13 +322,11 @@ class Poker:
             game_data.groupby("player_nickname")["net"].sum().div(CENTS_TO_DOLLARS).to_dict()
         )
         sorted_winnings = dict(
-            sorted(
-                net_winnings_by_player.items(), key=lambda item: item[1], reverse=True
-            )
+            sorted(net_winnings_by_player.items(), key=lambda item: item[1], reverse=True)
         )
         for name, net in sorted_winnings.items():
             print(f"{name}: {net}")
-    
+
     def print_combined_results(self, ledger_paths: List[str]) -> None:
         """
         Prints combined results from multiple ledger files.
@@ -382,21 +366,18 @@ class Poker:
                 combined[player] = combined.get(player, 0) + net
 
         # 3) sort and print, pulling in the days list for each player
-        sorted_winnings = dict(
-            sorted(combined.items(), key=lambda kv: kv[1], reverse=True)
-        )
+        sorted_winnings = dict(sorted(combined.items(), key=lambda kv: kv[1], reverse=True))
 
         print(f"Combined results for {len(ledger_paths)} ledgers:\n")
         print("Games included:")
         for d in sorted({d for days in player_days.values() for d in days}):
             print(d)
         print()
-       
 
         for name, net in sorted_winnings.items():
             dates = ", ".join(player_days.get(name, []))
             print(f"{name}: {net:.2f}  ({dates})")
-    
+
     def print_unique_nicknames(self) -> None:
         """
         Prints the unique nicknames of players found in the CSV files within the ledger folder.
@@ -508,8 +489,6 @@ class Poker:
                 f"({current_day_total - prev_day_total:.2f})",
             )
         print()
-        net_total = (
-            player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days]]
-        )
+        net_total = player_net_dict[reversed_keys[0]] - player_net_dict[reversed_keys[days]]
         print(f"Net: {net_total:.2f}")
         print(f"Average: {net_total / days:.2f}")

@@ -1,6 +1,7 @@
 """
 Tests to verify constants are properly defined and used throughout the application.
 """
+
 import pytest
 from constants import (
     CENTS_TO_DOLLARS,
@@ -34,7 +35,7 @@ def test_currency_conversion_constant():
     cents = 550
     dollars = cents / CENTS_TO_DOLLARS
     assert dollars == 5.5
-    
+
     cents2 = -425
     dollars2 = cents2 / CENTS_TO_DOLLARS
     assert dollars2 == -4.25

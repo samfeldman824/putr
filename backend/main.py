@@ -6,12 +6,12 @@ from poker import Poker
 
 
 def main():
-    
+
     # poker = Poker("ledgers", "data.json")
     # poker.reset_net_fields()
     # poker.add_all_games(["Ethan", "Theo", "Father Kasarov", "tiff",
-                        #  "grant lumkong", "N52MC", "aapexx13", "GRANT LUMKONG",
-                        #  "Ed", "ZestyZander", "lukas_recruit"])
+    #  "grant lumkong", "N52MC", "aapexx13", "GRANT LUMKONG",
+    #  "Ed", "ZestyZander", "lukas_recruit"])
 
     pass
 
@@ -23,7 +23,7 @@ def cli():
 
 
 @cli.command()
-@click.argument('ledger_date')
+@click.argument("ledger_date")
 def pg(ledger_date):
     """Print the results of a poker game."""
     poker = Poker(DEFAULT_LEDGER_FOLDER, DEFAULT_JSON_PATH)
@@ -32,7 +32,7 @@ def pg(ledger_date):
 
 
 @cli.command()
-@click.argument('ledger_dates', nargs=-1)
+@click.argument("ledger_dates", nargs=-1)
 def cb(ledger_dates: List[str]):
     """Combine and print results from multiple games by ledger_date (e.g. 23_10_18 23_10_19)."""
     poker = Poker(DEFAULT_LEDGER_FOLDER, DEFAULT_JSON_PATH)
@@ -48,20 +48,22 @@ def pgs():
 
 
 @cli.command()
-@click.argument('ledger_date')
+@click.argument("ledger_date")
 def ag(ledger_date):
     """Add a poker game."""
     poker = Poker(DEFAULT_LEDGER_FOLDER, DEFAULT_JSON_PATH)
     csv_path = f"{poker.ledger_folder_path}/ledger{ledger_date}.csv"
     poker.add_poker_game(csv_path)
 
+
 @cli.command()
-@click.argument('nickname')
-@click.option('-n', default=DEFAULT_GAMES_TO_SHOW, help="Number of games to print.")
+@click.argument("nickname")
+@click.option("-n", default=DEFAULT_GAMES_TO_SHOW, help="Number of games to print.")
 def plg(nickname, n):
     """Print the last few games of a player."""
     poker = Poker(DEFAULT_LEDGER_FOLDER, DEFAULT_JSON_PATH)
     poker.print_last_games(nickname, int(n))
+
 
 if __name__ == "__main__":
     main()

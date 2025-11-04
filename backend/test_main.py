@@ -15,20 +15,20 @@ def test_pg_invokes_print_game_results(monkeypatch):
 
     class FakePoker:
         def __init__(self, ledger_folder_path, json_path):
-            called['init'] = (ledger_folder_path, json_path)
+            called["init"] = (ledger_folder_path, json_path)
             self.ledger_folder_path = ledger_folder_path
             self.json_path = json_path
 
         def print_game_results(self, csv_path):
-            called['csv'] = csv_path
+            called["csv"] = csv_path
 
     monkeypatch.setattr(main, "Poker", FakePoker)
     runner = CliRunner()
     result = runner.invoke(main.cli, ["pg", "01_01"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
-        'csv': "ledgers/ledger01_01.csv",
+        "init": ("ledgers", "data.json"),
+        "csv": "ledgers/ledger01_01.csv",
     }
 
 
@@ -37,19 +37,19 @@ def test_cb_invokes_print_combined_results(monkeypatch):
 
     class FakePoker:
         def __init__(self, ledger_folder_path, json_path):
-            called['init'] = (ledger_folder_path, json_path)
+            called["init"] = (ledger_folder_path, json_path)
             self.ledger_folder_path = ledger_folder_path
             self.json_path = json_path
 
         def print_combined_results(self, paths):
-            called['paths'] = paths
+            called["paths"] = paths
 
     monkeypatch.setattr(main, "Poker", FakePoker)
     runner = CliRunner()
     result = runner.invoke(main.cli, ["cb", "01_01", "01_02"])
     assert result.exit_code == 0
-    assert called['init'] == ("ledgers", "data.json")
-    assert called['paths'] == [
+    assert called["init"] == ("ledgers", "data.json")
+    assert called["paths"] == [
         "ledgers/ledger01_01.csv",
         "ledgers/ledger01_02.csv",
     ]
@@ -60,18 +60,18 @@ def test_pgs_invokes_print_all_games(monkeypatch):
 
     class FakePoker:
         def __init__(self, ledger_folder_path, json_path):
-            called['init'] = (ledger_folder_path, json_path)
+            called["init"] = (ledger_folder_path, json_path)
             self.ledger_folder_path = ledger_folder_path
             self.json_path = json_path
 
         def print_all_games(self):
-            called['called'] = True
+            called["called"] = True
 
     monkeypatch.setattr(main, "Poker", FakePoker)
     runner = CliRunner()
     result = runner.invoke(main.cli, ["pgs"])
     assert result.exit_code == 0
-    assert called == {'init': ("ledgers", "data.json"), 'called': True}
+    assert called == {"init": ("ledgers", "data.json"), "called": True}
 
 
 def test_ag_invokes_add_poker_game(monkeypatch):
@@ -79,20 +79,20 @@ def test_ag_invokes_add_poker_game(monkeypatch):
 
     class FakePoker:
         def __init__(self, ledger_folder_path, json_path):
-            called['init'] = (ledger_folder_path, json_path)
+            called["init"] = (ledger_folder_path, json_path)
             self.ledger_folder_path = ledger_folder_path
             self.json_path = json_path
 
         def add_poker_game(self, path):
-            called['path'] = path
+            called["path"] = path
 
     monkeypatch.setattr(main, "Poker", FakePoker)
     runner = CliRunner()
     result = runner.invoke(main.cli, ["ag", "01_03"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
-        'path': "ledgers/ledger01_03.csv",
+        "init": ("ledgers", "data.json"),
+        "path": "ledgers/ledger01_03.csv",
     }
 
 
@@ -101,20 +101,20 @@ def test_plg_invokes_print_last_games(monkeypatch):
 
     class FakePoker:
         def __init__(self, ledger_folder_path, json_path):
-            called['init'] = (ledger_folder_path, json_path)
+            called["init"] = (ledger_folder_path, json_path)
             self.ledger_folder_path = ledger_folder_path
             self.json_path = json_path
 
         def print_last_games(self, nickname, n):
-            called['args'] = (nickname, n)
+            called["args"] = (nickname, n)
 
     monkeypatch.setattr(main, "Poker", FakePoker)
     runner = CliRunner()
     result = runner.invoke(main.cli, ["plg", "Alice", "-n", "3"])
     assert result.exit_code == 0
     assert called == {
-        'init': ("ledgers", "data.json"),
-        'args': ("Alice", 3),
+        "init": ("ledgers", "data.json"),
+        "args": ("Alice", 3),
     }
 
 
